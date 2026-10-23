@@ -1,0 +1,109 @@
+{
+  "case_id": "case_006",
+  "_note": "SYNTHETIC. Fictional patient, facility, and clinicians. Hackathon prototype, not medical advice.",
+  "_scenario": "ED CTA for suspected PE after a flight: negative (answered). Incidental 4.4 cm dilated ascending aorta needs cardiology and annual imaging. A 5 mm liver hypodensity is in the impression but needs no follow-up, which tests over-alarm. No PCP and high ED blood pressure. PPO, deductible already met.",
+  "portal": { "name": "MyHealth Portal", "printed": "2026-10-13T07:50:00" },
+  "facility": {
+    "name": "Round Rock Regional Hospital, Department of Radiology",
+    "address": "2400 Round Rock Ave, Round Rock, TX 78664",
+    "phone": "(512) 555-0130",
+    "fax": "(512) 555-0131"
+  },
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [{ "type": { "text": "MRN" }, "value": "RRR-3381920" }],
+    "name": [{ "given": ["Jamal"], "family": "Washington" }],
+    "gender": "male",
+    "birthDate": "1979-02-14",
+    "address": [{ "city": "Round Rock", "state": "TX", "postalCode": "78664" }]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [{ "display": "Bluebonnet Health" }],
+    "class": [{ "type": { "text": "plan" }, "value": "BLUEBONNET-PPO-500", "name": "Bluebonnet PPO 500" }],
+    "subscriberId": "BBH-6025-7713"
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": { "days": ["mon", "tue", "wed", "thu", "fri", "sat"], "times": "afternoon" },
+    "max_travel_miles": 20,
+    "medications": [],
+    "history": ["Flew Seattle to Austin 2 days before symptoms", "Told blood pressure was high in the ED (152/94)", "Father had an aortic aneurysm repaired at age 60"],
+    "notes": "No regular doctor. Works days as a warehouse supervisor; prefers afternoons or Saturdays."
+  },
+  "history": {
+    "source": "patient_questionnaire", "completed": "2026-10-13T07:30:00",
+    "conditions": [],
+    "medications": [
+      { "rxnorm": "5640", "display": "Ibuprofen 200 mg oral tablet", "dosage": "200-400 mg by mouth as needed for back soreness", "status": "active", "prescriber": "Over the counter", "as_written": "Advil sometimes for my back after work" }
+    ],
+    "allergies": [],
+    "no_known_allergies": true,
+    "procedures": [
+      { "display": "Left knee ACL reconstruction", "date": "2003", "as_written": "ACL surgery left knee, 2003 (football)" }
+    ],
+    "family_history": [
+      { "relation": "Father", "condition": "Aortic aneurysm, surgically repaired", "onset_age": 60, "as_written": "Dad had an aortic aneurysm fixed at 60" },
+      { "relation": "Mother", "condition": "Hypertension", "as_written": "Mom has high blood pressure" }
+    ],
+    "social_history": { "Tobacco": "Never smoked", "Alcohol": "4-6 beers a week", "Occupation": "Warehouse supervisor (day shift)", "Living situation": "Lives with wife and two kids" },
+    "care_team": [],
+    "notes": "No health problems that I know of. Never told my blood pressure was high before the ER visit. No regular doctor; last physical was about 8 years ago."
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [{ "type": { "text": "Accession" }, "value": "RRR-26-1011-0563" }],
+    "status": "final",
+    "category": [{ "text": "Radiology" }],
+    "code": { "text": "CT Angiography Chest (pulmonary embolism protocol)" },
+    "effectiveDateTime": "2026-10-11T22:18:00",
+    "issued": "2026-10-11T23:02:00",
+    "basedOn": [{ "display": "Kimberly Shaw, DO, Round Rock Regional Emergency Department" }],
+    "performer": [{ "display": "Round Rock Regional Hospital" }],
+    "resultsInterpreter": [{ "display": "Olivia Grant, MD" }],
+    "conclusion": "1. No pulmonary embolism.\n2. Dilated ascending aorta measuring 4.4 cm. Recommend annual follow-up imaging with CT angiography or MR angiography.\n3. 5 mm hepatic hypodensity, too small to characterize. In a patient without known malignancy, no follow-up imaging is needed.\n4. Mild dependent atelectasis.",
+    "_sections": [
+      { "title": "EXAM", "text": "CT ANGIOGRAPHY CHEST (PULMONARY EMBOLISM PROTOCOL)" },
+      { "title": "CLINICAL INDICATION", "text": "Acute shortness of breath and right-sided pleuritic chest pain 2 days after a 4-hour flight. Elevated D-dimer." },
+      { "title": "TECHNIQUE", "text": "CT angiography of the chest was performed after intravenous administration of 75 mL iohexol 350 using a pulmonary embolism protocol. Multiplanar and MIP reformats were reviewed. CTDIvol: 9.8 mGy. DLP: 352 mGy-cm." },
+      { "title": "COMPARISON", "text": "None available." },
+      { "title": "FINDINGS", "items": [
+        { "label": "Pulmonary arteries", "text": "Adequate opacification of the pulmonary arteries. No filling defect to the subsegmental level. Main pulmonary artery measures 2.7 cm." },
+        { "label": "Thoracic aorta", "text": "The ascending aorta measures 4.4 cm at the level of the right pulmonary artery. No dissection or intramural hematoma. The aortic arch and descending thoracic aorta are normal in caliber." },
+        { "label": "Heart", "text": "Heart size is normal. No pericardial effusion." },
+        { "label": "Lungs and airways", "text": "Mild dependent atelectasis in both lower lobes. No consolidation. No suspicious pulmonary nodules. Central airways are patent." },
+        { "label": "Pleura", "text": "No pleural effusion or pneumothorax." },
+        { "label": "Mediastinum and hila", "text": "No lymphadenopathy." },
+        { "label": "Upper abdomen", "text": "5 mm hypodensity in hepatic segment 6, too small to characterize. Otherwise unremarkable." },
+        { "label": "Bones", "text": "No acute osseous abnormality." }
+      ] }
+    ]
+  },
+  "labs": [
+    {
+      "accession": "RRL-26-1011-3307", "lab": "round_rock_regional",
+      "ordering": "Kimberly Shaw, DO, Round Rock Regional Emergency Department",
+      "collected": "2026-10-11T20:47:00", "reported": "2026-10-11T21:35:00", "fasting": false,
+      "panels": [
+        { "panel": "D-Dimer", "values": { "D-Dimer": 0.82 } },
+        { "panel": "High-Sensitivity Troponin T", "values": { "hs-Troponin T": "<6" } },
+        { "panel": "BNP", "values": { "BNP": 38 } },
+        { "panel": "CBC", "values": { "WBC": 7.4, "RBC": 5.1, "Hemoglobin": 15.2, "Hematocrit": 45.1, "MCV": 88, "Platelets": 240 } },
+        { "panel": "Basic Metabolic Panel", "values": { "Sodium": 140, "Potassium": 4.0, "Chloride": 103, "CO2": 26, "BUN": 13, "Creatinine": 1.0, "eGFR": 92, "Glucose": 98, "Calcium": 9.5 } }
+      ]
+    }
+  ],
+  "answer_key": [
+    { "source": "radiology", "finding": "No pulmonary embolism", "incidental": false, "in_impression": true, "triage": "none", "followup_services": [],
+      "expected_followup": "Answers the indication." },
+    { "source": "radiology", "finding": "Dilated ascending aorta 4.4 cm", "site": "Ascending aorta", "size_mm": 44, "incidental": true, "in_impression": true, "triage": "soon", "followup_services": ["visit_cardiology", "echo_tte", "ct_chest_w"],
+      "expected_followup": "Cardiology evaluation and echocardiogram (aortic valve), blood pressure control, and annual CTA/MRA surveillance (ACR). Family history of aneurysm adds weight." },
+    { "source": "radiology", "finding": "Hepatic hypodensity 5 mm", "site": "Liver segment 6", "size_mm": 5, "incidental": true, "in_impression": true, "triage": "none", "followup_services": [],
+      "expected_followup": "Too small to characterize; no follow-up in a patient without known malignancy (ACR). Should NOT trigger a referral." },
+    { "source": "radiology", "finding": "Dependent atelectasis", "incidental": true, "in_impression": true, "triage": "none", "followup_services": [],
+      "expected_followup": "Benign; no follow-up." },
+    { "source": "intake", "finding": "No PCP; elevated ED blood pressure", "incidental": true, "in_impression": null, "triage": "soon", "followup_services": ["visit_primary_care"],
+      "expected_followup": "Establish a PCP for blood pressure, which also matters for the aorta." }
+  ]
+}

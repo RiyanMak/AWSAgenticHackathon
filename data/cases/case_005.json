@@ -1,0 +1,120 @@
+{
+  "case_id": "case_005",
+  "_note": "SYNTHETIC. Fictional patient, facility, and clinicians. Hackathon prototype, not medical advice.",
+  "_scenario": "Caregiver scenario. A 76-year-old on apixaban falls; the ED head CT shows no bleed (answered) and an incidental 14 mm meningioma. ED labs show low sodium (she takes hydrochlorothiazide) and mild anemia, both relevant to fall risk. Her daughter manages appointments. Medicare Advantage HMO.",
+  "portal": { "name": "BrazosConnect Patient Portal", "printed": "2026-09-30T11:10:00" },
+  "facility": {
+    "name": "St. Brazos Medical Center, Department of Radiology",
+    "address": "2400 Medical Arts St, Austin, TX 78705",
+    "phone": "(512) 555-0190",
+    "fax": "(512) 555-0191"
+  },
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [{ "type": { "text": "MRN" }, "value": "SB-6602178" }],
+    "name": [{ "given": ["Margaret"], "family": "Ellison" }],
+    "gender": "female",
+    "birthDate": "1950-05-17",
+    "address": [{ "city": "Austin", "state": "TX", "postalCode": "78731" }],
+    "generalPractitioner": [{ "display": "Helen Park, MD, Pecan Senior Care Clinic, Tarrytown" }]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [{ "display": "Pecan Health Plans" }],
+    "class": [{ "type": { "text": "plan" }, "value": "PECAN-MA-HMO", "name": "Pecan Senior Advantage (HMO)" }],
+    "subscriberId": "PSA-3308-9145"
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": { "days": ["tue", "wed", "thu"], "times": "morning" },
+    "max_travel_miles": 10,
+    "medications": ["Apixaban 5 mg twice daily", "Metoprolol succinate 25 mg daily", "Hydrochlorothiazide 12.5 mg daily"],
+    "history": ["Atrial fibrillation", "High blood pressure", "Osteoarthritis"],
+    "caregiver": "Daughter, Karen Ellison, schedules and drives to appointments; available Tue-Thu mornings.",
+    "notes": "Lives alone. Second fall this year."
+  },
+  "history": {
+    "source": "pcp_record", "provider_id": "PCP-PSCT", "printed": "2026-09-30T11:05:00",
+    "conditions": [
+      { "icd10": "I48.91", "display": "Unspecified atrial fibrillation", "onset": "2022", "status": "active", "note": "Rate control with metoprolol; anticoagulated with apixaban. Followed by cardiology." },
+      { "icd10": "I10", "display": "Essential (primary) hypertension", "onset": "2010", "status": "active" },
+      { "icd10": "M17.0", "display": "Bilateral primary osteoarthritis of knee", "onset": "2015", "status": "active", "note": "Avoid NSAIDs while on apixaban; acetaminophen as needed." },
+      { "icd10": "Z91.81", "display": "History of falling", "onset": "2026-03", "status": "active", "note": "Fall at home 03/2026 without injury. Uses a cane outdoors." }
+    ],
+    "medications": [
+      { "rxnorm": "1364430", "display": "Apixaban 5 mg oral tablet", "dosage": "5 mg by mouth twice daily", "status": "active", "prescriber": "Grace Okonkwo, MD" },
+      { "rxnorm": "6918", "display": "Metoprolol succinate 25 mg extended-release oral tablet", "dosage": "25 mg by mouth once daily", "status": "active", "prescriber": "Grace Okonkwo, MD" },
+      { "rxnorm": "5487", "display": "Hydrochlorothiazide 12.5 mg oral capsule", "dosage": "12.5 mg by mouth once daily", "status": "active", "prescriber": "Helen Park, MD" },
+      { "rxnorm": "161", "display": "Acetaminophen 500 mg oral tablet", "dosage": "500-1000 mg by mouth up to 3 times daily as needed for knee pain", "status": "active", "prescriber": "Over the counter" }
+    ],
+    "allergies": [
+      { "substance": "Codeine", "rxnorm": "2670", "category": "medication", "reaction": "Confusion and nausea", "criticality": "low", "onset": "2018" }
+    ],
+    "procedures": [
+      { "display": "Hysterectomy (benign fibroids)", "date": "1996" },
+      { "display": "Cataract extraction with lens implant, both eyes", "date": "2021" }
+    ],
+    "family_history": [
+      { "relation": "Mother", "condition": "Stroke", "onset_age": 80 },
+      { "relation": "Father", "condition": "Heart failure", "onset_age": 75 }
+    ],
+    "social_history": { "Tobacco": "Never smoker", "Alcohol": "Rarely", "Occupation": "Retired teacher", "Living situation": "Widowed, lives alone in a single-story house. Daughter (Karen Ellison) manages appointments and drives." },
+    "care_team": [
+      { "role": "Primary care", "name": "Helen Park, MD", "organization": "Pecan Senior Care Clinic, Tarrytown", "provider_id": "PCP-PSCT" },
+      { "role": "Cardiology", "name": "Grace Okonkwo, MD", "organization": "Heart of Texas Cardiology", "provider_id": "CARD-HOT" }
+    ]
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [{ "type": { "text": "Accession" }, "value": "SBR-26-0928-2290" }],
+    "status": "final",
+    "category": [{ "text": "Radiology" }],
+    "code": { "text": "CT Head without contrast" },
+    "effectiveDateTime": "2026-09-28T19:22:00",
+    "issued": "2026-09-28T19:58:00",
+    "basedOn": [{ "display": "Alicia Moreno, MD, St. Brazos Emergency Department" }],
+    "performer": [{ "display": "St. Brazos Medical Center" }],
+    "resultsInterpreter": [{ "display": "Michael Tanaka, MD" }],
+    "conclusion": "1. No acute intracranial hemorrhage or calvarial fracture.\n2. Small left frontal scalp hematoma.\n3. 14 mm extra-axial lesion along the left frontal convexity, most consistent with a meningioma. Consider nonemergent MRI brain with and without contrast.\n4. Mild chronic small vessel ischemic changes.",
+    "_sections": [
+      { "title": "EXAM", "text": "CT HEAD WITHOUT CONTRAST" },
+      { "title": "CLINICAL INDICATION", "text": "Ground-level fall at home with head strike. On apixaban for atrial fibrillation. Evaluate for intracranial hemorrhage." },
+      { "title": "TECHNIQUE", "text": "Axial CT images of the head were obtained without intravenous contrast. Coronal and sagittal reformats were reviewed. CTDIvol: 48 mGy. DLP: 812 mGy-cm." },
+      { "title": "COMPARISON", "text": "None available." },
+      { "title": "FINDINGS", "items": [
+        { "label": "Brain", "text": "No intracranial hemorrhage, mass effect, midline shift, or CT evidence of acute infarct. There is a 14 mm homogeneous, mildly hyperdense extra-axial lesion along the left frontal convexity with a broad dural base and no surrounding edema. Mild periventricular white matter hypoattenuation, consistent with chronic small vessel ischemic change. Age-appropriate volume loss." },
+        { "label": "Ventricles and cisterns", "text": "Ventricles are normal in size for age. Basal cisterns are patent." },
+        { "label": "Sinuses and mastoids", "text": "Mild mucosal thickening of the maxillary sinuses. Mastoid air cells are clear." },
+        { "label": "Calvarium and soft tissues", "text": "No calvarial fracture. Small left frontal scalp hematoma." }
+      ] }
+    ]
+  },
+  "labs": [
+    {
+      "accession": "SBL-26-0928-1730", "lab": "st_brazos",
+      "ordering": "Alicia Moreno, MD, St. Brazos Emergency Department",
+      "collected": "2026-09-28T18:55:00", "reported": "2026-09-28T19:40:00", "fasting": false,
+      "panels": [
+        { "panel": "CBC", "values": { "WBC": 7.9, "RBC": 3.9, "Hemoglobin": 11.3, "Hematocrit": 34.6, "MCV": 82, "Platelets": 210 } },
+        { "panel": "Basic Metabolic Panel", "values": { "Sodium": 131, "Potassium": 4.1, "Chloride": 96, "CO2": 25, "BUN": 24, "Creatinine": 1.2, "eGFR": 46, "Glucose": 121, "Calcium": 9.1 } }
+      ]
+    }
+  ],
+  "answer_key": [
+    { "source": "radiology", "finding": "No intracranial hemorrhage or fracture", "incidental": false, "in_impression": true, "triage": "none", "followup_services": [],
+      "expected_followup": "Answers the indication." },
+    { "source": "radiology", "finding": "Scalp hematoma", "incidental": false, "in_impression": true, "triage": "none", "followup_services": [],
+      "expected_followup": "Self-limited." },
+    { "source": "radiology", "finding": "Probable meningioma 14 mm", "site": "Left frontal convexity", "size_mm": 14, "incidental": true, "in_impression": true, "triage": "watch", "followup_services": ["mri_brain_w_wo"],
+      "expected_followup": "Nonemergent MRI brain with and without contrast, then imaging surveillance. Neurosurgery only if it grows or causes symptoms." },
+    { "source": "radiology", "finding": "Chronic small vessel ischemic change", "incidental": true, "in_impression": true, "triage": "watch", "followup_services": [],
+      "expected_followup": "Common at this age; PCP vascular risk management." },
+    { "source": "lab", "finding": "Hyponatremia (Na 131)", "incidental": true, "in_impression": null, "triage": "soon", "followup_services": ["visit_primary_care"],
+      "expected_followup": "PCP within 1-2 weeks; review hydrochlorothiazide. Low sodium can contribute to falls." },
+    { "source": "lab", "finding": "Mild anemia (Hgb 11.3) on anticoagulation", "incidental": true, "in_impression": null, "triage": "soon", "followup_services": ["visit_primary_care"],
+      "expected_followup": "Evaluate for blood loss while on apixaban." },
+    { "source": "lab", "finding": "Reduced kidney function (eGFR 46)", "incidental": true, "in_impression": null, "triage": "watch", "followup_services": [],
+      "expected_followup": "Relevant to apixaban dosing and MRI contrast; PCP review." }
+  ]
+}

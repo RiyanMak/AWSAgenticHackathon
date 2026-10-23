@@ -1,0 +1,124 @@
+{
+  "case_id": "case_001",
+  "_note": "SYNTHETIC. Fictional patient, facility, and clinicians. Hackathon prototype, not medical advice.",
+  "_scenario": "Hero case. Urgent care orders a CT chest for a 6-week cough. The cough is answered (bronchitis, no pneumonia), but the scan also shows a 9 mm lung nodule, an 18 mm thyroid nodule, emphysema, and coronary calcification. The coronary calcification is only in FINDINGS, not the IMPRESSION. Urgent care does not own follow-up, and the PCP never ordered the scan. Prior PCP labs (high LDL, prediabetes) make the coronary finding actionable.",
+  "portal": { "name": "MyHealth Portal", "printed": "2026-10-16T09:42:00" },
+  "facility": {
+    "name": "Barton Ridge Imaging Center",
+    "address": "4100 Barton Ridge Blvd, Suite 210, Austin, TX 78704",
+    "phone": "(512) 555-0148",
+    "fax": "(512) 555-0149"
+  },
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [{ "type": { "text": "MRN" }, "value": "00482917" }],
+    "name": [{ "given": ["Linda"], "family": "Marquez" }],
+    "gender": "female",
+    "birthDate": "1968-03-22",
+    "address": [{ "city": "Austin", "state": "TX", "postalCode": "78745" }],
+    "generalPractitioner": [{ "display": "Laura Kim, MD, Bluebonnet Family Medicine" }]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [{ "display": "Bluebonnet Health" }],
+    "class": [{ "type": { "text": "plan" }, "value": "BLUEBONNET-PPO-500", "name": "Bluebonnet PPO 500" }],
+    "subscriberId": "BBH-4471-0932"
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": { "days": ["mon", "tue", "thu"], "times": "morning" },
+    "max_travel_miles": 15,
+    "medications": ["Ibuprofen as needed"],
+    "history": ["Former smoker, about 20 pack-years, quit 2016", "Told she has prediabetes (2025)"],
+    "notes": "School administrator; prefers early-morning appointments before work."
+  },
+  "history": {
+    "source": "pcp_record", "provider_id": "PCP-BFM", "printed": "2026-10-16T09:38:00",
+    "conditions": [
+      { "icd10": "R73.03", "display": "Prediabetes", "onset": "2025-11-04", "status": "active", "note": "A1c 5.9% (11/2025). Diet and activity counseling; repeat A1c in 1 year." },
+      { "icd10": "E78.5", "display": "Hyperlipidemia, unspecified", "onset": "2025-11-04", "status": "active", "note": "LDL 158 (11/2025). Patient prefers lifestyle changes before a statin; recheck lipids 11/2026." },
+      { "icd10": "Z87.891", "display": "Personal history of nicotine dependence", "onset": "2016", "status": "active", "note": "About 20 pack-years, quit 2016." }
+    ],
+    "medications": [
+      { "rxnorm": "5640", "display": "Ibuprofen 200 mg oral tablet", "dosage": "400 mg by mouth every 6 hours as needed for pain", "status": "active", "prescriber": "Over the counter" }
+    ],
+    "allergies": [
+      { "substance": "Dextromethorphan", "rxnorm": "3289", "category": "medication", "reaction": "Hives", "criticality": "low", "onset": "2019" }
+    ],
+    "procedures": [
+      { "display": "Tubal ligation", "date": "2001" },
+      { "display": "Screening colonoscopy, normal", "date": "2019-05-14" }
+    ],
+    "family_history": [
+      { "relation": "Father", "condition": "Myocardial infarction", "onset_age": 63 },
+      { "relation": "Mother", "condition": "Type 2 diabetes", "onset_age": 60 }
+    ],
+    "social_history": { "Tobacco": "Former smoker, about 20 pack-years, quit 2016", "Alcohol": "1-2 glasses of wine per week", "Occupation": "School administrator", "Living situation": "Lives with husband" },
+    "care_team": [
+      { "role": "Primary care", "name": "Laura Kim, MD", "organization": "Bluebonnet Family Medicine", "provider_id": "PCP-BFM" }
+    ]
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [{ "type": { "text": "Accession" }, "value": "BRI-26-0081734" }],
+    "status": "final",
+    "category": [{ "text": "Radiology" }],
+    "code": { "text": "CT Chest without contrast" },
+    "effectiveDateTime": "2026-10-14T14:05:00",
+    "issued": "2026-10-14T16:52:00",
+    "basedOn": [{ "display": "Rebecca Lindqvist, PA-C, Riverside Urgent Care" }],
+    "performer": [{ "display": "Barton Ridge Imaging Center" }],
+    "resultsInterpreter": [{ "display": "Daniel Okafor, MD" }],
+    "conclusion": "1. Mild bronchial wall thickening in the lower lobes, which can be seen with bronchitis or reactive airways disease. No pneumonia.\n2. 9 mm solid noncalcified nodule in the superior segment of the right lower lobe. For a solid nodule greater than 8 mm, Fleischner Society 2017 guidelines suggest considering CT at 3 months, PET/CT, or tissue sampling.\n3. 18 mm left thyroid nodule. Recommend thyroid ultrasound if not previously evaluated.\n4. Mild centrilobular emphysema.",
+    "_sections": [
+      { "title": "EXAM", "text": "CT CHEST WITHOUT CONTRAST" },
+      { "title": "CLINICAL INDICATION", "text": "Persistent cough for 6 weeks, not improved after a course of antibiotics. Former smoker (approximately 20 pack-years, quit 2016). Evaluate for pneumonia or other cause." },
+      { "title": "TECHNIQUE", "text": "Helical CT images of the chest were obtained from the thoracic inlet through the upper abdomen without intravenous contrast. Axial images were reconstructed with coronal and sagittal reformats. Automated exposure control and iterative reconstruction were used to minimize radiation dose. CTDIvol: 6.2 mGy. DLP: 241 mGy-cm." },
+      { "title": "COMPARISON", "text": "Chest radiograph dated 09/30/2026 (outside study, report only)." },
+      { "title": "FINDINGS", "items": [
+        { "label": "Lungs and airways", "text": "Mild bronchial wall thickening in both lower lobes. No consolidation, ground-glass opacity, or mucus plugging. There is a 9 mm solid noncalcified nodule in the superior segment of the right lower lobe (series 3, image 142) with smooth margins. No other suspicious pulmonary nodules. Mild centrilobular emphysema, upper lobe predominant. The central airways are patent." },
+        { "label": "Pleura", "text": "No pleural effusion or pneumothorax." },
+        { "label": "Heart and mediastinum", "text": "No mediastinal or hilar lymphadenopathy by size criteria. The heart is normal in size. No pericardial effusion. Mild coronary artery calcification in the left anterior descending artery. The thoracic aorta is normal in caliber." },
+        { "label": "Lower neck", "text": "18 mm hypodense nodule in the left lobe of the thyroid gland (series 2, image 18)." },
+        { "label": "Upper abdomen", "text": "Limited evaluation without contrast. The visualized liver, spleen, adrenal glands, and upper kidneys are unremarkable." },
+        { "label": "Bones and soft tissues", "text": "Mild degenerative changes of the thoracic spine. No suspicious osseous lesion." }
+      ] }
+    ]
+  },
+  "labs": [
+    {
+      "accession": "HC-26-1014-3381", "lab": "hill_country",
+      "ordering": "Rebecca Lindqvist, PA-C, Riverside Urgent Care",
+      "collected": "2026-10-14T11:20:00", "reported": "2026-10-14T19:05:00", "fasting": false,
+      "panels": [
+        { "panel": "CBC", "values": { "WBC": 9.8, "RBC": 4.6, "Hemoglobin": 13.6, "Hematocrit": 40.8, "MCV": 88.7, "Platelets": 262 } },
+        { "panel": "Basic Metabolic Panel", "values": { "Sodium": 139, "Potassium": 4.2, "Chloride": 103, "CO2": 25, "BUN": 14, "Creatinine": 0.8, "eGFR": 84, "Glucose": 104, "Calcium": 9.3 } }
+      ]
+    },
+    {
+      "accession": "HC-25-1104-0927", "lab": "hill_country",
+      "ordering": "Laura Kim, MD, Bluebonnet Family Medicine",
+      "collected": "2025-11-04T08:10:00", "reported": "2025-11-04T16:40:00", "fasting": true,
+      "panels": [
+        { "panel": "Lipid Panel", "values": { "Total Cholesterol": 238, "LDL Cholesterol": 158, "HDL Cholesterol": 46, "Triglycerides": 170 } },
+        { "panel": "Hemoglobin A1c", "values": { "Hemoglobin A1c": 5.9 } }
+      ]
+    }
+  ],
+  "answer_key": [
+    { "source": "radiology", "finding": "Bronchial wall thickening, no pneumonia", "incidental": false, "in_impression": true, "triage": "none", "followup_services": [],
+      "expected_followup": "Answers the indication. Cough managed by ordering provider or PCP; no imaging follow-up." },
+    { "source": "radiology", "finding": "Solid pulmonary nodule 9 mm", "site": "Right lower lobe, superior segment", "size_mm": 9, "incidental": true, "in_impression": true, "triage": "soon", "followup_services": ["ct_chest_wo", "visit_pulmonology"],
+      "expected_followup": "Solid nodule >8 mm in a former smoker: CT chest at about 3 months, or PET/CT or tissue sampling (Fleischner 2017). Pulmonology referral." },
+    { "source": "radiology", "finding": "Thyroid nodule 18 mm", "site": "Left thyroid lobe", "size_mm": 18, "incidental": true, "in_impression": true, "triage": "soon", "followup_services": ["us_thyroid", "lab_tsh", "visit_endocrinology"],
+      "expected_followup": "Dedicated thyroid ultrasound (ACR incidental thyroid nodule: >=15 mm, age >=35). No TSH on file." },
+    { "source": "radiology", "finding": "Coronary artery calcification, mild", "site": "LAD", "incidental": true, "in_impression": false, "triage": "soon", "followup_services": ["visit_primary_care", "lab_lipid"],
+      "expected_followup": "PCP cardiovascular risk review and statin discussion. Mentioned only in FINDINGS: key safety-net test.",
+      "lab_link": "LDL 158 mg/dL and A1c 5.9% (11/2025) raise cardiovascular risk." },
+    { "source": "radiology", "finding": "Centrilobular emphysema, mild", "site": "Upper lobes", "incidental": true, "in_impression": true, "triage": "watch", "followup_services": ["pft"],
+      "expected_followup": "PCP awareness; consider spirometry. Meets USPSTF lung cancer screening criteria (age 50-80, >=20 pack-years, quit within 15 years) after nodule workup." },
+    { "source": "lab", "finding": "Prediabetes (A1c 5.9%)", "incidental": true, "in_impression": null, "triage": "watch", "followup_services": ["visit_primary_care"],
+      "expected_followup": "PCP lifestyle counseling and repeat A1c." }
+  ]
+}

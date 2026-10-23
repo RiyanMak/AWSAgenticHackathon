@@ -1,0 +1,113 @@
+{
+  "case_id": "case_009",
+  "_note": "SYNTHETIC. Fictional patient, facility, and clinicians. Hackathon prototype, not medical advice.",
+  "_scenario": "Young trauma patient. A car-crash CT shows no injury (answered) and an incidental 3.4 cm septated right ovarian cyst that needs a pelvic ultrasound. Prefers Spanish. HMO: the gynecology visit needs a referral from her assigned PCP. The ED visit already met her deductible.",
+  "portal": { "name": "BrazosConnect Patient Portal", "printed": "2026-10-19T13:25:00" },
+  "facility": {
+    "name": "St. Brazos Medical Center, Department of Radiology",
+    "address": "2400 Medical Arts St, Austin, TX 78705",
+    "phone": "(512) 555-0190",
+    "fax": "(512) 555-0191"
+  },
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [{ "type": { "text": "MRN" }, "value": "SB-8840215" }],
+    "name": [{ "given": ["Sofia"], "family": "Ramirez" }],
+    "gender": "female",
+    "birthDate": "1997-01-25",
+    "address": [{ "city": "Austin", "state": "TX", "postalCode": "78744" }],
+    "generalPractitioner": [{ "display": "Carmen Vega, MD, Lone Star Health Clinic, South" }]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [{ "display": "Lone Star Health" }],
+    "class": [{ "type": { "text": "plan" }, "value": "LONESTAR-HMO-2000", "name": "Lone Star HMO 2000" }],
+    "subscriberId": "LSH-4419-7350"
+  },
+  "intake": {
+    "preferred_language": "es",
+    "availability": { "days": ["tue", "thu", "sat"], "times": "afternoon" },
+    "max_travel_miles": 10,
+    "medications": [],
+    "history": ["No chronic conditions"],
+    "notes": "Prefers Spanish for medical conversations. Works mornings at a bakery."
+  },
+  "history": {
+    "source": "pcp_record", "provider_id": "PCP-LSHS", "printed": "2026-10-19T13:20:00",
+    "conditions": [],
+    "medications": [],
+    "allergies": [
+      { "substance": "Latex", "category": "environment", "reaction": "Itchy rash on contact", "criticality": "low", "onset": "2021" }
+    ],
+    "procedures": [
+      { "display": "Spontaneous vaginal delivery", "date": "2021-06-02" }
+    ],
+    "family_history": [
+      { "relation": "Mother", "condition": "Type 2 diabetes", "onset_age": 48 },
+      { "relation": "Father", "condition": "Hypertension", "onset_age": 52 }
+    ],
+    "social_history": { "Tobacco": "Never smoker", "Alcohol": "None", "Occupation": "Bakery worker (mornings)", "Living situation": "Lives with partner and daughter", "Preferred language": "Spanish; interpreter for visits" },
+    "care_team": [
+      { "role": "Primary care", "name": "Carmen Vega, MD", "organization": "Lone Star Health Clinic, South", "provider_id": "PCP-LSHS" }
+    ]
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [{ "type": { "text": "Accession" }, "value": "SBR-26-1018-3318" }],
+    "status": "final",
+    "category": [{ "text": "Radiology" }],
+    "code": { "text": "CT Abdomen and Pelvis with IV contrast" },
+    "effectiveDateTime": "2026-10-18T16:40:00",
+    "issued": "2026-10-18T17:12:00",
+    "basedOn": [{ "display": "Alicia Moreno, MD, St. Brazos Emergency Department" }],
+    "performer": [{ "display": "St. Brazos Medical Center" }],
+    "resultsInterpreter": [{ "display": "Michael Tanaka, MD" }],
+    "conclusion": "1. No acute traumatic injury in the abdomen or pelvis.\n2. Lower anterior abdominal wall contusion.\n3. 3.4 cm right adnexal cyst with a thin internal septation. Recommend nonemergent pelvic ultrasound for further characterization.",
+    "_sections": [
+      { "title": "EXAM", "text": "CT ABDOMEN AND PELVIS WITH INTRAVENOUS CONTRAST" },
+      { "title": "CLINICAL INDICATION", "text": "Motor vehicle collision, restrained driver, airbag deployment. Lower abdominal pain and seatbelt mark. Evaluate for traumatic injury." },
+      { "title": "TECHNIQUE", "text": "Helical CT of the abdomen and pelvis in the portal venous phase after intravenous administration of 100 mL iohexol 350. Coronal and sagittal reformats were reviewed. CTDIvol: 11.2 mGy. DLP: 548 mGy-cm." },
+      { "title": "COMPARISON", "text": "None." },
+      { "title": "FINDINGS", "items": [
+        { "label": "Lower chest", "text": "Lung bases are clear. No pneumothorax." },
+        { "label": "Solid organs", "text": "No laceration or hematoma of the liver, spleen, pancreas, kidneys, or adrenal glands." },
+        { "label": "Bowel and mesentery", "text": "No bowel wall thickening, mesenteric hematoma, or free air." },
+        { "label": "Peritoneum", "text": "No free fluid." },
+        { "label": "Pelvic organs", "text": "The uterus is normal. 3.4 cm cystic lesion of the right ovary with a single thin internal septation; no solid component or mural nodularity. The left ovary is normal with physiologic follicles. The bladder is unremarkable." },
+        { "label": "Vessels", "text": "No vascular injury." },
+        { "label": "Bones", "text": "No fracture." },
+        { "label": "Soft tissues", "text": "Mild subcutaneous stranding of the lower anterior abdominal wall, consistent with seatbelt contusion." }
+      ] }
+    ]
+  },
+  "labs": [
+    {
+      "accession": "SBL-26-1018-2741", "lab": "st_brazos",
+      "ordering": "Alicia Moreno, MD, St. Brazos Emergency Department",
+      "collected": "2026-10-18T16:05:00", "reported": "2026-10-18T16:50:00", "fasting": false,
+      "panels": [
+        { "panel": "CBC", "values": { "WBC": 9.2, "RBC": 4.5, "Hemoglobin": 12.9, "Hematocrit": 38.7, "MCV": 86, "Platelets": 301 } },
+        { "panel": "Comprehensive Metabolic Panel", "values": { "Sodium": 139, "Potassium": 3.8, "Chloride": 104, "CO2": 23, "BUN": 11, "Creatinine": 0.7, "eGFR": 120, "Glucose": 112, "Calcium": 9.2, "Total Protein": 7.0, "Albumin": 4.2, "Total Bilirubin": 0.6, "Alkaline Phosphatase": 62, "AST": 28, "ALT": 22 } },
+        { "panel": "hCG, Qualitative, Serum", "values": { "hCG, serum": "Negative" } },
+        { "panel": "Lactate", "values": { "Lactate": 1.4 } }
+      ]
+    },
+    {
+      "accession": "SBL-26-1018-2742", "lab": "st_brazos",
+      "ordering": "Alicia Moreno, MD, St. Brazos Emergency Department",
+      "collected": "2026-10-18T16:10:00", "reported": "2026-10-18T16:40:00", "fasting": false, "specimen": "Urine, clean catch",
+      "panels": [
+        { "panel": "Urinalysis with Microscopy", "values": { "Color": "Yellow", "Clarity": "Clear", "Specific Gravity": 1.015, "pH": 6.5, "Protein, urine": "Negative", "Glucose, urine": "Negative", "Ketones": "Negative", "Blood, urine": "Negative", "Leukocyte Esterase": "Negative", "Nitrite": "Negative", "RBC, urine": "0-2", "WBC, urine": "0-2" } }
+      ]
+    }
+  ],
+  "answer_key": [
+    { "source": "radiology", "finding": "No traumatic injury", "incidental": false, "in_impression": true, "triage": "none", "followup_services": [],
+      "expected_followup": "Answers the indication." },
+    { "source": "radiology", "finding": "Abdominal wall contusion", "incidental": false, "in_impression": true, "triage": "none", "followup_services": [],
+      "expected_followup": "Self-limited." },
+    { "source": "radiology", "finding": "Septated right ovarian cyst 3.4 cm", "site": "Right ovary", "size_mm": 34, "incidental": true, "in_impression": true, "triage": "soon", "followup_services": ["us_pelvis", "visit_gynecology"],
+      "expected_followup": "Pelvic ultrasound in about 6-12 weeks, ideally early in the menstrual cycle; gynecology. HMO: needs a referral from Dr. Vega. Spanish-speaking providers preferred." }
+  ]
+}

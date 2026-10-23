@@ -4,6 +4,8 @@ Only sources verified in [the research report](research/deep_research_report.md)
 
 Rule of thumb: render synthetic inputs ourselves so ground truth is exact, and download only small subsets.
 
+**Bundled data:** [data/](../data/README.md) already has 10 hand-built synthetic cases (lab PDFs, radiology report PDFs, medical history PDFs with matching FHIR resources, coverage, answer keys) and a mock insurance and provider network. These cover lab PDFs, medical history and insurance plan data without downloads. Still external: X-ray images (section 2) and insurance card images (section 4). The sources below are for extending or replacing those cases.
+
 ## 1. Lab PDFs
 
 No open dataset of lab-report PDFs with ground truth was found. Best approach: render rows from the datasets below into PDFs with a template (reportlab or HTML-to-PDF).

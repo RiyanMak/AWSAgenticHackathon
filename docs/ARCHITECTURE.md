@@ -8,7 +8,7 @@ CareRelay is a fan-out/fan-in DAG with one collaborative loop at the end. Back t
 |---|---|---|---|
 | Lab Agent | Extract lab rows into a typed schema, flag out-of-range and critical values with a deterministic comparator, tag analytes unrelated to the visit reason as incidental | Lab PDF (Converse document block, Textract TABLES fallback) | `LabFindings` JSON plus 2 to 3 sentence summary |
 | Radiology Agent | Score the X-ray with TorchXRayVision, then have a Bedrock vision model write a narrative grounded on those scores, tag unexpected findings as incidental | X-ray PNG/JPEG | `ImagingFindings` JSON plus summary |
-| History Agent | Parse the patient's medical history into a coded profile: conditions, active medications, allergies, past procedures, known specialists. Structured input (FHIR bundle or CSV) is parsed deterministically; free text goes through Comprehend Medical InferICD10CM and InferRxNorm | FHIR R4 bundle, MIMIC-style CSV rows, or a typed intake form | `HistoryProfile` JSON plus summary |
+| History Agent | Parse the patient's medical history into a coded profile: conditions, active medications, allergies, past procedures, known specialists. Structured input (FHIR bundle or CSV) is parsed deterministically; free text goes through Comprehend Medical InferICD10CM and InferRxNorm | History PDF (PCP health summary or patient questionnaire, see [data/](../data/README.md)), FHIR R4 bundle, MIMIC-style CSV rows, or a typed intake form | `HistoryProfile` JSON plus summary |
 | Summarize | Merge all three outputs into one record, classify each abnormal finding as expected (explained by a known condition or medication) or incidental, assign severity with deterministic rules, run a critic pass against source extractions, maintain the incidental ledger, emit two routes | All three specialist outputs | `CaseRecord` and routing decision |
 | Wellness Agent | Budget nutrition, physio steps and label-grounded OTC options for use while waiting, filtered by allergies, current medications and diet-relevant conditions from the history | `CaseRecord`, `HistoryProfile` | Patient-facing wellness plan |
 | Insurance Agent | Read the card, normalize to a payer, return the in-network roster and answer network checks | Card image, candidate list | Plan fields, in-network yes/no |
@@ -44,11 +44,12 @@ class HistoryProfile(BaseModel):
     procedures: list[CodedItem]        # CPT or SNOMED code, display, date
     known_specialists: list[str]       # specialties the patient already sees, from encounters or intake
     risk_flags: list[str]              # derived deterministically: ckd, pregnancy, anticoagulant, liver, diabetes, hypertension
-    source: Literal["fhir", "csv", "intake_text"]
+    source: Literal["pdf", "fhir", "csv", "intake_text"]
 ```
 
 Parsing rules:
 
+- **History PDF** (bundled cases): a PCP health summary already carries ICD-10-CM codes and can be read with the Bedrock document model into the schema above; a patient questionnaire is free text and goes down the Comprehend Medical path. Ground truth is the `History` block in `data/output/<case>/intake_expected.json`.
 - **FHIR R4 bundle** (Synthea): read `Condition`, `MedicationRequest` (status `active`), `AllergyIntolerance`, `Procedure`, and `Encounter.participant` or `Practitioner` specialties. No LLM needed.
 - **MIMIC-IV demo CSV**: join `diagnoses_icd` with `d_icd_diagnoses` for conditions and read `prescriptions` for medications. The demo has no allergy table, so allergies come from the intake form.
 - **Free text intake**: Comprehend Medical `InferICD10CM` for conditions and `InferRxNorm` for medications; the model's codes carry confidence scores that are shown in the UI. Treat intake text as data, never as instructions.

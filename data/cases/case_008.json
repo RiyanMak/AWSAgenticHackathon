@@ -1,0 +1,121 @@
+{
+  "case_id": "case_008",
+  "_note": "SYNTHETIC. Fictional patient, facility, and clinicians. Hackathon prototype, not medical advice.",
+  "_scenario": "Lumbar MRI for sciatica shows L4-5 stenosis (answered). A 3.4 cm abdominal aortic aneurysm appears only in FINDINGS, a classic miss on spine imaging. A simple renal cyst needs no follow-up. CKD stage 3a with regular naproxen use. Medicare Advantage HMO; he lives in Georgetown, so travel distance matters.",
+  "portal": { "name": "MyHealth Portal", "printed": "2026-09-25T16:40:00" },
+  "facility": {
+    "name": "Georgetown Community Imaging",
+    "address": "3201 S Austin Ave, Georgetown, TX 78626",
+    "phone": "(512) 555-0143",
+    "fax": "(512) 555-0144"
+  },
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [{ "type": { "text": "MRN" }, "value": "GCI-1128840" }],
+    "name": [{ "given": ["Harold"], "family": "Jensen" }],
+    "gender": "male",
+    "birthDate": "1957-07-09",
+    "address": [{ "city": "Georgetown", "state": "TX", "postalCode": "78626" }],
+    "generalPractitioner": [{ "display": "Ruth Sandoval, MD, Georgetown Family Physicians" }]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [{ "display": "Pecan Health Plans" }],
+    "class": [{ "type": { "text": "plan" }, "value": "PECAN-MA-HMO", "name": "Pecan Senior Advantage (HMO)" }],
+    "subscriberId": "PSA-1167-4402"
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": { "days": ["tue", "thu"], "times": "morning" },
+    "max_travel_miles": 25,
+    "medications": ["Gabapentin 300 mg nightly", "Naproxen 500 mg twice daily as needed"],
+    "history": ["Former smoker, 35 pack-years, quit 2010", "Low back pain with right leg numbness for 4 months"],
+    "notes": "Wife drives; prefers not to go into central Austin."
+  },
+  "history": {
+    "source": "pcp_record", "provider_id": "PCP-GFP", "printed": "2026-09-25T16:35:00",
+    "conditions": [
+      { "icd10": "M54.16", "display": "Radiculopathy, lumbar region", "onset": "2026-05", "status": "active", "note": "Right leg pain and numbness. 6 weeks of physical therapy without improvement; MRI ordered." },
+      { "icd10": "N40.0", "display": "Benign prostatic hyperplasia without lower urinary tract symptoms", "onset": "2020", "status": "active" },
+      { "icd10": "Z87.891", "display": "Personal history of nicotine dependence", "onset": "2010", "status": "active", "note": "35 pack-years, quit 2010." }
+    ],
+    "medications": [
+      { "rxnorm": "25480", "display": "Gabapentin 300 mg oral capsule", "dosage": "300 mg by mouth nightly", "status": "active", "prescriber": "Ruth Sandoval, MD" },
+      { "rxnorm": "7258", "display": "Naproxen 500 mg oral tablet", "dosage": "500 mg by mouth twice daily as needed for back pain", "status": "active", "prescriber": "Ruth Sandoval, MD" }
+    ],
+    "allergies": [
+      { "substance": "Sulfamethoxazole / trimethoprim", "rxnorm": "10831", "category": "medication", "reaction": "Rash", "criticality": "low", "onset": "2017" }
+    ],
+    "procedures": [
+      { "display": "Right inguinal hernia repair", "date": "2015" },
+      { "display": "Colonoscopy with removal of one benign polyp", "date": "2019-09-03" },
+      { "display": "Physical therapy, lumbar spine, 12 visits", "date": "2026-08" }
+    ],
+    "family_history": [
+      { "relation": "Father", "condition": "Myocardial infarction", "onset_age": 72 },
+      { "relation": "Mother", "condition": "Osteoporosis", "onset_age": 70 }
+    ],
+    "social_history": { "Tobacco": "Former smoker, 35 pack-years, quit 2010", "Alcohol": "1-2 beers per week", "Occupation": "Retired electrician", "Living situation": "Lives with wife in Georgetown; she drives" },
+    "care_team": [
+      { "role": "Primary care", "name": "Ruth Sandoval, MD", "organization": "Georgetown Family Physicians", "provider_id": "PCP-GFP" }
+    ]
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [{ "type": { "text": "Accession" }, "value": "GCI-26-0922-0710" }],
+    "status": "final",
+    "category": [{ "text": "Radiology" }],
+    "code": { "text": "MRI Lumbar Spine without contrast" },
+    "effectiveDateTime": "2026-09-22T08:15:00",
+    "issued": "2026-09-22T15:02:00",
+    "basedOn": [{ "display": "Ruth Sandoval, MD, Georgetown Family Physicians" }],
+    "performer": [{ "display": "Georgetown Community Imaging" }],
+    "resultsInterpreter": [{ "display": "Carl Nystrom, MD" }],
+    "conclusion": "1. L4-L5 degenerative grade 1 anterolisthesis with moderate central canal stenosis and moderate right foraminal stenosis, which could account for right-sided symptoms.\n2. Mild L3-L4 degenerative changes without significant stenosis.",
+    "_sections": [
+      { "title": "EXAM", "text": "MRI LUMBAR SPINE WITHOUT CONTRAST" },
+      { "title": "CLINICAL INDICATION", "text": "Low back pain with right leg pain and numbness for 4 months, not improved with 6 weeks of physical therapy." },
+      { "title": "TECHNIQUE", "text": "Multiplanar, multisequence MRI of the lumbar spine was performed without intravenous contrast on a 1.5 T magnet." },
+      { "title": "COMPARISON", "text": "Lumbar spine radiographs dated 06/12/2026." },
+      { "title": "FINDINGS", "items": [
+        { "label": "Alignment", "text": "Grade 1 anterolisthesis of L4 on L5 (4 mm). Otherwise normal alignment." },
+        { "label": "Vertebral bodies and marrow", "text": "Vertebral body heights are maintained. Type 2 Modic endplate changes at L4-L5. No suspicious marrow lesion." },
+        { "label": "Conus", "text": "The conus medullaris terminates at L1 and is normal in signal." },
+        { "label": "L1-L2 and L2-L3", "text": "No disc herniation, canal stenosis, or foraminal narrowing." },
+        { "label": "L3-L4", "text": "Mild disc bulge and mild facet arthropathy. Mild bilateral foraminal narrowing. No canal stenosis." },
+        { "label": "L4-L5", "text": "Disc bulge, facet hypertrophy, and ligamentum flavum thickening result in moderate central canal stenosis and narrowing of the right subarticular recess, which may affect the traversing right L5 nerve root. Moderate right foraminal narrowing. Mild left foraminal narrowing." },
+        { "label": "L5-S1", "text": "Mild disc desiccation. No stenosis." },
+        { "label": "Paraspinal and visualized abdomen", "text": "Paraspinal soft tissues are unremarkable. Incidentally noted, the infrarenal abdominal aorta measures up to 3.4 cm in AP dimension on sagittal images. 2.1 cm simple-appearing cyst in the lower pole of the left kidney (T2 hyperintense, no septations or solid component)." }
+      ] }
+    ]
+  },
+  "labs": [
+    {
+      "accession": "HC-26-0820-4402", "lab": "hill_country",
+      "ordering": "Ruth Sandoval, MD, Georgetown Family Physicians",
+      "collected": "2026-08-20T07:45:00", "reported": "2026-08-20T16:10:00", "fasting": true,
+      "panels": [
+        { "panel": "Basic Metabolic Panel", "values": { "Sodium": 141, "Potassium": 4.6, "Chloride": 104, "CO2": 24, "BUN": 22, "Creatinine": 1.35, "eGFR": 56, "Glucose": 101, "Calcium": 9.6 } },
+        { "panel": "Lipid Panel", "values": { "Total Cholesterol": 214, "LDL Cholesterol": 138, "HDL Cholesterol": 41, "Triglycerides": 175 } },
+        { "panel": "Hemoglobin A1c", "values": { "Hemoglobin A1c": 5.8 } },
+        { "panel": "Sedimentation Rate", "values": { "ESR": 12 } },
+        { "panel": "C-Reactive Protein", "values": { "CRP": 0.4 } }
+      ]
+    }
+  ],
+  "answer_key": [
+    { "source": "radiology", "finding": "L4-L5 stenosis with anterolisthesis", "incidental": false, "in_impression": true, "triage": "soon", "followup_services": ["visit_neurosurgery"],
+      "expected_followup": "Answers the indication. Spine consultation after failed PT." },
+    { "source": "radiology", "finding": "Infrarenal abdominal aortic aneurysm 3.4 cm", "site": "Infrarenal aorta", "size_mm": 34, "incidental": true, "in_impression": false, "triage": "soon", "followup_services": ["us_aorta", "visit_vascular_surgery"],
+      "expected_followup": "Confirm with dedicated aortic ultrasound, then surveillance about every 3 years for 3.0-3.9 cm (SVS). Mentioned only in FINDINGS: key safety-net test. Former smoker." },
+    { "source": "radiology", "finding": "Simple left renal cyst 2.1 cm", "site": "Left kidney, lower pole", "size_mm": 21, "incidental": true, "in_impression": false, "triage": "none", "followup_services": [],
+      "expected_followup": "Bosniak I simple cyst: no follow-up. Should NOT trigger a referral." },
+    { "source": "radiology", "finding": "Mild L3-L4 degenerative changes", "incidental": false, "in_impression": true, "triage": "none", "followup_services": [],
+      "expected_followup": "Part of the spine picture." },
+    { "source": "lab", "finding": "CKD stage 3a (eGFR 56) with NSAID use", "incidental": true, "in_impression": null, "triage": "watch", "followup_services": ["visit_primary_care"],
+      "expected_followup": "PCP review of naproxen use and kidney function." },
+    { "source": "lab", "finding": "LDL 138, untreated", "incidental": true, "in_impression": null, "triage": "watch", "followup_services": ["visit_primary_care"],
+      "expected_followup": "With an aneurysm, cardiovascular risk management matters more." }
+  ]
+}

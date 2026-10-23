@@ -33,6 +33,8 @@ flowchart TD
 3. **Medical history** (synthetic: a Synthea FHIR bundle, a MIMIC-IV demo patient's diagnoses and prescriptions, or a short typed intake form with conditions, medications, allergies and past procedures).
 4. **Insurance card** (synthetic image; no verified public card dataset exists).
 
+The repo ships 10 synthetic cases in [data/](data/README.md): a radiology report PDF, lab PDF and medical history PDF per patient (PCP health summary, or a patient-typed questionnaire when there is no PCP), FHIR-shaped `Patient`/`Coverage`/history, intake answers, and a hidden answer key, plus a mocked plan and Austin-area provider network with deterministic tools (`find_providers`, `find_slots`, `estimate_cost`, ...). Scenarios are indexed in [data/CASES.md](data/CASES.md). The cases carry radiology *reports*, not X-ray images, and coverage as JSON, not card images.
+
 ## Agents
 
 | Agent | Inputs | Tools / data | Outputs |
@@ -48,7 +50,7 @@ flowchart TD
 ## Quickstart
 
 1. Join the event and verify your account: [docs/AWS_SETUP.md](docs/AWS_SETUP.md).
-2. Pull the demo data: [docs/DATASETS.md](docs/DATASETS.md).
+2. Use the bundled synthetic cases in [data/](data/README.md); see [docs/DATASETS.md](docs/DATASETS.md) for X-ray images and other external sources.
 3. Read the design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), then follow the build order in [docs/TODO.md](docs/TODO.md).
 
 ## Demo script (3 beats)
@@ -66,6 +68,15 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 ```text
 .
 ├── README.md
+├── data/                               # synthetic cases, mock network, tools (see data/README.md)
+│   ├── README.md
+│   ├── CASES.md                        # scenario index (generated)
+│   ├── cases/                          # case_*.json source of truth incl. answer keys
+│   ├── output/<case>/                  # radiology.pdf, labs.pdf, history.pdf, intake_expected.json
+│   ├── network/                        # plans, services, providers, member accumulators
+│   ├── reference/lab_catalog.json      # lab panels and reference ranges
+│   ├── build.py, labs.py, history.py, render.py, network.py
+│   └── tests/
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── DATASETS.md
@@ -92,6 +103,8 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 
 | Doc | What it covers |
 |---|---|
+| [data/README.md](data/README.md) | Synthetic cases, mock network, tool functions, build and test commands |
+| [data/CASES.md](data/CASES.md) | The 10 case scenarios and their incidental findings |
 | [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Agents, Strands Graph pattern, incidental ledger, data flow |
 | [DATASETS.md](docs/DATASETS.md) | Verified datasets per input type and knowledge sources |
 | [APIS.md](docs/APIS.md) | External APIs with auth, limits and example requests |

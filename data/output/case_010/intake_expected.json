@@ -1,0 +1,916 @@
+{
+  "case_id": "case_010",
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [
+      {
+        "type": {
+          "text": "MRN"
+        },
+        "value": "LDI-0071245"
+      }
+    ],
+    "name": [
+      {
+        "given": [
+          "Thomas"
+        ],
+        "family": "Whitfield"
+      }
+    ],
+    "gender": "male",
+    "birthDate": "1960-03-03",
+    "address": [
+      {
+        "city": "Austin",
+        "state": "TX",
+        "postalCode": "78750"
+      }
+    ],
+    "generalPractitioner": [
+      {
+        "display": "Samuel Brooks, MD, Northwest Austin Primary Care"
+      }
+    ]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [
+      {
+        "display": "Bluebonnet Health"
+      }
+    ],
+    "class": [
+      {
+        "type": {
+          "text": "plan"
+        },
+        "value": "BLUEBONNET-PPO-500",
+        "name": "Bluebonnet PPO 500"
+      }
+    ],
+    "subscriberId": "BBH-9073-3318"
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [
+      {
+        "type": {
+          "text": "Accession"
+        },
+        "value": "LDI-26-1007-0844"
+      }
+    ],
+    "status": "final",
+    "category": [
+      {
+        "text": "Radiology"
+      }
+    ],
+    "code": {
+      "text": "CT Chest, low-dose lung cancer screening"
+    },
+    "effectiveDateTime": "2026-10-07T08:30:00",
+    "issued": "2026-10-07T12:10:00",
+    "basedOn": [
+      {
+        "display": "Samuel Brooks, MD, Northwest Austin Primary Care"
+      }
+    ],
+    "performer": [
+      {
+        "display": "Lakeline Diagnostic Imaging"
+      }
+    ],
+    "resultsInterpreter": [
+      {
+        "display": "Sarah Lindgren, MD"
+      }
+    ],
+    "conclusion": "1. Lung-RADS category 2: benign appearance or behavior. 4 mm solid right middle lobe nodule, stable since 10/02/2025. Continue annual screening with low-dose CT in 12 months.\n2. S: Moderate coronary artery calcification. Clinical correlation for cardiovascular risk management is recommended.\n3. Mild centrilobular emphysema.",
+    "presentedForm": [
+      {
+        "contentType": "text/plain",
+        "text": "EXAM:\nCT CHEST, LOW-DOSE LUNG CANCER SCREENING\n\nCLINICAL INDICATION:\nAnnual lung cancer screening. Asymptomatic. Former smoker, 30 pack-years, quit 2018.\n\nTECHNIQUE:\nLow-dose helical CT of the chest was performed without intravenous contrast. Axial images were reconstructed at 1 mm with coronal and sagittal reformats. CTDIvol: 1.4 mGy. DLP: 52 mGy-cm.\n\nCOMPARISON:\nLow-dose CT chest dated 10/02/2025.\n\nFINDINGS:\nLungs: 4 mm solid nodule in the right middle lobe (series 4, image 88), unchanged from 10/02/2025. No new or growing nodules. Mild centrilobular emphysema. No consolidation. The airways are patent.\nPleura: No pleural effusion or pneumothorax.\nHeart and mediastinum: Heart size is normal. Moderate coronary artery calcification involving the left anterior descending and right coronary arteries. No mediastinal lymphadenopathy.\nLower neck: 11 mm hypodense nodule in the right thyroid lobe.\nUpper abdomen: Unremarkable on this limited noncontrast exam.\nBones: Mild degenerative changes of the thoracic spine.\n\nIMPRESSION:\n1. Lung-RADS category 2: benign appearance or behavior. 4 mm solid right middle lobe nodule, stable since 10/02/2025. Continue annual screening with low-dose CT in 12 months.\n2. S: Moderate coronary artery calcification. Clinical correlation for cardiovascular risk management is recommended.\n3. Mild centrilobular emphysema."
+      }
+    ]
+  },
+  "LabReports": [
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "HC-26-0910-2950"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Lipid Panel"
+      },
+      "effectiveDateTime": "2026-09-10T07:55:00",
+      "issued": "2026-09-10T15:35:00",
+      "basedOn": [
+        {
+          "display": "Samuel Brooks, MD, Northwest Austin Primary Care"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Hill Country Clinical Laboratories"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Total Cholesterol"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 205,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "<200",
+              "high": {
+                "value": 199,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "LDL Cholesterol"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 131,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "<100",
+              "high": {
+                "value": 99,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "HDL Cholesterol"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 39,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": ">=40",
+              "low": {
+                "value": 40,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Low"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Triglycerides"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 176,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "<150",
+              "high": {
+                "value": 149,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "HC-26-0910-2950"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Hemoglobin A1c"
+      },
+      "effectiveDateTime": "2026-09-10T07:55:00",
+      "issued": "2026-09-10T15:35:00",
+      "basedOn": [
+        {
+          "display": "Samuel Brooks, MD, Northwest Austin Primary Care"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Hill Country Clinical Laboratories"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hemoglobin A1c"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 6.8,
+            "unit": "%"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-5.6",
+              "low": {
+                "value": 4.0,
+                "unit": "%"
+              },
+              "high": {
+                "value": 5.6,
+                "unit": "%"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "HC-26-0910-2950"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Basic Metabolic Panel"
+      },
+      "effectiveDateTime": "2026-09-10T07:55:00",
+      "issued": "2026-09-10T15:35:00",
+      "basedOn": [
+        {
+          "display": "Samuel Brooks, MD, Northwest Austin Primary Care"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Hill Country Clinical Laboratories"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Sodium"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 139,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "136-145",
+              "low": {
+                "value": 136,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 145,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Potassium"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 4.5,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "3.5-5.1",
+              "low": {
+                "value": 3.5,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 5.1,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Chloride"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 102,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "98-107",
+              "low": {
+                "value": 98,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 107,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "CO2"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 26,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "22-29",
+              "low": {
+                "value": 22,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 29,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "BUN"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 17,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "7-20",
+              "low": {
+                "value": 7,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 20,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Creatinine"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 1.1,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "0.7-1.3",
+              "low": {
+                "value": 0.7,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 1.3,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "eGFR"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 72,
+            "unit": "mL/min/1.73m2"
+          },
+          "referenceRange": [
+            {
+              "text": ">=60",
+              "low": {
+                "value": 60,
+                "unit": "mL/min/1.73m2"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Glucose"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 134,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "70-99",
+              "low": {
+                "value": 70,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 99,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Calcium"
+          },
+          "effectiveDateTime": "2026-09-10T07:55:00",
+          "valueQuantity": {
+            "value": 9.4,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "8.6-10.3",
+              "low": {
+                "value": 8.6,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 10.3,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "History": {
+    "source": "pcp_record",
+    "resources": [
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Essential (primary) hypertension",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "I10",
+              "display": "Essential (primary) hypertension"
+            }
+          ]
+        },
+        "onsetDateTime": "2017",
+        "note": [
+          {
+            "text": "Controlled on lisinopril."
+          }
+        ]
+      },
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Prediabetes",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "R73.03",
+              "display": "Prediabetes"
+            }
+          ]
+        },
+        "onsetDateTime": "2022",
+        "note": [
+          {
+            "text": "A1c 6.1% (2022). Not rechecked since."
+          }
+        ]
+      },
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Personal history of nicotine dependence",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "Z87.891",
+              "display": "Personal history of nicotine dependence"
+            }
+          ]
+        },
+        "onsetDateTime": "2018",
+        "note": [
+          {
+            "text": "30 pack-years, quit 2018. Enrolled in annual lung cancer screening."
+          }
+        ]
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Lisinopril 10 mg oral tablet",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "29046",
+              "display": "Lisinopril 10 mg oral tablet"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "10 mg by mouth once daily"
+          }
+        ],
+        "informationSource": {
+          "display": "Samuel Brooks, MD"
+        }
+      },
+      {
+        "resourceType": "AllergyIntolerance",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          "food"
+        ],
+        "criticality": "low",
+        "code": {
+          "text": "Shellfish"
+        },
+        "onsetDateTime": "1995",
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "text": "Hives"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "resourceType": "Procedure",
+        "status": "completed",
+        "code": {
+          "text": "Appendectomy"
+        },
+        "performedDateTime": "1985"
+      },
+      {
+        "resourceType": "Procedure",
+        "status": "completed",
+        "code": {
+          "text": "Low-dose CT lung cancer screening, Lung-RADS 2"
+        },
+        "performedDateTime": "2025-10-02"
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Father"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Type 2 diabetes; myocardial infarction"
+            },
+            "onsetAge": {
+              "value": 68,
+              "unit": "a"
+            }
+          }
+        ]
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Mother"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Breast cancer"
+            },
+            "onsetAge": {
+              "value": 72,
+              "unit": "a"
+            }
+          }
+        ]
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Tobacco"
+        },
+        "valueString": "Former smoker, 30 pack-years, quit 2018"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Alcohol"
+        },
+        "valueString": "2-3 drinks per week"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Occupation"
+        },
+        "valueString": "Engineer, full time"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Living situation"
+        },
+        "valueString": "Lives with wife"
+      },
+      {
+        "resourceType": "CareTeam",
+        "status": "active",
+        "participant": [
+          {
+            "role": [
+              {
+                "text": "Primary care"
+              }
+            ],
+            "member": {
+              "display": "Samuel Brooks, MD, Northwest Austin Primary Care"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": {
+      "days": [
+        "mon",
+        "wed",
+        "fri"
+      ],
+      "times": "any"
+    },
+    "max_travel_miles": 20,
+    "medications": [
+      "Lisinopril 10 mg daily"
+    ],
+    "history": [
+      "Former smoker, 30 pack-years, quit 2018",
+      "Told blood sugar was borderline in the past"
+    ],
+    "notes": "Still working full time as an engineer; employer PPO."
+  }
+}

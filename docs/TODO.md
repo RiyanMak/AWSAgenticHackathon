@@ -6,7 +6,7 @@ Ordered checklist with time boxes, assuming one build day. Adjust to the event s
 |---|---|---|---|
 | 1 | Join Workshop Studio, open VS Code, verify `WSParticipantRole` ([AWS_SETUP.md](AWS_SETUP.md)) | 20 min | [ ] |
 | 2 | Run starter kit: `infer.py` smoke test, check model allowlist (Sonnet 5.5, Nova, GPT profiles), test image and PDF input | 30 min | [ ] |
-| 3 | Fix the demo patient: render MIMIC-IV demo labs to PDF, pull the same patient's `diagnoses_icd` and `prescriptions` rows (or one Synthea FHIR bundle) as the history, pick one NIH CXR with a known label, generate one synthetic insurance card ([DATASETS.md](DATASETS.md)) | 50 min | [ ] |
+| 3 | Fix the demo patient: pick a case from [data/CASES.md](../data/CASES.md) (case_001 is the hero case; lab PDF, report PDF, history PDF and coverage are done). Remaining: pick one NIH CXR with a known label if showing an image, generate one synthetic insurance card from the case's `Coverage` ([DATASETS.md](DATASETS.md)) | 20 min | [ ] |
 | 4 | Lab Agent: typed extraction, deterministic range comparator, incidental tag | 45 min | [ ] |
 | 5 | Radiology Agent: TorchXRayVision scores plus Bedrock narrative, incidental tag | 45 min | [ ] |
 | 6 | History Agent: FHIR or CSV parser into `HistoryProfile`, `risk_flags` table, Comprehend Medical path for the intake form | 30 min | [ ] |

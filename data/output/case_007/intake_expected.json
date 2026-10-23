@@ -1,0 +1,1401 @@
+{
+  "case_id": "case_007",
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [
+      {
+        "type": {
+          "text": "MRN"
+        },
+        "value": "SUW-0417762"
+      }
+    ],
+    "name": [
+      {
+        "given": [
+          "Emily"
+        ],
+        "family": "Novak"
+      }
+    ],
+    "gender": "female",
+    "birthDate": "1985-04-02",
+    "address": [
+      {
+        "city": "Austin",
+        "state": "TX",
+        "postalCode": "78741"
+      }
+    ],
+    "generalPractitioner": [
+      {
+        "display": "Laura Kim, MD, Bluebonnet Family Medicine"
+      }
+    ]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [
+      {
+        "display": "Cedar Mutual"
+      }
+    ],
+    "class": [
+      {
+        "type": {
+          "text": "plan"
+        },
+        "value": "CEDAR-HDHP-3500",
+        "name": "Cedar Mutual HSA 3500"
+      }
+    ],
+    "subscriberId": "CMU-8841-2236"
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [
+      {
+        "type": {
+          "text": "Accession"
+        },
+        "value": "SUW-26-1006-0391"
+      }
+    ],
+    "status": "final",
+    "category": [
+      {
+        "text": "Radiology"
+      }
+    ],
+    "code": {
+      "text": "US Abdomen, complete"
+    },
+    "effectiveDateTime": "2026-10-06T09:30:00",
+    "issued": "2026-10-06T14:48:00",
+    "basedOn": [
+      {
+        "display": "Laura Kim, MD, Bluebonnet Family Medicine"
+      }
+    ],
+    "performer": [
+      {
+        "display": "Southpark Ultrasound & Women's Imaging"
+      }
+    ],
+    "resultsInterpreter": [
+      {
+        "display": "Benjamin Afolabi, MD"
+      }
+    ],
+    "conclusion": "1. Cholelithiasis without sonographic evidence of acute cholecystitis.\n2. 2.8 cm solid, vascular exophytic mass in the upper pole of the left kidney, concerning for a renal neoplasm. Recommend contrast-enhanced renal mass protocol MRI or CT.",
+    "presentedForm": [
+      {
+        "contentType": "text/plain",
+        "text": "EXAM:\nUS ABDOMEN, COMPLETE\n\nCLINICAL INDICATION:\nIntermittent right upper quadrant pain after meals for 3 months. Evaluate for gallstones.\n\nTECHNIQUE:\nReal-time grayscale and color Doppler sonography of the abdomen.\n\nCOMPARISON:\nNone.\n\nFINDINGS:\nLiver: Normal in size (15.2 cm) and echotexture. No focal lesion. Hepatopetal portal venous flow.\nGallbladder: Multiple mobile, shadowing gallstones, the largest measuring 1.4 cm. Wall thickness 2 mm. No pericholecystic fluid. Sonographic Murphy sign is negative.\nBile ducts: Common bile duct measures 4 mm. No intrahepatic biliary dilatation.\nPancreas: Visualized head and body are unremarkable. The tail is obscured by bowel gas.\nSpleen: Normal in size (10.1 cm).\nRight kidney: 10.8 cm. Normal echotexture. No hydronephrosis, stone, or mass.\nLeft kidney: 11.4 cm. 2.8 x 2.5 x 2.6 cm solid, mildly hypoechoic exophytic mass in the upper pole with internal vascularity on color Doppler. No hydronephrosis.\nAorta and IVC: Normal in caliber where visualized.\nOther: No ascites.\n\nIMPRESSION:\n1. Cholelithiasis without sonographic evidence of acute cholecystitis.\n2. 2.8 cm solid, vascular exophytic mass in the upper pole of the left kidney, concerning for a renal neoplasm. Recommend contrast-enhanced renal mass protocol MRI or CT."
+      }
+    ]
+  },
+  "LabReports": [
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "HC-26-0915-1866"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Comprehensive Metabolic Panel"
+      },
+      "effectiveDateTime": "2026-09-15T08:05:00",
+      "issued": "2026-09-15T15:20:00",
+      "basedOn": [
+        {
+          "display": "Laura Kim, MD, Bluebonnet Family Medicine"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Hill Country Clinical Laboratories"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Sodium"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 138,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "136-145",
+              "low": {
+                "value": 136,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 145,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Potassium"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 4.0,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "3.5-5.1",
+              "low": {
+                "value": 3.5,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 5.1,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Chloride"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 104,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "98-107",
+              "low": {
+                "value": 98,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 107,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "CO2"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 24,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "22-29",
+              "low": {
+                "value": 22,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 29,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "BUN"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 12,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "7-20",
+              "low": {
+                "value": 7,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 20,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Creatinine"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 0.7,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "0.5-1.1",
+              "low": {
+                "value": 0.5,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 1.1,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "eGFR"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 108,
+            "unit": "mL/min/1.73m2"
+          },
+          "referenceRange": [
+            {
+              "text": ">=60",
+              "low": {
+                "value": 60,
+                "unit": "mL/min/1.73m2"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Glucose"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 92,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "70-99",
+              "low": {
+                "value": 70,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 99,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Calcium"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 9.4,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "8.6-10.3",
+              "low": {
+                "value": 8.6,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 10.3,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Total Protein"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 7.2,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "6.0-8.3",
+              "low": {
+                "value": 6.0,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 8.3,
+                "unit": "g/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Albumin"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 4.4,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "3.5-5.0",
+              "low": {
+                "value": 3.5,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 5.0,
+                "unit": "g/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Total Bilirubin"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 0.9,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "0.1-1.2",
+              "low": {
+                "value": 0.1,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 1.2,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Alkaline Phosphatase"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 98,
+            "unit": "U/L"
+          },
+          "referenceRange": [
+            {
+              "text": "44-147",
+              "low": {
+                "value": 44,
+                "unit": "U/L"
+              },
+              "high": {
+                "value": 147,
+                "unit": "U/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "AST"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 30,
+            "unit": "U/L"
+          },
+          "referenceRange": [
+            {
+              "text": "10-40",
+              "low": {
+                "value": 10,
+                "unit": "U/L"
+              },
+              "high": {
+                "value": 40,
+                "unit": "U/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "ALT"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 41,
+            "unit": "U/L"
+          },
+          "referenceRange": [
+            {
+              "text": "7-40",
+              "low": {
+                "value": 7,
+                "unit": "U/L"
+              },
+              "high": {
+                "value": 40,
+                "unit": "U/L"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "HC-26-0915-1866"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Lipase"
+      },
+      "effectiveDateTime": "2026-09-15T08:05:00",
+      "issued": "2026-09-15T15:20:00",
+      "basedOn": [
+        {
+          "display": "Laura Kim, MD, Bluebonnet Family Medicine"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Hill Country Clinical Laboratories"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Lipase"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 32,
+            "unit": "U/L"
+          },
+          "referenceRange": [
+            {
+              "text": "13-60",
+              "low": {
+                "value": 13,
+                "unit": "U/L"
+              },
+              "high": {
+                "value": 60,
+                "unit": "U/L"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "HC-26-0915-1866"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "CBC"
+      },
+      "effectiveDateTime": "2026-09-15T08:05:00",
+      "issued": "2026-09-15T15:20:00",
+      "basedOn": [
+        {
+          "display": "Laura Kim, MD, Bluebonnet Family Medicine"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Hill Country Clinical Laboratories"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "WBC"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 6.8,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-11.0",
+              "low": {
+                "value": 4.0,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 11.0,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "RBC"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 4.4,
+            "unit": "x10^6/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-5.2",
+              "low": {
+                "value": 4.0,
+                "unit": "x10^6/uL"
+              },
+              "high": {
+                "value": 5.2,
+                "unit": "x10^6/uL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hemoglobin"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 13.4,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "12.0-15.5",
+              "low": {
+                "value": 12.0,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 15.5,
+                "unit": "g/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hematocrit"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 40.1,
+            "unit": "%"
+          },
+          "referenceRange": [
+            {
+              "text": "36-46",
+              "low": {
+                "value": 36,
+                "unit": "%"
+              },
+              "high": {
+                "value": 46,
+                "unit": "%"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "MCV"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 91,
+            "unit": "fL"
+          },
+          "referenceRange": [
+            {
+              "text": "80-100",
+              "low": {
+                "value": 80,
+                "unit": "fL"
+              },
+              "high": {
+                "value": 100,
+                "unit": "fL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Platelets"
+          },
+          "effectiveDateTime": "2026-09-15T08:05:00",
+          "valueQuantity": {
+            "value": 275,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "150-400",
+              "low": {
+                "value": 150,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 400,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "HC-26-0915-1867"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Urinalysis with Microscopy"
+      },
+      "effectiveDateTime": "2026-09-15T08:10:00",
+      "issued": "2026-09-15T12:45:00",
+      "basedOn": [
+        {
+          "display": "Laura Kim, MD, Bluebonnet Family Medicine"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Hill Country Clinical Laboratories"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Color"
+          },
+          "effectiveDateTime": "2026-09-15T08:10:00",
+          "valueString": "Yellow",
+          "referenceRange": [
+            {
+              "text": "Yellow"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Clarity"
+          },
+          "effectiveDateTime": "2026-09-15T08:10:00",
+          "valueString": "Clear",
+          "referenceRange": [
+            {
+              "text": "Clear"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Specific Gravity"
+          },
+          "effectiveDateTime": "2026-09-15T08:10:00",
+          "valueQuantity": {
+            "value": 1.018,
+            "unit": ""
+          },
+          "referenceRange": [
+            {
+              "text": "1.005-1.030",
+              "low": {
+                "value": 1.005,
+                "unit": ""
+              },
+              "high": {
+                "value": 1.03,
+                "unit": ""
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "pH"
+          },
+          "effectiveDateTime": "2026-09-15T08:10:00",
+          "valueQuantity": {
+            "value": 6.0,
+            "unit": ""
+          },
+          "referenceRange": [
+            {
+              "text": "5.0-8.0",
+              "low": {
+                "value": 5.0,
+                "unit": ""
+              },
+              "high": {
+                "value": 8.0,
+                "unit": ""
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Protein, urine"
+          },
+          "effectiveDateTime": "2026-09-15T08:10:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Glucose, urine"
+          },
+          "effectiveDateTime": "2026-09-15T08:10:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Ketones"
+          },
+          "effectiveDateTime": "2026-09-15T08:10:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Blood, urine"
+          },
+          "effectiveDateTime": "2026-09-15T08:10:00",
+          "valueString": "Small",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Abnormal"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Leukocyte Esterase"
+          },
+          "effectiveDateTime": "2026-09-15T08:10:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Nitrite"
+          },
+          "effectiveDateTime": "2026-09-15T08:10:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "RBC, urine"
+          },
+          "effectiveDateTime": "2026-09-15T08:10:00",
+          "valueString": "3-10",
+          "referenceRange": [
+            {
+              "text": "0-2"
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Abnormal"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "WBC, urine"
+          },
+          "effectiveDateTime": "2026-09-15T08:10:00",
+          "valueString": "0-2",
+          "referenceRange": [
+            {
+              "text": "0-5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "History": {
+    "source": "pcp_record",
+    "resources": [
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Migraine without aura, not intractable, without status migrainosus",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "G43.009",
+              "display": "Migraine without aura, not intractable, without status migrainosus"
+            }
+          ]
+        },
+        "onsetDateTime": "2008",
+        "note": [
+          {
+            "text": "No aura; combined oral contraceptive acceptable. About 2 migraines per month."
+          }
+        ]
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Norgestimate 0.25 mg / ethinyl estradiol 0.035 mg oral tablet",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "214559",
+              "display": "Norgestimate 0.25 mg / ethinyl estradiol 0.035 mg oral tablet"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "1 tablet by mouth once daily"
+          }
+        ],
+        "informationSource": {
+          "display": "Laura Kim, MD"
+        }
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Sumatriptan 50 mg oral tablet",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "37418",
+              "display": "Sumatriptan 50 mg oral tablet"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "50 mg by mouth at migraine onset; may repeat once after 2 hours"
+          }
+        ],
+        "informationSource": {
+          "display": "Laura Kim, MD"
+        }
+      },
+      {
+        "resourceType": "AllergyIntolerance",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          "medication"
+        ],
+        "criticality": "high",
+        "code": {
+          "text": "Ibuprofen",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "5640",
+              "display": "Ibuprofen"
+            }
+          ]
+        },
+        "onsetDateTime": "2015",
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "text": "Hives and lip swelling"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "resourceType": "Procedure",
+        "status": "completed",
+        "code": {
+          "text": "Cesarean delivery"
+        },
+        "performedDateTime": "2016-02-19"
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Mother"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Gallstones, cholecystectomy"
+            },
+            "onsetAge": {
+              "value": 45,
+              "unit": "a"
+            }
+          }
+        ]
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Father"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Hypertension"
+            },
+            "onsetAge": {
+              "value": 50,
+              "unit": "a"
+            }
+          }
+        ]
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Tobacco"
+        },
+        "valueString": "Never smoker"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Alcohol"
+        },
+        "valueString": "1-3 drinks per week"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Occupation"
+        },
+        "valueString": "Freelance graphic designer"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Living situation"
+        },
+        "valueString": "Lives with partner and daughter"
+      },
+      {
+        "resourceType": "CareTeam",
+        "status": "active",
+        "participant": [
+          {
+            "role": [
+              {
+                "text": "Primary care"
+              }
+            ],
+            "member": {
+              "display": "Laura Kim, MD, Bluebonnet Family Medicine"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": {
+      "days": [
+        "mon",
+        "wed",
+        "fri"
+      ],
+      "times": "any"
+    },
+    "max_travel_miles": 15,
+    "medications": [
+      "Norgestimate-ethinyl estradiol daily"
+    ],
+    "history": [
+      "Never smoker"
+    ],
+    "notes": "Freelance graphic designer. Worried about cost; HSA balance about $1,200."
+  }
+}
