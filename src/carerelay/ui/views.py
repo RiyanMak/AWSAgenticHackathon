@@ -5,6 +5,7 @@ Pure functions from (agent states, events, report) to HTML strings, so they are 
 
 from __future__ import annotations
 
+import re
 from datetime import datetime
 from html import escape
 from typing import Any
@@ -26,6 +27,7 @@ LEGS = [
 STATE_LABEL = {
     "waiting": "Waiting", "running": "Working", "ok": "Done", "demo": "Done (demo data)",
     "not_implemented": "Not built yet", "skipped": "Skipped", "needs_clinical_reevaluation": "Needs review",
+    "awaiting_confirmation": "Waiting for a clinician",
 }
 TRIAGE_LABEL = {
     "urgent": "Urgent", "soon": "Book soon", "watch": "Mention to your PCP", "none": "No follow-up needed",
@@ -37,12 +39,14 @@ CHECK = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.
 
 def agent_states(events: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
     """Fold events into {agent: {state, elapsed}}."""
-    out = {a.id: {"state": "waiting", "elapsed": None} for a in AGENTS}
+    out = {a.id: {"state": "waiting", "elapsed": None, "started": None} for a in AGENTS}
     for e in events:
+        if e.get("agent") not in out:
+            continue  # e.g. the "inputs" event
         if e["type"] == "stage_start" and out[e["agent"]]["state"] == "waiting":
-            out[e["agent"]]["state"] = "running"
+            out[e["agent"]].update(state="running", started=e["t"])
         elif e["type"] == "stage_end":
-            out[e["agent"]] = {"state": e["status"], "elapsed": e.get("elapsed_seconds")}
+            out[e["agent"]].update(state=e["status"], elapsed=e.get("elapsed_seconds"))
     return out
 
 
@@ -89,11 +93,14 @@ def course_map(states: dict[str, dict[str, Any]], events: list[dict[str, Any]]) 
     return f'<svg class="course-map" viewBox="0 0 760 300" role="img" aria-label="Agent course">{contours}{"".join(legs)}{"".join(marks)}</svg>'
 
 
-def task_table(states: dict[str, dict[str, Any]]) -> str:
+def task_table(states: dict[str, dict[str, Any]], now: float | None = None) -> str:
     rows = ""
     for i, a in enumerate(AGENTS, start=1):
         s = states[a.id]
-        el = f'{s["elapsed"]:.1f} s' if s["elapsed"] is not None else ""
+        if s["state"] == "running" and now and s.get("started"):
+            el = f'{now - s["started"]:.0f} s'
+        else:
+            el = f'{s["elapsed"]:.1f} s' if s["elapsed"] is not None else ""
         rows += (f'<tr class="st-{s["state"]}"><td class="n">{i}</td><td><b>{escape(a.name)}</b><span>{escape(a.task)}</span></td>'
                  f'<td>{escape(a.produces)}</td><td class="state">{STATE_LABEL.get(s["state"], s["state"])}</td><td class="num">{el}</td></tr>')
     return ('<table class="tasks"><thead><tr><th>#</th><th>Agent and task</th><th>Hands over</th><th>Status</th>'
@@ -121,8 +128,27 @@ def _when(iso: str) -> tuple[str, str]:
     return d.strftime("%a %b %-d"), d.strftime("%-I:%M %p")
 
 
-def results(report: dict[str, Any], confirmed: bool, button: str = "") -> str:
-    """Result panel. ``button`` is the confirm/undo control's HTML, placed under the appointments."""
+def _paragraphs(text: str) -> str:
+    """Agent narration (plain text with '-' bullets) to HTML."""
+    out, items = [], []
+    for line in (text or "").splitlines():
+        line = line.strip().lstrip("#").strip()
+        if line.startswith(("- ", "* ")):
+            items.append(f"<li>{escape(line[2:].replace('**', ''))}</li>")
+            continue
+        if items:
+            out.append("<ul>" + "".join(items) + "</ul>")
+            items = []
+        if line:
+            out.append(f"<p>{escape(line.replace('**', ''))}</p>")
+    if items:
+        out.append("<ul>" + "".join(items) + "</ul>")
+    return "".join(out)
+
+
+def results(report: dict[str, Any], confirmed: bool, button: str = "", gate_button: str = "") -> str:
+    """Result panel. ``button`` is the confirm/undo control's HTML, placed under the appointments;
+    ``gate_button`` is the clinician-confirmation control shown when urgent results hold up Next Steps."""
     st = report["stages"]
     if st.get("summarize", {}).get("status") not in ("ok", "demo"):
         reason = st.get("summarize", {}).get("reason") or st.get("summarize", {}).get("error") or ""
@@ -132,10 +158,25 @@ def results(report: dict[str, Any], confirmed: bool, button: str = "") -> str:
     ledger = "".join(
         f'<li class="tr-{i["triage"]}"><span class="sym" aria-hidden="true"></span><div><b>{escape(i["title"])}</b>'
         f'<span class="tri">{TRIAGE_LABEL[i["triage"]]}{" · only in FINDINGS" if i.get("in_impression") is False else ""}</span>'
-        f'<p>{escape(i["plain"])}</p><span class="owner">Owner: {escape(i["owner"])}</span></div></li>'
+        f'<p>{escape(i["plain"])}</p><span class="owner">Owner: {escape(i["owner"])}</span>'
+        + (f'<details><summary>Where your report says this</summary><blockquote>{escape(i["evidence"])}</blockquote></details>' if i.get("evidence") else "")
+        + '</div></li>'
         for i in s["items"]
     )
-    ns = next_steps_view(st.get("next_steps", {})).model_dump() if st.get("next_steps", {}).get("status") in ("ok", "demo") else {}
+    ns_stage = st.get("next_steps", {})
+    ns = next_steps_view(ns_stage).model_dump() if ns_stage.get("status") in ("ok", "demo") else {}
+    plan = ns_stage.get("plan") or {}
+    ns_note = ""
+    if ns_stage.get("status") == "awaiting_confirmation":
+        ns_note = (f'<div class="gate"><b>A clinician needs to look at an urgent result first.</b>'
+                   f'<p>{escape(ns_stage.get("markdown", "").replace("## Next steps", "").strip())}</p>{gate_button}</div>')
+    elif ns_stage.get("status") == "skipped":
+        ns_note = f'<p class="empty">No appointments planned: {escape(ns_stage.get("reason", ""))}.</p>'
+    ns_text = ""
+    if plan.get("summary"):
+        ns_text = f'<details class="more"><summary>Read the full plan from the Next Steps agent</summary><div class="narration">{_paragraphs(plan["summary"])}</div></details>'
+    if plan.get("caregiver_notes"):
+        ns_text += "<h4>For whoever helps you</h4><ul>" + "".join(f"<li>{escape(n)}</li>" for n in plan["caregiver_notes"]) + "</ul>"
     appts = ""
     for k, a in enumerate(ns.get("appointments", []), start=1):
         day, time_ = _when(a["start"])
@@ -145,29 +186,42 @@ def results(report: dict[str, Any], confirmed: bool, button: str = "") -> str:
                   f'<td>{day}<span>{time_}</span></td><td class="num">{a["miles"]} mi</td><td class="num">${a["patient_pays"]:,.0f}</td>'
                   f'<td class="p">{CHECK if confirmed else ""}</td></tr>')
     total = f'${ns.get("total_patient_pays", 0):,.0f}'
-    plan = payload("wellness", st.get("wellness", {}))
+    wplan = payload("wellness", st.get("wellness", {}))
+    w_text = (st.get("wellness", {}).get("result") or {}).get("text", "")
+    plan_ = wplan
     tips = ""
-    if plan.get("status") == "seek_care":
-        tips = f'<li class="out"><b>Seek care</b> {escape(plan.get("seek_care_message") or "")}</li>'
-    for g in (plan.get("nutrition") or {}).get("guidance", []):
+    if plan_.get("status") == "seek_care":
+        tips = f'<li class="out"><b>Seek care</b> {escape(plan_.get("seek_care_message") or "")}</li>'
+    for g in (plan_.get("nutrition") or {}).get("guidance", []):
         tips += f'<li><b>Nutrition</b> {escape(g["text"])}</li>'
-    if plan.get("activity"):
-        tips += f'<li><b>Activity</b> {escape(plan["activity"]["weekly_target"])}</li>'
-    otc = plan.get("otc") or {}
+    if plan_.get("activity"):
+        tips += f'<li><b>Activity</b> {escape(plan_["activity"]["weekly_target"])}</li>'
+    otc = plan_.get("otc") or {}
     for o in otc.get("options", []):
         tips += f'<li><b>OTC</b> {escape(o["ingredient"])}{" (" + escape(o["purpose"]) + ")" if o.get("purpose") else ""}</li>'
     for x in otc.get("excluded", []):
         tips += (f'<li class="out"><b>OTC</b> <span class="txt">{escape(x["name"])}</span>'
                  f'<em>Ruled out: {escape("; ".join(x["reasons"]))}</em></li>')
     status = "Confirmed. Nothing else is booked without you." if confirmed else "Proposed. Nothing is booked until you confirm."
+    # Lead with what was found: drop the critic's audit sentences ("findings were checked ... no disputes")
+    sentences = [x for x in re.split(r"(?<=[.!?])\s+", s["headline"].strip()) if x]
+    audit = ("extracted findings", "disput", "source text", "original report", "were verified")
+    sentences = [x for x in sentences if not any(a in x.lower() for a in audit)] or sentences
+    first, rest = sentences[0], " ".join(sentences[1:]) if len(" ".join(sentences)) > 140 else ""
+    if not rest and len(sentences) > 1:
+        first = " ".join(sentences)
     return f"""
-    <section class="headline"><h2>{escape(s["headline"])}</h2>{demo_note}</section>
+    <section class="headline"><h2>{escape(first)}</h2>{f'<p class="lead">{escape(rest)}</p>' if rest else ""}{demo_note}</section>
     <div class="res-grid">
       <section><h3>What the reports found</h3><ul class="ledger">{ledger}</ul></section>
       <section><h3>Your course</h3>
         <table class="controls"><thead><tr><th>#</th><th>Appointment</th><th>When</th><th class="num">Dist.</th><th class="num">You pay</th><th></th></tr></thead>
         <tbody>{appts}</tbody></table>
-        <p class="total"><b>{total}</b> estimated · {status}</p>{button}
-        <h3>While you wait</h3><ul class="tips">{tips}</ul>
+        {ns_note}
+        {"" if not ns.get("appointments") else f'<p class="total"><b>{total}</b> estimated · {status}</p>{button}'}
+        {ns_text}
+        <h3>While you wait</h3>
+        <ul class="tips">{tips}</ul>
+        {f'<details class="more"><summary>Read the full explanation from the Wellness agent</summary><div class="narration">{_paragraphs(w_text)}</div></details>' if w_text else ""}
       </section>
     </div>"""
