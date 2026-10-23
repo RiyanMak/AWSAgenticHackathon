@@ -17,7 +17,7 @@ from typing import Any, Callable
 
 from .. import service
 from . import demo
-from .contracts import AGENT, PARALLEL_FIRST, payload
+from .contracts import AGENT, PARALLEL_FIRST, next_steps_view, payload, summarize_view
 
 Emit = Callable[[dict[str, Any]], None]
 UNBUILT = "not_implemented"
@@ -47,7 +47,7 @@ def describe(stage: str, stage_dict: dict[str, Any], to: str) -> str:
             extra = f", {only} only in FINDINGS" if only else ""
         return f"{AGENT[stage].produces}: {len(fs)} findings, {flagged} flagged{extra}"
     if stage == "summarize":
-        items = out.get("items", [])
+        items = [i.model_dump() for i in summarize_view(stage_dict).items]
         inc = sum(i.get("incidental") for i in items)
         act = sum(i.get("triage") in ("urgent", "soon") for i in items)
         return f"Incidental ledger: {inc} incidental, {act} need a follow-up"
@@ -55,8 +55,8 @@ def describe(stage: str, stage_dict: dict[str, Any], to: str) -> str:
         otc = out.get("otc") or {}
         return f"WellnessPlan: {len(otc.get('options', []))} OTC options, {len(otc.get('excluded', []))} ruled out"
     if stage == "next_steps" and to == "patient":
-        appts = out.get("appointments", [])
-        return f"{len(appts)} proposed appointments, ${out.get('total_patient_pays', 0):,.0f} estimated"
+        v = next_steps_view(stage_dict)
+        return f"{len(v.appointments)} proposed appointments, ${v.total_patient_pays:,.0f} estimated"
     return AGENT[stage].produces
 
 
@@ -65,6 +65,19 @@ def _handoffs(emit: Emit, stage: str, stage_dict: dict[str, Any]) -> None:
         if stage == "next_steps" and to == "insurance":
             continue  # the propose/check loop is narrated separately
         _ev(emit, "handoff", **{"from": stage, "to": to, "what": describe(stage, stage_dict, to)})
+
+
+def _insurance_loop(emit: Emit, checks, pace: float, status: str = "ok") -> None:
+    """Narrate each Next Steps -> Insurance proposal and its verdict."""
+    t0 = time.time()
+    for chk in checks:
+        _ev(emit, "stage_start", agent="insurance")
+        _ev(emit, "handoff", **{"from": "next_steps", "to": "insurance",
+                                "what": f"Propose {chk.service.replace('_', ' ')} at {chk.provider_name} ({chk.miles} mi)"})
+        time.sleep(pace / 3)
+        _ev(emit, "handoff", **{"from": "insurance", "to": "next_steps", "what": f"{chk.verdict.capitalize()}: {chk.note}"})
+    if checks:
+        _ev(emit, "stage_end", agent="insurance", status=status, elapsed_seconds=round(time.time() - t0, 2))
 
 
 # -------------------------------------------------------------------------------------- run
@@ -83,10 +96,13 @@ def run(request: dict[str, Any], emit: Emit, demo_fill: bool = True, pace: float
 
     report = service.handle(request, on_event=relay)
     stages = report["stages"]
-    if not fill:
-        for name, st in stages.items():
-            if st["status"] == "ok":
-                _handoffs(emit, name, st)
+    if not fill or not any(st["status"] == UNBUILT for st in stages.values()):
+        for name in ("lab", "radiology", "history", "summarize", "wellness"):
+            if stages[name]["status"] == "ok":
+                _handoffs(emit, name, stages[name])
+        if stages["next_steps"]["status"] == "ok":
+            _insurance_loop(emit, next_steps_view(stages["next_steps"]).insurance_checks, pace=0)
+            _handoffs(emit, "next_steps", stages["next_steps"])
         return report
 
     case = demo.load_case(case_id)
@@ -111,7 +127,7 @@ def run(request: dict[str, Any], emit: Emit, demo_fill: bool = True, pace: float
         _ev(emit, "stage_start", agent="summarize")
         time.sleep(pace)
         finish("summarize", demo.summarize(case).model_dump(), t0)
-    summary = demo.SummarizeOutput.model_validate(stages["summarize"])
+    summary = summarize_view(stages["summarize"])
     _handoffs(emit, "summarize", stages["summarize"])
 
     # Stage 3: Wellness and Next Steps (with the Insurance loop)
@@ -124,13 +140,7 @@ def run(request: dict[str, Any], emit: Emit, demo_fill: bool = True, pace: float
         t0 = time.time()
         _ev(emit, "stage_start", agent="next_steps")
         plan = demo.next_steps(case, summary)
-        for chk in plan.insurance_checks:
-            _ev(emit, "stage_start", agent="insurance")
-            _ev(emit, "handoff", **{"from": "next_steps", "to": "insurance",
-                                    "what": f"Propose {chk.service.replace('_', ' ')} at {chk.provider_name} ({chk.miles} mi)"})
-            time.sleep(pace / 3)
-            _ev(emit, "handoff", **{"from": "insurance", "to": "next_steps", "what": f"{chk.verdict.capitalize()}: {chk.note}"})
-        _ev(emit, "stage_end", agent="insurance", status="demo", elapsed_seconds=round(time.time() - t0, 2))
+        _insurance_loop(emit, plan.insurance_checks, pace, status="demo")
         finish("next_steps", plan.model_dump(), t0)
     _handoffs(emit, "wellness", stages["wellness"])
     _handoffs(emit, "next_steps", stages["next_steps"])

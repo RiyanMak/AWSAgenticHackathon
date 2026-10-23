@@ -64,19 +64,31 @@ uv venv .venv && uv pip install --python .venv/bin/python -e ".[dev,ui]"
 
 The History Agent is implemented; see [docs/HISTORY_AGENT.md](docs/HISTORY_AGENT.md). Other agents follow the same package layout under `src/carerelay/`. The UI fills agents that are not built yet with labelled demo data, so the full course plays today; to plug an agent into the UI, follow [docs/FRONTEND.md](docs/FRONTEND.md).
 
-### Lab and Radiology agents
+### Running the pipeline
+
+History, Lab and Radiology run in parallel, then Summarize builds the `CaseRecord` (expected vs incidental, triage, incidental ledger, critic), then Wellness and Next Steps (which consults the Insurance Agent) run on it. Red-flag or urgent findings pause Next Steps until `options.human_confirmed` is set.
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
-.venv/bin/python -m pytest tests data/tests           # offline, no AWS
+.venv/bin/python -m pytest tests data/tests                # offline, no AWS
 .venv/bin/python -c "from carerelay import service; print(service.handle({'scenario': 'case_001', 'options': {'llm': False}})['report']['markdown'])"
-.venv/bin/python -m carerelay.run_case case_001       # local parsing only
+.venv/bin/python -m carerelay.run_case case_001            # Lab + Radiology only
+.venv/bin/python -m carerelay.next_steps.demo case_001     # Next Steps + Insurance from the answer-key triage (dev only)
 # Bedrock: paste the WSParticipantRole exports from Workshop Studio first (the VM's own role is more restricted)
-.venv/bin/python -m carerelay.run_case case_001 --aws
-.venv/bin/python -m carerelay.eval --aws              # score all 10 cases against the answer keys
+.venv/bin/python -m carerelay.eval --aws                   # Lab + Radiology extraction vs ground truth
+.venv/bin/python -m carerelay.eval --flow --aws            # whole flow: Summarize triage, Next Steps services
 ```
 
-Model: `us.anthropic.claude-sonnet-5` in us-east-1 (Sonnet 5.5 is denied in the workshop account; override with `BEDROCK_MODEL_ID`). AWS calls live in [src/carerelay/aws.py](src/carerelay/aws.py); rule tables in [src/carerelay/rules.py](src/carerelay/rules.py).
+| Package | Agent |
+|---|---|
+| `src/carerelay/agents/` | Lab and Radiology |
+| `src/carerelay/history/` | History |
+| `src/carerelay/summarize/` | Summarize: `CaseRecord`, triage rules, critic, ledger |
+| `src/carerelay/wellness/` | Wellness |
+| `src/carerelay/next_steps/` | Next Steps: rule table, planner, Strands agent with guardrails |
+| `src/carerelay/insurance/` | Insurance: coverage profile, cost checks, Strands agent (also a tool for Next Steps) |
+
+Model: `us.anthropic.claude-sonnet-5` in us-east-1 (Sonnet 5.5 is denied in the workshop account; it also rejects `temperature`, so our Strands models omit it). Override with `BEDROCK_MODEL_ID`. AWS calls live in [src/carerelay/aws.py](src/carerelay/aws.py); the mock payer and provider network is [data/network.py](data/network.py).
 
 ## Demo script (3 beats)
 

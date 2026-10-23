@@ -8,12 +8,13 @@ Request shape (JSON):
     {"scenario": "case_001"}                                   # bundled synthetic case
     {"inputs": {"history_pdf": "<path or base64>",             # or explicit inputs
                 "labs_pdf": "...", "radiology_pdf": "...",
-                "intake": {...}},
-     "options": {"llm": true, "model_id": "...", "region": "..."}}
+                "intake": {...}, "coverage": {...FHIR Coverage...},
+                "patient": {"address": [{"postalCode": "78745"}], ...}},
+     "options": {"llm": true, "model_id": "...", "region": "...", "human_confirmed": false}}
 
-Report shape: see ``build_report``. History, Lab and Radiology run in parallel. Stages that are not
-implemented yet (summarize, wellness, next_steps) are reported as ``"status": "not_implemented"`` so the UI and judges see an
-honest pipeline view while the team fills them in.
+Report shape: see ``build_report``. Flow: History, Lab and Radiology run in parallel -> Summarize (CaseRecord)
+-> Wellness and Next Steps (with the Insurance Agent). Red-flag or urgent findings pause Next Steps until the
+request carries ``options.human_confirmed`` (docs/SAFETY.md guardrail 4); Wellness applies its own gate.
 """
 
 from __future__ import annotations
@@ -34,7 +35,9 @@ from .agents.lab import run_lab_agent
 from .agents.radiology import report_text_from_bytes, run_radiology_agent
 from .history import run_history_agent
 from .history.schema import HistoryProfile
-from .schemas import Finding, ImagingFindings, LabFindings
+from .next_steps import NextStepsPlan, patient_context, run_next_steps
+from .schemas import CaseRecord, Finding, ImagingFindings, LabFindings
+from .summarize import run_summarize, to_next_steps_request
 
 DISCLAIMER = (
     "CareRelay is a hackathon prototype that uses synthetic or public data. It is not a clinical "
@@ -214,14 +217,116 @@ def _radiology_markdown(r: ImagingFindings) -> str:
                       "### Findings", _findings_md(r.findings)])
 
 
-def _lab_stage(path: str, use_llm: bool) -> dict[str, Any]:
+def _lab_stage(path: str, use_llm: bool) -> tuple[dict[str, Any], LabFindings]:
     r = run_lab_agent(Path(path).read_bytes(), use_aws=use_llm)
-    return {"status": r.status, "result": r.model_dump(exclude_none=True), "markdown": _lab_markdown(r)}
+    return {"status": r.status, "result": r.model_dump(exclude_none=True), "markdown": _lab_markdown(r)}, r
 
 
-def _radiology_stage(path: str, use_llm: bool) -> dict[str, Any]:
+def _radiology_stage(path: str, use_llm: bool) -> tuple[dict[str, Any], ImagingFindings]:
     r = run_radiology_agent(report_text_from_bytes(Path(path).read_bytes(), path), use_aws=use_llm)
-    return {"status": r.status, "result": r.model_dump(exclude_none=True), "markdown": _radiology_markdown(r)}
+    return {"status": r.status, "result": r.model_dump(exclude_none=True), "markdown": _radiology_markdown(r)}, r
+
+
+def _summarize_markdown(r: CaseRecord) -> str:
+    lines = ["## Summary", r.summary, "", "### Findings"]
+    for f in r.findings:
+        tag = f"expected ({f.explained_by})" if not f.incidental else "incidental"
+        lines.append(f"- **{r.triage[f.id]}** {f.label}{f' {f.value}' if f.value else ''}: {tag}")
+    if not r.findings:
+        lines.append("- none")
+    lines += ["", "### Incidental ledger"]
+    lines += [f"- {e.label} ({e.source}, {e.triage}): {e.status}" for e in r.ledger] or ["- empty"]
+    if r.needs_confirmation:
+        lines += ["", "**Needs clinician confirmation before any care action:** " + ", ".join(r.needs_confirmation)]
+    if r.critic_notes or r.gaps:
+        lines += ["", "### Critic and gaps"] + [f"- {n}" for n in r.critic_notes + r.gaps]
+    return "\n".join(lines)
+
+
+def _next_steps_markdown(p: NextStepsPlan) -> str:
+    lines = ["## Next steps", p.summary, ""]
+    if p.coverage:
+        lines += [f"**Coverage:** {p.coverage.summary}", ""]
+    for s in p.steps:
+        if s.status == "proposed":
+            where = f"{s.provider_name}, {s.distance_miles} mi" + ("" if s.in_network else ", out of network")
+            lines.append(f"- **{s.triage}** {s.service_name}: {s.slot_start.replace('T', ' ')} at {where}, "
+                         f"est. ${s.patient_pays:,.2f} ({'; '.join(s.reasons)})")
+        else:
+            lines.append(f"- {s.service_name}: {s.status.replace('_', ' ')} ({'; '.join(s.reasons)})")
+    lines.append(f"\n**Estimated total:** ${p.total_patient_pays:,.2f}. All appointments are proposed only.")
+    lines += [f"- {n}" for n in p.caregiver_notes]
+    return "\n".join(lines)
+
+
+def _run_downstream(stages: dict[str, dict[str, Any]], profile: HistoryProfile | None, lab: LabFindings | None,
+                    rad: ImagingFindings | None, inputs: dict[str, Any], options: dict[str, Any], use_llm: bool,
+                    on_event: EventCallback | None = None) -> None:
+    """Summarize -> Wellness and Next Steps. Each stage fails soft (guardrail 2)."""
+    try:
+        _downstream(stages, profile, lab, rad, inputs, options, use_llm, on_event)
+    finally:
+        for name in ("summarize", "wellness", "next_steps"):
+            if name in stages and "elapsed_seconds" not in stages[name]:
+                _end(on_event, stages, name, time.time())
+
+
+def _downstream(stages, profile, lab, rad, inputs, options, use_llm, on_event) -> None:
+    if lab is None and rad is None:
+        for name in ("summarize", "wellness", "next_steps"):
+            stages[name] = {"status": "skipped", "reason": "no lab or radiology results to summarize"}
+        return
+    model = {"model_id": options.get("model_id"), "region": options.get("region")}
+    t0 = time.time()
+    _emit(on_event, "stage_start", "summarize")
+    try:
+        record = run_summarize(profile, lab, rad, use_llm=use_llm,
+                               human_confirmed=bool(options.get("human_confirmed")), **model)
+        stages["summarize"] = {"status": "ok", "case_record": record.model_dump(mode="json"),
+                               "markdown": _summarize_markdown(record)}
+        _end(on_event, stages, "summarize", t0)
+    except Exception as exc:  # noqa: BLE001
+        for name in ("summarize", "wellness", "next_steps"):
+            stages[name] = {"status": "needs_clinical_reevaluation", "error": f"summarize: {type(exc).__name__}: {exc}"}
+        return
+
+    t0 = time.time()
+    _emit(on_event, "stage_start", "wellness")
+    try:
+        from .wellness.agent import make_wellness_agent, run_wellness
+
+        agent = None
+        if use_llm:
+            from .aws import make_strands_model
+            agent = make_wellness_agent(model=make_strands_model(**model))
+        out = run_wellness(record, agent=agent, use_model=use_llm)
+        stages["wellness"] = {"status": "ok", "result": out, "markdown": "## Wellness while you wait\n" + out["text"]}
+    except Exception as exc:  # noqa: BLE001
+        stages["wellness"] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
+    _end(on_event, stages, "wellness", t0)
+    t0 = time.time()
+    _emit(on_event, "stage_start", "next_steps")
+
+    if record.needs_confirmation:
+        labels = [f.label for f in record.findings if f.id in record.needs_confirmation]
+        stages["next_steps"] = {
+            "status": "awaiting_confirmation", "needs_confirmation": record.needs_confirmation,
+            "markdown": "## Next steps\nUrgent results need a clinician to confirm first: " + ", ".join(labels)
+                        + ". Follow-up planning resumes once confirmed (options.human_confirmed).",
+        }
+        return
+    if not inputs.get("coverage") or not (inputs.get("patient") or {}).get("address"):
+        stages["next_steps"] = {"status": "skipped", "reason": "no coverage or patient address provided"}
+        return
+    try:
+        ctx = patient_context(inputs.get("intake") if isinstance(inputs.get("intake"), dict) else None,
+                              inputs["patient"], profile.care_team if profile else [])
+        plan = run_next_steps(to_next_steps_request(record, inputs["coverage"], ctx), use_llm=use_llm, **model)
+        stages["next_steps"] = {"status": plan.status, "plan": plan.model_dump(mode="json"),
+                                "markdown": _next_steps_markdown(plan)}
+        _end(on_event, stages, "next_steps", t0)
+    except Exception as exc:  # noqa: BLE001
+        stages["next_steps"] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
 
 
 def build_report(case_id: str | None, stages: dict[str, dict[str, Any]], started: float) -> dict[str, Any]:
@@ -264,6 +369,11 @@ def _emit(on_event: EventCallback | None, kind: str, stage: str, **fields: Any) 
         pass
 
 
+def _end(on_event: EventCallback | None, stages: dict[str, dict[str, Any]], name: str, t0: float) -> None:
+    stages[name].setdefault("elapsed_seconds", round(time.time() - t0, 2))
+    _emit(on_event, "stage_end", name, status=stages[name]["status"], elapsed_seconds=stages[name]["elapsed_seconds"])
+
+
 def handle(request: dict[str, Any] | str | None, on_event: EventCallback | None = None) -> dict[str, Any]:
     """Run the CareRelay pipeline for one request. Raises ServiceError on bad input.
 
@@ -301,8 +411,9 @@ def handle(request: dict[str, Any] | str | None, on_event: EventCallback | None 
     rad_future = pool.submit(_radiology_stage, radiology_pdf, use_llm) if radiology_pdf else None
 
     # Stage: history (implemented)
+    profile: HistoryProfile | None = None
+    t0 = time.time()
     if history_pdf or intake_text:
-        t0 = time.time()
         _emit(on_event, "stage_start", "history")
         try:
             profile = run_history_agent(
@@ -319,28 +430,25 @@ def handle(request: dict[str, Any] | str | None, on_event: EventCallback | None 
             }
         except Exception as exc:  # noqa: BLE001  (guardrail 2: never crash the pipeline)
             stages["history"] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
-        stages["history"]["elapsed_seconds"] = round(time.time() - t0, 2)
     else:
         stages["history"] = {"status": "skipped", "reason": "no history_pdf or intake provided"}
-    _emit(on_event, "stage_end", "history", status=stages["history"]["status"],
-          elapsed_seconds=stages["history"].get("elapsed_seconds", 0.0))
+    _end(on_event, stages, "history", t0)
 
+    results: dict[str, Any] = {}
     for name, future in (("lab", lab_future), ("radiology", rad_future)):
         # the agents already turn their own failures into needs_clinical_reevaluation; this is a backstop
         try:
-            stages[name] = future.result() if future else {"status": "skipped", "reason": f"no {name} PDF provided"}
+            if future:
+                stages[name], results[name] = future.result()
+            else:
+                stages[name] = {"status": "skipped", "reason": f"no {name} PDF provided"}
         except Exception as exc:  # noqa: BLE001
             stages[name] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
-        if future:
-            stages[name]["elapsed_seconds"] = round(time.time() - t_parallel, 2)
-        _emit(on_event, "stage_end", name, status=stages[name]["status"],
-              elapsed_seconds=stages[name].get("elapsed_seconds", 0.0))
+        _end(on_event, stages, name, t_parallel)
     pool.shutdown()
 
-    # Stages not built yet: declare them so the report is honest about coverage
-    for name in ("summarize", "wellness", "next_steps"):
-        stages[name] = {"status": "not_implemented"}
-        _emit(on_event, "stage_end", name, status="not_implemented", elapsed_seconds=0.0)
+    profile_obj = profile if stages["history"]["status"] == "ok" else None
+    _run_downstream(stages, profile_obj, results.get("lab"), results.get("radiology"), inputs, options, use_llm, on_event)
 
     return build_report(case_id, stages, started)
 

@@ -196,10 +196,72 @@ CONTRACTS: dict[str, type[BaseModel]] = {
     "wellness": WellnessView,
     "next_steps": NextStepsOutput,
 }
-PAYLOAD_KEY = {"history": "profile", "lab": "result", "radiology": "result", "wellness": "plan"}
+PAYLOAD_KEY = {"history": "profile", "lab": "result", "radiology": "result", "summarize": "case_record", "next_steps": "plan"}
 
 
 def payload(stage: str, stage_dict: dict) -> dict:
     """The agent's output inside a stage dict (``{}`` when the stage has none)."""
+    if stage == "wellness":  # service: {"result": run_wellness() -> {"plan": WellnessPlan, "text": ...}}
+        return (stage_dict.get("result") or {}).get("plan") or stage_dict.get("plan") or {}
     key = PAYLOAD_KEY.get(stage)
-    return (stage_dict.get(key) or {}) if key else stage_dict
+    return (stage_dict.get(key) or stage_dict) if key else stage_dict
+
+
+# ------------------------------------------------------------- adapters from real agent output
+
+
+def _evidence_snippet(evidence: str) -> str:
+    first = evidence.split(" | ")[0]
+    quote = first.split('"')[1] if first.count('"') >= 2 else first
+    return quote if len(quote) <= 180 else quote[:177] + "..."
+
+
+def summarize_view(stage_dict: dict) -> SummarizeOutput:
+    """Patient view of Summarize: real ``case_record`` (CaseRecord) or a demo ``SummarizeOutput``."""
+    cr = stage_dict.get("case_record")
+    if not cr:
+        return SummarizeOutput.model_validate(stage_dict)
+    triage = cr.get("triage") or {}
+    items = []
+    for f in cr.get("findings", []):
+        t = "expected" if f.get("explained_by") else ("answered" if f.get("answers_indication") else triage.get(f["id"], "watch"))
+        plain = (f"Expected: explained by {f['explained_by']} in your history." if f.get("explained_by")
+                 else f.get("recommendation") or _evidence_snippet(f.get("evidence", "")))
+        items.append(LedgerItem(
+            id=f["id"], title=f["label"] + (f" ({f['value']})" if f.get("value") else ""), plain=plain,
+            source=f["source"], triage=t, incidental=bool(f.get("incidental")), in_impression=f.get("in_impression"),
+            explained_by=f.get("explained_by"), owner=(f.get("specialty_hint") or "Your PCP").capitalize()
+            if f.get("specialty_hint") else "Your PCP", finding_refs=[f["id"]],
+        ))
+    order = {"urgent": 0, "soon": 1, "watch": 2, "none": 3, "expected": 4, "answered": 5}
+    items.sort(key=lambda i: order[i.triage])
+    return SummarizeOutput(headline=cr.get("summary") or "Your reports were read.", items=items)
+
+
+def next_steps_view(stage_dict: dict) -> NextStepsOutput:
+    """Patient view of Next Steps: real ``plan`` (steps with Insurance results) or a demo NextStepsOutput."""
+    plan = stage_dict.get("plan")
+    if plan is None:
+        return NextStepsOutput.model_validate({k: v for k, v in stage_dict.items() if k in NextStepsOutput.model_fields})
+    out = NextStepsOutput(total_patient_pays=plan.get("total_patient_pays") or 0.0)
+    for s in plan.get("steps", []):
+        if not s.get("slot_start") or not s.get("provider_id"):
+            continue
+        out.appointments.append(ProposedAppointment(
+            ledger_ids=s.get("finding_ids", []), service=s["service"], service_name=s["service_name"],
+            provider_id=s["provider_id"], provider_name=s["provider_name"], clinician=s.get("clinician"),
+            start=s["slot_start"], miles=s.get("distance_miles") or 0.0, patient_pays=s.get("patient_pays") or 0.0,
+            cost_note=" ".join(s.get("notes", [])), referral_required=bool(s.get("referral_required")),
+            prior_auth_required=bool(s.get("prior_auth_required")), status=s.get("status", "proposed"),
+        ))
+        rounds = max(1, s.get("search_rounds") or 1)
+        note = "In network" + ("; prior auth needed" if s.get("prior_auth_required") else "") + (
+            "; referral needed" if s.get("referral_required") else "")
+        if rounds > 1:
+            note += f"; accepted after {rounds} search rounds"
+        out.insurance_checks.append(InsuranceCheck(
+            round=rounds, ledger_id=",".join(s.get("finding_ids", [])), service=s["service"], provider_id=s["provider_id"],
+            provider_name=s["provider_name"], miles=s.get("distance_miles") or 0.0, in_network=bool(s.get("in_network")),
+            verdict="accepted" if s.get("in_network") else "re-propose", note=note,
+        ))
+    return out

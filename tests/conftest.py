@@ -34,3 +34,4 @@ def intake_text() -> str:
 
 # Keep the suite offline: agents only call AWS when CARERELAY_USE_AWS=1.
 os.environ.pop("CARERELAY_USE_AWS", None)
+os.environ["CARERELAY_OFFLINE"] = "1"   # Wellness: use the bundled openFDA snapshot, not the network

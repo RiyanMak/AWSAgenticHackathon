@@ -85,3 +85,24 @@ def test_local_fallback_negative_control_and_safety_net():
 
 def test_empty_report_requests_reevaluation():
     assert run_radiology_agent("   ").status == "needs_clinical_reevaluation"
+
+
+def test_negated_tail_does_not_raise_severity():
+    from carerelay.agents.radiology import _strip_negated
+    context = _strip_negated("Gallbladder. Cholelithiasis without sonographic evidence of acute cholecystitis.")
+    assert "cholecystitis" not in context and "Cholelithiasis" in context
+    assert radiology_severity("Cholelithiasis", context, 14) != "urgent"
+
+
+def test_negated_statement_from_model_is_dropped(monkeypatch):
+    monkeypatch.setattr(aws, "bedrock_read_radiology_report", _fake_model([
+        {"label": "No intracranial hemorrhage", "certainty": "definite", "in_impression": True,
+         "answers_indication": True, "specialty_hint": "emergency",
+         "evidence_quote": "No intracranial hemorrhage, mass effect, midline shift, or CT evidence of acute infarct."},
+        {"label": "Scalp hematoma", "certainty": "definite", "in_impression": True, "answers_indication": True,
+         "specialty_hint": "primary_care", "evidence_quote": "Small left frontal scalp hematoma."},
+    ]))
+    result = run_radiology_agent(report("case_005"))
+    assert [f.label for f in result.findings] == ["Scalp hematoma"]
+    assert all(f.severity != "red_flag" for f in result.findings)
+    assert any("Dropped negated" in n for n in result.notes)

@@ -12,7 +12,7 @@ from pathlib import Path
 
 import httpx
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from carerelay.wellness.clients import DATA_DIR, TIMEOUT, fetch_otc_label_live, search_food_live
 from carerelay.wellness.knowledge import OTC_CANDIDATES, STAPLES

@@ -176,3 +176,13 @@ def bedrock_summarize(kind: str, findings_json: str, enabled: bool | None = None
         inferenceConfig={"maxTokens": 600},
     )
     return "".join(b.get("text", "") for b in resp["output"]["message"]["content"]).strip() or None
+
+
+def make_strands_model(model_id: str | None = None, region: str | None = None, max_tokens: int = 4000):
+    """Strands BedrockModel pinned to our verified model and us-east-1 (see the SCP note above).
+
+    No temperature: Sonnet 5 rejects it ("temperature is deprecated for this model").
+    """
+    from strands.models import BedrockModel
+
+    return BedrockModel(model_id=model_id or BEDROCK_MODEL_ID, region_name=region or AWS_REGION, max_tokens=max_tokens)

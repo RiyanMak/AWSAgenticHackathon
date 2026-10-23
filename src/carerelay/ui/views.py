@@ -9,7 +9,7 @@ from datetime import datetime
 from html import escape
 from typing import Any
 
-from .contracts import AGENTS, payload
+from .contracts import AGENTS, next_steps_view, payload, summarize_view
 
 # Positions on the course map (viewBox 0 0 760 300)
 POS = {
@@ -124,9 +124,10 @@ def _when(iso: str) -> tuple[str, str]:
 def results(report: dict[str, Any], confirmed: bool, button: str = "") -> str:
     """Result panel. ``button`` is the confirm/undo control's HTML, placed under the appointments."""
     st = report["stages"]
-    s = st.get("summarize", {})
-    if s.get("status") not in ("ok", "demo"):
-        return '<p class="empty">Results appear when Summarize has run.</p>'
+    if st.get("summarize", {}).get("status") not in ("ok", "demo"):
+        reason = st.get("summarize", {}).get("reason") or st.get("summarize", {}).get("error") or ""
+        return f'<p class="empty">Results appear when Summarize has run. {escape(reason)}</p>'
+    s = summarize_view(st["summarize"]).model_dump()
     demo_note = '<p class="demo-note">Some agents are not built yet; their parts of this result use demo data from the synthetic case.</p>' if any(v.get("status") == "demo" for v in st.values()) else ""
     ledger = "".join(
         f'<li class="tr-{i["triage"]}"><span class="sym" aria-hidden="true"></span><div><b>{escape(i["title"])}</b>'
@@ -134,7 +135,7 @@ def results(report: dict[str, Any], confirmed: bool, button: str = "") -> str:
         f'<p>{escape(i["plain"])}</p><span class="owner">Owner: {escape(i["owner"])}</span></div></li>'
         for i in s["items"]
     )
-    ns = st.get("next_steps", {})
+    ns = next_steps_view(st.get("next_steps", {})).model_dump() if st.get("next_steps", {}).get("status") in ("ok", "demo") else {}
     appts = ""
     for k, a in enumerate(ns.get("appointments", []), start=1):
         day, time_ = _when(a["start"])

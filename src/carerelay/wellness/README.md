@@ -21,7 +21,7 @@ python scripts/refresh_wellness_snapshots.py                               # set
 
 `CARERELAY_OFFLINE=1` skips live openFDA calls and uses the snapshot.
 
-The bundled cases from main (`data/cases/`) load through the stand-in adapter `carerelay/dev_cases.py` (`load_case("case_001")`). It builds lab findings from `data/labs.py` flags, leaves out radiology findings, uses a tiny risk-flag table and never reads `answer_key`. Replace it with real Summarize output once that exists. `tests/test_wellness_bundled_cases.py` checks the Wellness-relevant allergies called out in `data/README.md`.
+The bundled cases from main (`data/cases/`) load through the stand-in adapter `src/carerelay/dev_cases.py` (`load_case("case_001")`). It builds lab findings from `data/labs.py` flags, leaves out radiology findings, uses a tiny risk-flag table and never reads `answer_key`. The real pipeline now feeds Wellness the Summarize `CaseRecord` (`src/carerelay/summarize/`) through `service.handle`. `tests/test_wellness_bundled_cases.py` checks the Wellness-relevant allergies called out in `data/README.md`.
 
 ## Graph integration
 
