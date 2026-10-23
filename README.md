@@ -57,7 +57,7 @@ The repo ships 10 synthetic cases in [data/](data/README.md): a radiology report
 ```bash
 uv venv .venv && uv pip install --python .venv/bin/python -e ".[dev,ui]"
 .venv/bin/python -m pytest -q tests data/tests
-./run.sh                                             # Shiny patient portal on :8000: agent course + results (docs/FRONTEND.md)
+./run.sh                                             # Shiny patient portal on :8501: agent course + results (docs/FRONTEND.md)
 .venv/bin/python -m carerelay.history --pdf data/output/case_001/history.pdf --no-llm
 .venv/bin/python scripts/eval_history.py --offline
 ```

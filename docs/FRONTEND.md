@@ -3,7 +3,7 @@
 The patient-facing UI is a Shiny for Python app in [src/carerelay/ui/](../src/carerelay/ui/). It runs `service.handle()` and draws the run as an **agent course**: every agent is a numbered control on a purple route, the handoff log lists what each agent passed to the next, and the result panel shows the incidental ledger, proposed appointments and while-you-wait options. Back to [README](../README.md). Visual rules: [DESIGN.md](../DESIGN.md).
 
 ```bash
-./run.sh                                              # installs if needed, Shiny portal on :8000
+./run.sh                                              # installs if needed, Shiny portal on :8501
 .venv/bin/shiny run src/carerelay/ui/app.py           # same, or the Run App button in Positron
 ```
 
