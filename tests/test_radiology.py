@@ -85,3 +85,10 @@ def test_local_fallback_negative_control_and_safety_net():
 
 def test_empty_report_requests_reevaluation():
     assert run_radiology_agent("   ").status == "needs_clinical_reevaluation"
+
+
+def test_negated_tail_does_not_raise_severity():
+    from carerelay.agents.radiology import _strip_negated
+    context = _strip_negated("Gallbladder. Cholelithiasis without sonographic evidence of acute cholecystitis.")
+    assert "cholecystitis" not in context and "Cholelithiasis" in context
+    assert radiology_severity("Cholelithiasis", context, 14) != "urgent"

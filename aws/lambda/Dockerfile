@@ -8,6 +8,7 @@ COPY src ${LAMBDA_TASK_ROOT}/src
 COPY data/cases ${LAMBDA_TASK_ROOT}/data/cases
 COPY data/output ${LAMBDA_TASK_ROOT}/data/output
 COPY data/network ${LAMBDA_TASK_ROOT}/data/network
+COPY data/network.py ${LAMBDA_TASK_ROOT}/data/network.py
 COPY data/reference ${LAMBDA_TASK_ROOT}/data/reference
 
 RUN pip install --no-cache-dir "${LAMBDA_TASK_ROOT}" boto3

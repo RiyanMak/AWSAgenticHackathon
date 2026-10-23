@@ -21,8 +21,8 @@
   ],
   "history": {
     "source": "fhir",
-    "conditions": [{"system": "SNOMED", "code": "59621000", "display": "Essential hypertension", "status": "active"}],
-    "medications": [{"system": "RxNorm", "code": "314076", "display": "lisinopril 10 MG Oral Tablet", "status": "active"}],
+    "conditions": [{"system": "snomed", "code": "59621000", "display": "Essential hypertension", "status": "active"}],
+    "medications": [{"system": "rxnorm", "code": "314076", "display": "lisinopril 10 MG Oral Tablet", "status": "active"}],
     "allergies": [{"display": "Aspirin", "detail": "hives"}],
     "procedures": [],
     "known_specialists": ["cardiology"],

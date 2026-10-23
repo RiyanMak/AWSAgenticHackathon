@@ -53,7 +53,10 @@ def _norm(text: str) -> str:
 def _strip_negated(text: str) -> str:
     """Remove clauses like 'No intracranial hemorrhage' so severity terms only see positive statements."""
     clauses = re.split(r"(?<=[.;])\s+|,\s+", text)
-    return " ".join(c for c in clauses if not re.match(r"^(no|without|negative for|not)\b", c.strip().lower()))
+    kept = [c for c in clauses if not re.match(r"^(no|without|negative for|not)\b", c.strip().lower())]
+    # also drop a negated tail inside a clause: "Cholelithiasis without evidence of acute cholecystitis"
+    return " ".join(re.sub(r"\b(without|no evidence of|negative for|no)\b.*$", "", c, flags=re.IGNORECASE)
+                    for c in kept)
 
 
 def _size_mm(value: str, unit: str) -> float:
