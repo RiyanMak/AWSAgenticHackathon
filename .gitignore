@@ -13,3 +13,4 @@ data/raw/
 *.jpg
 *.egg-info/
 profile.json
+.DS_Store
