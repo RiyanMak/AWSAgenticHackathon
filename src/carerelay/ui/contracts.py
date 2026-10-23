@@ -9,8 +9,8 @@ Built agents and where their output sits in the stage dict (``payload()`` below 
   history    stages["history"]["profile"]    carerelay.history.schema.HistoryProfile
   lab        stages["lab"]["result"]         carerelay.schemas.LabFindings (findings: list[Finding])
   radiology  stages["radiology"]["result"]   carerelay.schemas.ImagingFindings
-  wellness   stages["wellness"]["plan"]      WellnessPlan from carerelay/wellness/rules.py (top-level
-             package, not yet wired into service.handle); the UI reads the ``WellnessView`` subset
+  wellness   stages["wellness"]["result"]["plan"]  WellnessPlan from carerelay/wellness/rules.py (run by
+             service.handle after Summarize); the UI reads the ``WellnessView`` subset
 Summarize and Next Steps are not built yet; their contracts (``SummarizeOutput``, ``NextStepsOutput``)
 are defined here. ``SummarizeOutput`` is the patient-facing view of the architecture's ``CaseRecord``
 (one ``LedgerItem`` per ledger entry, plus plain-language title, triage and owner): Summarize owners,

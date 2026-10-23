@@ -19,7 +19,7 @@ BEDROCK_MODEL_ID=us.openai.gpt-5.6-luna python -m carerelay.wellness.agent examp
 python scripts/refresh_wellness_snapshots.py                               # set FDC_API_KEY first
 ```
 
-`CARERELAY_OFFLINE=1` skips live openFDA calls and uses the snapshot.
+Labels come from the bundled snapshot by default (pinned set ids, same output every run, no network needed in Lambda). `CARERELAY_LIVE_APIS=1` tries openFDA live first; `CARERELAY_OFFLINE=1` always forces the snapshot.
 
 The bundled cases from main (`data/cases/`) load through the stand-in adapter `src/carerelay/dev_cases.py` (`load_case("case_001")`). It builds lab findings from `data/labs.py` flags, leaves out radiology findings, uses a tiny risk-flag table and never reads `answer_key`. The real pipeline now feeds Wellness the Summarize `CaseRecord` (`src/carerelay/summarize/`) through `service.handle`. `tests/test_wellness_bundled_cases.py` checks the Wellness-relevant allergies called out in `data/README.md`.
 
@@ -35,9 +35,16 @@ Graph nodes in Strands 0.3.0 receive only upstream text, so the `CaseRecord` goe
 
 ## Behavior
 
-- Red flag open: plan replaced by a seek-care message, even after confirmation. Urgent: withheld until `human_confirmed`, then shown after a seek-care message.
-- OTC candidates come from visit-reason keywords (pain, fever, heartburn, cough). OTC is pharmacist-only when there is a ckd, liver, pregnancy or anticoagulant risk flag, a flagged kidney or liver lab, unknown or under-18 age, a degraded history, or a visit reason that needs a clinician first (chest pain, shortness of breath, trauma, a fall, numbness, and so on). That last group also limits activity to gentle.
-- Per-option exclusions (all listed as "excluded because of your history"): allergy class (aspirin allergy also excludes NSAIDs), duplicate class, NSAIDs when potassium is flagged, label `do_not_use`/`ask_doctor` text naming a current medicine or condition (including smoking or emphysema for dextromethorphan), and "do not use for persistent or chronic" symptoms.
+- Red flag open (Summarize's `red_flags_open` or a `red_flag` finding): the plan is replaced by a seek-care message, even after confirmation. Urgent (`needs_confirmation` or an `urgent` finding): withheld until `options.human_confirmed`, then shown after a seek-care message.
+- OTC candidates come from visit-reason keywords (pain, fever, heartburn, cough). OTC is pharmacist-only for these risk flags: ckd, liver, pregnancy, anticoagulant, bleeding_disorder. The same happens for a flagged kidney or liver lab, unknown or under-18 age, a degraded history, any Summarize `gaps` entry (a missing or unreadable stage), or a visit reason that needs a clinician (chest pain, shortness of breath, trauma, a fall, numbness, and so on). That last group also limits activity to gentle.
+- Per-option exclusions, all listed as "excluded because of your history":
+  - allergy class (an aspirin allergy also excludes NSAIDs)
+  - duplicate class (already taking one)
+  - History's `NSAID_EXCLUSION_FLAGS` (for example heart_failure, lithium)
+  - NSAIDs when potassium is flagged
+  - label `do_not_use`/`ask_doctor` text naming a current medicine or condition (including smoking or emphysema for dextromethorphan)
+  - "do not use for persistent or chronic" symptoms
+- Negated history entries such as "Never smoker" or "No chronic conditions" are ignored. Medications with status `unknown` count as active.
 - Directions are quoted verbatim from the openFDA label. The model never chooses a drug or dose, and a narrative naming any medicine outside the plan is replaced by the template.
 - Nutrition: 1,500 mg sodium with hypertension, else 2,300 (DASH). Carb guidance for diabetes or a flagged glucose, and a potassium caution for CKD or flagged potassium. Both are prototype rules. Food allergens filter the staples.
 - Activity: CDC 150 min/week plus strength on 2+ days, or gentle only when a finding or condition is cardiopulmonary.

@@ -183,3 +183,58 @@ def test_narrative_check_rejects_unlisted_drug():
 def test_run_wellness_without_model_uses_template():
     out = run_wellness(case(), use_model=False)
     assert out["narrator"] == "template" and "Not medical advice" in out["text"]
+
+
+# --- Ported fixes (negation, History NSAID flags, Summarize gate and gaps) ---
+
+
+def test_negated_history_entries_are_ignored():
+    plan = build_plan(case(visit_reason="cough", history={"conditions": [
+        CodedItem(display="Never smoker", status="active"), CodedItem(display="No chronic conditions")]}))
+    assert "guaifenesin" in offered(plan)
+
+
+@pytest.mark.parametrize("flag", ["heart_failure", "lithium"])
+def test_history_nsaid_exclusion_flags_remove_nsaids_only(flag):
+    plan = build_plan(case(history={"risk_flags": [flag]}))
+    assert "acetaminophen" in offered(plan)
+    assert not offered(plan) & {"ibuprofen", "naproxen sodium", "aspirin"}
+
+
+def test_bleeding_disorder_blocks_all_otc():
+    assert build_plan(case(history={"risk_flags": ["bleeding_disorder"]})).otc.status == "pharmacist_only"
+
+
+def test_unknown_medication_status_still_counts_as_active():
+    plan = build_plan(case(history={"medications": [CodedItem(display="naproxen 500 MG", status="unknown")]}))
+    assert "ibuprofen" in excluded(plan)
+
+
+def test_summarize_needs_confirmation_and_red_flags_gate_the_plan():
+    assert build_plan(case(needs_confirmation=["rad-1"])).status == "seek_care"
+    assert build_plan(case(needs_confirmation=["rad-1"], human_confirmed=True)).status == "plan"
+    assert build_plan(case(red_flags_open=["lab-1"], human_confirmed=True)).status == "seek_care"
+
+
+def test_summarize_gaps_keep_otc_conservative():
+    plan = build_plan(case(gaps=["lab: not provided"]))
+    assert plan.otc.status == "pharmacist_only"
+    assert any("lab: not provided" in r for r in plan.otc.blocking_reasons)
+
+
+def test_prediabetes_flag_gets_carb_guidance_without_calling_it_diabetes():
+    plan = build_plan(case(history={"conditions": [CodedItem(display="Prediabetes")], "risk_flags": ["prediabetes"]}))
+    reasons = [g.reason for g in plan.nutrition.guidance]
+    assert "prediabetes in your history" in reasons and "diabetes in your history" not in reasons
+
+
+def test_heart_failure_flag_gives_gentle_activity():
+    assert build_plan(case(history={"risk_flags": ["heart_failure"]})).activity.intensity == "gentle"
+
+
+def test_snapshot_is_default_without_live_flag(monkeypatch):
+    monkeypatch.delenv("CARERELAY_OFFLINE", raising=False)
+    monkeypatch.delenv("CARERELAY_LIVE_APIS", raising=False)
+    clients.get_otc_label.cache_clear()
+    monkeypatch.setattr(clients, "fetch_otc_label_live", lambda *a, **k: pytest.fail("network called"))
+    assert clients.get_otc_label("ACETAMINOPHEN")["provenance"] == "openFDA snapshot"

@@ -81,8 +81,9 @@ def _label_snapshot() -> dict:
 
 @lru_cache(maxsize=64)
 def get_otc_label(generic_name: str) -> dict | None:
-    """Live openFDA label with snapshot fallback. Set CARERELAY_OFFLINE=1 to skip the network."""
-    if os.getenv("CARERELAY_OFFLINE") != "1":
+    """Bundled snapshot by default (pinned set_ids: reproducible demos and tests, no egress needed in Lambda).
+    CARERELAY_LIVE_APIS=1 tries openFDA live first; CARERELAY_OFFLINE=1 always forces the snapshot."""
+    if os.getenv("CARERELAY_LIVE_APIS") == "1" and os.getenv("CARERELAY_OFFLINE") != "1":
         try:
             label = fetch_otc_label_live(generic_name)
             if label:
