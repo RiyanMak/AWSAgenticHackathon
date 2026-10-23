@@ -38,6 +38,8 @@ def _gather(request: NextStepsRequest, choices: dict[str, list[str]], plan: Next
             plan.no_action.append(NoAction(finding_id=f.id, label=f.label, reason="Triage: no follow-up needed."))
             continue
         services = choices.get(f.id, f.services if f.services is not None else services_for(f))
+        if services is None and f.source == "lab":
+            services = ["visit_primary_care"]   # routine abnormal labs are the PCP's to review
         if services is None:
             plan.unmapped_findings.append(f.id)
             services = ["visit_primary_care"]

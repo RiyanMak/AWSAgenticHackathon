@@ -134,6 +134,13 @@ def test_radius_widens_then_reports_no_option():
     assert "Could not find" in plan.summary
 
 
+def test_routine_abnormal_lab_goes_to_pcp_without_warning():
+    request = request_from_case(load_case("case_004"))
+    request.findings = [RoutedFinding(id="lab-1", source="lab", label="BUN", triage="soon")]
+    _, plan = plan_for("case_004", request)
+    assert [s.service for s in plan.steps] == ["visit_primary_care"] and plan.unmapped_findings == []
+
+
 def test_unmapped_finding_and_unknown_service():
     request = request_from_case(load_case("case_004"))
     request.findings = [

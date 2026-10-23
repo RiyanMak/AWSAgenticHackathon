@@ -42,7 +42,7 @@ def radiology_triage(f: Finding, patient_age: int | None) -> Triage:
         # the ordering clinician owns the answer; route only if it still needs a specialist or is stable/benign
         if any(_has(text, t) for t in RAD_WATCH_TERMS):
             return "watch"
-        return "soon" if f.severity == "follow_up" and (f.recommendation or _actionable(text)) else "none"
+        return "soon" if _actionable(text) or (f.severity == "follow_up" and f.recommendation) else "none"
     if any(_has(text, t) for t in RAD_NONE_TERMS):
         return "none"
     # ACR incidental thyroid nodule: work up at >= 15 mm (age >= 35) or >= 10 mm (age < 35)
@@ -57,6 +57,7 @@ def radiology_triage(f: Finding, patient_age: int | None) -> Triage:
 
 def _actionable(text: str) -> bool:
     """Indication-answering findings that still need a specialist (stone, gallstones, spinal stenosis)."""
+    text = re.sub(r"\b(without|no)\b.*$", "", text)   # "degenerative changes without stenosis"
     return any(_has(text, t) for t in ("uvj", "ureter", "obstructing", "cholelithiasis", "gallstone",
                                        "stenosis", "anterolisthesis", "hydronephrosis"))
 
