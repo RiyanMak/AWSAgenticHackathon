@@ -3,9 +3,11 @@
 The patient-facing UI is a Shiny for Python app in [src/carerelay/ui/](../src/carerelay/ui/). It runs `service.handle()` and draws the run as an **agent course**: every agent is a numbered control on a purple route, the handoff log lists what each agent passed to the next, and the result panel shows the incidental ledger, proposed appointments and while-you-wait options. Back to [README](../README.md). Visual rules: [DESIGN.md](../DESIGN.md).
 
 ```bash
-uv pip install --python .venv/bin/python -e ".[dev,ui]"
-.venv/bin/shiny run src/carerelay/ui/app.py           # or the Run App button in Positron
+./run.sh                                              # installs if needed, Shiny portal on :8501
+.venv/bin/shiny run src/carerelay/ui/app.py           # same, or the Run App button in Positron
 ```
+
+The portal takes dropped PDFs (sorted by content with `service.classify_pdf`) plus a plan and ZIP for Next Steps, or a bundled sample patient. It checks Amazon Bedrock once per server (STS plus a 5-token Converse call to `aws.BEDROCK_MODEL_ID` in `us-east-1`) and turns the Bedrock switch on when that works; with it off every agent runs its deterministic rules. Results include each finding's quote from the report, the agents' own narration, caregiver notes, the clinician-confirmation gate (`options.human_confirmed`) and Markdown/JSON downloads.
 
 All seven agents now run for real. The `Fill agents not built yet with demo data` switch only matters if a stage comes back `not_implemented` (for example while an agent is being reworked): it fills that stage from the answer key and mock network tools, labelled "Done (demo data)".
 

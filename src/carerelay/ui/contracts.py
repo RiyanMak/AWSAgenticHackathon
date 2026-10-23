@@ -97,6 +97,7 @@ class LedgerItem(BaseModel):
     owner: str = Field(description="Who should act: a specialty or 'Your PCP'")
     followup_services: list[str] = Field(default_factory=list, description="Service keys from data/network/services.json")
     finding_refs: list[str] = Field(default_factory=list, description="Finding ids this row came from")
+    evidence: str | None = Field(default=None, description="Verbatim quote(s) from the report, for 'show me where'")
 
 
 class SummarizeOutput(BaseModel):
@@ -216,6 +217,12 @@ def _evidence_snippet(evidence: str) -> str:
     return quote if len(quote) <= 180 else quote[:177] + "..."
 
 
+def _owner_label(hint: str | None) -> str:
+    if not hint or hint.replace("_", " ").lower() in ("primary care", "pcp"):
+        return "Your PCP"
+    return hint.replace("_", " ").capitalize()
+
+
 def summarize_view(stage_dict: dict) -> SummarizeOutput:
     """Patient view of Summarize: real ``case_record`` (CaseRecord) or a demo ``SummarizeOutput``."""
     cr = stage_dict.get("case_record")
@@ -230,8 +237,7 @@ def summarize_view(stage_dict: dict) -> SummarizeOutput:
         items.append(LedgerItem(
             id=f["id"], title=f["label"] + (f" ({f['value']})" if f.get("value") else ""), plain=plain,
             source=f["source"], triage=t, incidental=bool(f.get("incidental")), in_impression=f.get("in_impression"),
-            explained_by=f.get("explained_by"), owner=(f.get("specialty_hint") or "Your PCP").capitalize()
-            if f.get("specialty_hint") else "Your PCP", finding_refs=[f["id"]],
+            explained_by=f.get("explained_by"), owner=_owner_label(f.get("specialty_hint")), finding_refs=[f["id"]], evidence=f.get("evidence"),
         ))
     order = {"urgent": 0, "soon": 1, "watch": 2, "none": 3, "expected": 4, "answered": 5}
     items.sort(key=lambda i: order[i.triage])

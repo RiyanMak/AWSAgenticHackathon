@@ -46,7 +46,7 @@ format:
 
 **A small spot on your lung that needs a second look.** Most spots this size are not cancer, but because you used to smoke, doctors recommend another CT in about 3 months.
 
-[Next step: Capital Pulmonary Associates (in network, 6.9 mi) · Thu Nov 5, 8:00 AM · \$50 copay]{.next-step}
+[Next step: Hill Country Lung & Sleep (in network, 13.9 mi) · Mon Nov 9, 8:30 AM · \$50 copay]{.next-step}
 :::
 :::
 ::::
@@ -55,8 +55,7 @@ format:
 Open on the patient, not the tech. Linda opens her portal and reads this. It was written for
 the doctor who ordered it, and that doctor (urgent care) won't follow up. Click: she uploads it.
 Click: what she actually needed to hear, and a concrete next step.
-The plain-language text and the appointment are illustrative mock output (synthetic case_001);
-swap in real app output once we have it. TODO: team names.
+The appointment is from a live Bedrock run of case_001; the plain-language sentence is condensed from the agents' output. TODO: team names.
 :::
 
 ## How the agents work together {.overview}
@@ -83,7 +82,7 @@ save it as presentation/media/demo.mp4, and replace the whole demo-frame div bel
 Reveal plays it when the slide opens; add data-autoplay via the slide's attributes if wanted.
 -->
 ::: {.demo-frame}
-[Screen recording of the CareRelay app]{.big}
+[Screen recording: CareRelay portal, live on Amazon Bedrock]{.big}
 
 [case_001 end to end · [media/demo.mp4 TBD]{.tbd}]{}
 :::
@@ -109,7 +108,7 @@ The coronary calcium, mentioned only in FINDINGS, still gets an owner. A DM coug
 [3]{.ctrl-n}
 **Follow up**
 
-The nearest pulmonologist is out of network, so Insurance sends Next Steps back. Three visits, \$125, proposed until she confirms.
+Insurance checks every proposal: seven in-network visits, the CT flagged for prior auth, \$555 estimated, proposed until she confirms.
 :::
 :::
 :::
@@ -118,7 +117,7 @@ The nearest pulmonologist is out of network, so Insurance sends Next Steps back.
 ::: notes
 Recorded run of the app on case_001; narrate the three beats on the right as it plays.
 Keep it under 2 minutes. If there is time, offer a live run afterwards.
-Record from the Shiny UI (src/carerelay/ui/app.py) with demo fill on; drop demo fill as agents land.
+Record from the Shiny portal (./run.sh, Bedrock on): load case_001, share, let the course fill in (about 90 s), then scroll the result. Do not click confirm.
 :::
 
 ## {.conclusion}
@@ -129,7 +128,7 @@ Record from the Shiny UI (src/carerelay/ui/app.py) with demo fill on; drop demo 
 ::: {.pillar .fragment}
 #### What we built
 
-- [N]{.tbd} agents on Bedrock + Strands
+- 7 agents on Amazon Bedrock + Strands
 - 10 synthetic cases with answer keys
 - Deterministic network and cost tools
 :::
