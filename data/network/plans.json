@@ -1,0 +1,90 @@
+[
+  {
+    "plan_id": "BLUEBONNET-PPO-500",
+    "name": "Bluebonnet PPO 500",
+    "payer": "Bluebonnet Health",
+    "type": "PPO",
+    "network_id": "BBH-PPO",
+    "deductible": 500,
+    "oop_max": 4000,
+    "benefits": {
+      "office_pcp": { "copay": 25 },
+      "office_specialist": { "copay": 50 },
+      "imaging_basic": { "coinsurance": 0.2, "after_deductible": true },
+      "imaging_advanced": { "coinsurance": 0.2, "after_deductible": true },
+      "procedure": { "coinsurance": 0.2, "after_deductible": true },
+      "diagnostic_test": { "coinsurance": 0.2, "after_deductible": true },
+      "lab": { "copay": 0 },
+      "preventive": { "copay": 0 }
+    },
+    "prior_auth": { "categories": ["imaging_advanced"], "services": ["ct_guided_lung_biopsy"] },
+    "referral_required_for": [],
+    "out_of_network": { "covered": true, "deductible": 1500, "coinsurance": 0.4 }
+  },
+  {
+    "plan_id": "LONESTAR-HMO-2000",
+    "name": "Lone Star HMO 2000",
+    "payer": "Lone Star Health",
+    "type": "HMO",
+    "network_id": "LSH-HMO",
+    "deductible": 2000,
+    "oop_max": 7500,
+    "benefits": {
+      "office_pcp": { "copay": 30 },
+      "office_specialist": { "copay": 75 },
+      "imaging_basic": { "coinsurance": 0.3, "after_deductible": true },
+      "imaging_advanced": { "coinsurance": 0.3, "after_deductible": true },
+      "procedure": { "coinsurance": 0.3, "after_deductible": true },
+      "diagnostic_test": { "coinsurance": 0.3, "after_deductible": true },
+      "lab": { "copay": 0 },
+      "preventive": { "copay": 0 }
+    },
+    "prior_auth": { "categories": ["imaging_advanced", "procedure"], "services": [] },
+    "referral_required_for": ["office_specialist"],
+    "out_of_network": { "covered": false }
+  },
+  {
+    "plan_id": "PECAN-MA-HMO",
+    "name": "Pecan Senior Advantage (HMO)",
+    "payer": "Pecan Health Plans",
+    "type": "Medicare Advantage HMO",
+    "network_id": "PSA",
+    "deductible": 0,
+    "oop_max": 4900,
+    "benefits": {
+      "office_pcp": { "copay": 0 },
+      "office_specialist": { "copay": 40 },
+      "imaging_basic": { "copay": 30 },
+      "imaging_advanced": { "copay": 175 },
+      "procedure": { "copay": 250 },
+      "diagnostic_test": { "copay": 40 },
+      "lab": { "copay": 0 },
+      "preventive": { "copay": 0 }
+    },
+    "prior_auth": { "categories": ["imaging_advanced", "procedure"], "services": [] },
+    "referral_required_for": ["office_specialist"],
+    "out_of_network": { "covered": false }
+  },
+  {
+    "plan_id": "CEDAR-HDHP-3500",
+    "name": "Cedar Mutual HSA 3500",
+    "payer": "Cedar Mutual",
+    "type": "HDHP (HSA-eligible)",
+    "network_id": "CMU-OPEN",
+    "deductible": 3500,
+    "oop_max": 6500,
+    "benefits": {
+      "office_pcp": { "coinsurance": 0.1, "after_deductible": true },
+      "office_specialist": { "coinsurance": 0.1, "after_deductible": true },
+      "imaging_basic": { "coinsurance": 0.1, "after_deductible": true },
+      "imaging_advanced": { "coinsurance": 0.1, "after_deductible": true },
+      "procedure": { "coinsurance": 0.1, "after_deductible": true },
+      "diagnostic_test": { "coinsurance": 0.1, "after_deductible": true },
+      "lab": { "coinsurance": 0.1, "after_deductible": true },
+      "preventive": { "copay": 0 }
+    },
+    "prior_auth": { "categories": [], "services": ["pet_ct", "ct_guided_lung_biopsy"] },
+    "referral_required_for": [],
+    "out_of_network": { "covered": true, "deductible": 7000, "coinsurance": 0.4 }
+  }
+]

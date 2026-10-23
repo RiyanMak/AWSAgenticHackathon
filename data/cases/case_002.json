@@ -1,0 +1,126 @@
+{
+  "case_id": "case_002",
+  "_note": "SYNTHETIC. Fictional patient, facility, and clinicians. Hackathon prototype, not medical advice.",
+  "_scenario": "ED CT for a kidney stone (answered). Incidental 22 mm indeterminate left adrenal nodule. ED labs show low potassium and high bicarbonate in a man whose blood pressure is uncontrolled on three drugs, which points to screening for primary aldosteronism. Hydrochlorothiazide also lowers potassium, so it is a confounder. HMO: specialist visits need a PCP referral.",
+  "portal": { "name": "BrazosConnect Patient Portal", "printed": "2026-10-12T20:15:00" },
+  "facility": {
+    "name": "St. Brazos Medical Center, Department of Radiology",
+    "address": "2400 Medical Arts St, Austin, TX 78705",
+    "phone": "(512) 555-0190",
+    "fax": "(512) 555-0191"
+  },
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [{ "type": { "text": "MRN" }, "value": "SB-7710342" }],
+    "name": [{ "given": ["David"], "family": "Chen" }],
+    "gender": "male",
+    "birthDate": "1974-06-11",
+    "address": [{ "city": "Austin", "state": "TX", "postalCode": "78758" }],
+    "generalPractitioner": [{ "display": "Aaron Patel, MD, Lone Star Health Clinic, North" }]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [{ "display": "Lone Star Health" }],
+    "class": [{ "type": { "text": "plan" }, "value": "LONESTAR-HMO-2000", "name": "Lone Star HMO 2000" }],
+    "subscriberId": "LSH-2290-1184"
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": { "days": ["mon", "wed", "fri"], "times": "afternoon" },
+    "max_travel_miles": 10,
+    "medications": ["Lisinopril 40 mg daily", "Amlodipine 10 mg daily", "Hydrochlorothiazide 25 mg daily", "Tamsulosin 0.4 mg daily (from ED)"],
+    "history": ["High blood pressure since 2019, still high on three medications"],
+    "notes": "Software engineer; can do afternoon appointments near North Lamar."
+  },
+  "history": {
+    "source": "pcp_record", "provider_id": "PCP-LSHN", "printed": "2026-10-12T20:10:00",
+    "conditions": [
+      { "icd10": "I10", "display": "Essential (primary) hypertension", "onset": "2019", "status": "active", "note": "Above goal on three agents; home readings 145-155/90-95." },
+      { "icd10": "J30.2", "display": "Other seasonal allergic rhinitis", "onset": "2012", "status": "active" }
+    ],
+    "medications": [
+      { "rxnorm": "29046", "display": "Lisinopril 40 mg oral tablet", "dosage": "40 mg by mouth once daily", "status": "active", "prescriber": "Aaron Patel, MD" },
+      { "rxnorm": "17767", "display": "Amlodipine 10 mg oral tablet", "dosage": "10 mg by mouth once daily", "status": "active", "prescriber": "Aaron Patel, MD" },
+      { "rxnorm": "5487", "display": "Hydrochlorothiazide 25 mg oral tablet", "dosage": "25 mg by mouth once daily", "status": "active", "prescriber": "Aaron Patel, MD" },
+      { "rxnorm": "41126", "display": "Fluticasone propionate 50 mcg/actuation nasal spray", "dosage": "2 sprays in each nostril once daily as needed", "status": "active", "prescriber": "Over the counter" }
+    ],
+    "allergies": [
+      { "substance": "Codeine", "rxnorm": "2670", "category": "medication", "reaction": "Nausea and vomiting", "criticality": "low", "onset": "2015" }
+    ],
+    "procedures": [
+      { "display": "Screening colonoscopy, normal", "date": "2024-08-20" }
+    ],
+    "family_history": [
+      { "relation": "Father", "condition": "Hypertension; stroke", "onset_age": 70 },
+      { "relation": "Mother", "condition": "Hypothyroidism", "onset_age": 55 }
+    ],
+    "social_history": { "Tobacco": "Never smoker", "Alcohol": "2-4 beers per week", "Occupation": "Software engineer", "Living situation": "Lives with wife" },
+    "care_team": [
+      { "role": "Primary care", "name": "Aaron Patel, MD", "organization": "Lone Star Health Clinic, North", "provider_id": "PCP-LSHN" }
+    ]
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [{ "type": { "text": "Accession" }, "value": "SBR-26-1009-4471" }],
+    "status": "final",
+    "category": [{ "text": "Radiology" }],
+    "code": { "text": "CT Abdomen and Pelvis without contrast (renal stone protocol)" },
+    "effectiveDateTime": "2026-10-09T03:12:00",
+    "issued": "2026-10-09T04:01:00",
+    "basedOn": [{ "display": "Alicia Moreno, MD, St. Brazos Emergency Department" }],
+    "performer": [{ "display": "St. Brazos Medical Center" }],
+    "resultsInterpreter": [{ "display": "Michael Tanaka, MD" }],
+    "conclusion": "1. 4 mm obstructing calculus at the right ureterovesical junction with mild right hydroureteronephrosis.\n2. 2 mm nonobstructing left lower pole renal calculus.\n3. 22 mm left adrenal nodule measuring 28 HU, indeterminate on this noncontrast exam. Recommend adrenal protocol CT or chemical shift MRI, and consider biochemical evaluation given history of hypertension.\n4. Hepatic steatosis.",
+    "_sections": [
+      { "title": "EXAM", "text": "CT ABDOMEN AND PELVIS WITHOUT CONTRAST (RENAL STONE PROTOCOL)" },
+      { "title": "CLINICAL INDICATION", "text": "Acute right flank pain radiating to the groin, with hematuria. History of hypertension. Evaluate for urolithiasis." },
+      { "title": "TECHNIQUE", "text": "Helical CT of the abdomen and pelvis was performed without intravenous or oral contrast using a low-dose renal stone protocol. Coronal and sagittal reformats were reviewed. CTDIvol: 8.4 mGy. DLP: 402 mGy-cm." },
+      { "title": "COMPARISON", "text": "None available." },
+      { "title": "FINDINGS", "items": [
+        { "label": "Lower chest", "text": "Lung bases are clear. Heart size is normal." },
+        { "label": "Liver and biliary", "text": "Diffusely decreased hepatic attenuation consistent with steatosis. No focal lesion identified on this noncontrast exam. Gallbladder is unremarkable. No biliary dilatation." },
+        { "label": "Spleen and pancreas", "text": "Unremarkable." },
+        { "label": "Adrenal glands", "text": "22 mm well-circumscribed left adrenal nodule with attenuation of 28 HU (series 2, image 41). The right adrenal gland is normal." },
+        { "label": "Kidneys, ureters, and bladder", "text": "4 mm calculus at the right ureterovesical junction with mild right hydroureteronephrosis and mild perinephric stranding. 2 mm nonobstructing calculus in the lower pole of the left kidney. No left hydronephrosis. The bladder is partially distended and otherwise unremarkable." },
+        { "label": "Bowel and appendix", "text": "Normal appendix. No bowel obstruction or bowel wall thickening." },
+        { "label": "Lymph nodes and vessels", "text": "No lymphadenopathy. Mild atherosclerotic calcification of the abdominal aorta, which is normal in caliber." },
+        { "label": "Peritoneum", "text": "No free fluid or free air." },
+        { "label": "Bones and soft tissues", "text": "No aggressive osseous lesion." }
+      ] }
+    ]
+  },
+  "labs": [
+    {
+      "accession": "SBL-26-1009-0218", "lab": "st_brazos",
+      "ordering": "Alicia Moreno, MD, St. Brazos Emergency Department",
+      "collected": "2026-10-09T02:31:00", "reported": "2026-10-09T03:20:00", "fasting": false,
+      "panels": [
+        { "panel": "Comprehensive Metabolic Panel", "values": { "Sodium": 143, "Potassium": 3.2, "Chloride": 101, "CO2": 31, "BUN": 16, "Creatinine": 1.1, "eGFR": 79, "Glucose": 108, "Calcium": 9.4, "Total Protein": 7.1, "Albumin": 4.3, "Total Bilirubin": 0.7, "Alkaline Phosphatase": 74, "AST": 38, "ALT": 52 } },
+        { "panel": "CBC", "values": { "WBC": 11.4, "RBC": 4.9, "Hemoglobin": 14.8, "Hematocrit": 43.5, "MCV": 89, "Platelets": 245 } }
+      ]
+    },
+    {
+      "accession": "SBL-26-1009-0219", "lab": "st_brazos",
+      "ordering": "Alicia Moreno, MD, St. Brazos Emergency Department",
+      "collected": "2026-10-09T02:40:00", "reported": "2026-10-09T03:05:00", "fasting": false, "specimen": "Urine, clean catch",
+      "panels": [
+        { "panel": "Urinalysis with Microscopy", "values": { "Color": "Yellow", "Clarity": "Clear", "Specific Gravity": 1.022, "pH": 6.0, "Protein, urine": "Negative", "Glucose, urine": "Negative", "Ketones": "Negative", "Blood, urine": "Large", "Leukocyte Esterase": "Negative", "Nitrite": "Negative", "RBC, urine": "25-50", "WBC, urine": "0-2" } }
+      ]
+    }
+  ],
+  "answer_key": [
+    { "source": "radiology", "finding": "Obstructing right UVJ stone 4 mm", "size_mm": 4, "incidental": false, "in_impression": true, "triage": "soon", "followup_services": ["visit_urology"],
+      "expected_followup": "Answers the indication. Most 4 mm stones pass; urology follow-up within 1-2 weeks if not passed, sooner for fever or uncontrolled pain." },
+    { "source": "radiology", "finding": "Nonobstructing left renal stone 2 mm", "size_mm": 2, "incidental": true, "in_impression": true, "triage": "watch", "followup_services": [],
+      "expected_followup": "Discuss at the same urology visit; no separate follow-up." },
+    { "source": "radiology", "finding": "Indeterminate left adrenal nodule 22 mm (28 HU)", "site": "Left adrenal", "size_mm": 22, "incidental": true, "in_impression": true, "triage": "soon",
+      "followup_services": ["ct_adrenal_protocol", "lab_aldo_renin", "lab_metanephrines", "lab_dex_suppression", "visit_endocrinology"],
+      "expected_followup": "Adrenal protocol CT or MRI (ACR, 1-4 cm indeterminate), plus hormonal workup.",
+      "lab_link": "K 3.2 and CO2 31 with hypertension uncontrolled on 3 drugs suggest screening for primary aldosteronism. HCTZ also lowers potassium (confounder)." },
+    { "source": "radiology", "finding": "Hepatic steatosis", "incidental": true, "in_impression": true, "triage": "watch", "followup_services": ["visit_primary_care"],
+      "expected_followup": "PCP metabolic risk review.", "lab_link": "ALT 52 mildly elevated." },
+    { "source": "lab", "finding": "Hypokalemia (K 3.2)", "incidental": true, "in_impression": null, "triage": "soon", "followup_services": ["visit_primary_care"],
+      "expected_followup": "Repeat BMP; review hydrochlorothiazide." }
+  ]
+}

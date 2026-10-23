@@ -33,6 +33,8 @@ flowchart TD
 3. **Medical history** (synthetic: a Synthea FHIR bundle, a MIMIC-IV demo patient's diagnoses and prescriptions, or a short typed intake form with conditions, medications, allergies and past procedures).
 4. **Insurance card** (synthetic image; no verified public card dataset exists).
 
+The repo ships 10 synthetic cases in [data/](data/README.md): a radiology report PDF, lab PDF and medical history PDF per patient (PCP health summary, or a patient-typed questionnaire when there is no PCP), FHIR-shaped `Patient`/`Coverage`/history, intake answers, and a hidden answer key, plus a mocked plan and Austin-area provider network with deterministic tools (`find_providers`, `find_slots`, `estimate_cost`, ...). Scenarios are indexed in [data/CASES.md](data/CASES.md). The cases carry radiology *reports*, not X-ray images, and coverage as JSON, not card images.
+
 ## Agents
 
 | Agent | Inputs | Tools / data | Outputs |
@@ -48,14 +50,15 @@ flowchart TD
 ## Quickstart
 
 1. Join the event and verify your account: [docs/AWS_SETUP.md](docs/AWS_SETUP.md).
-2. Pull the demo data: [docs/DATASETS.md](docs/DATASETS.md).
+2. Use the bundled synthetic cases in [data/](data/README.md); see [docs/DATASETS.md](docs/DATASETS.md) for X-ray images and other external sources.
 3. Read the design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), then follow the build order in [docs/TODO.md](docs/TODO.md).
 4. Run what exists so far:
 
 ```bash
 uv venv .venv && uv pip install --python .venv/bin/python -e ".[dev]"
-.venv/bin/python -m pytest -q
-.venv/bin/python -m carerelay.history --fhir data/samples/history/synthea_coherent_sample_bundle.json --no-llm
+.venv/bin/python -m pytest -q tests data/tests
+.venv/bin/python -m carerelay.history --pdf data/output/case_001/history.pdf --no-llm
+.venv/bin/python scripts/eval_history.py --offline
 ```
 
 The History Agent is implemented; see [docs/HISTORY_AGENT.md](docs/HISTORY_AGENT.md). Other agents follow the same package layout under `src/carerelay/`.
@@ -78,9 +81,18 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 ├── pyproject.toml                      # package: carerelay (src layout)
 ├── requirements.txt
 ├── src/carerelay/
-│   └── history/                        # History Agent: schema, parsers, risk flags, Strands tools, agent, CLI
-├── tests/                              # pytest, runs offline against data/samples
-├── data/samples/history/               # trimmed Synthea Coherent bundle + one MIMIC-IV demo subject
+│   └── history/                        # History Agent: schema, parsers (PDF, FHIR, MIMIC, intake), risk flags, tools, agent, CLI
+├── tests/                              # pytest for src/, runs offline against data/
+├── data/                               # synthetic cases, mock network, tools (see data/README.md)
+│   ├── README.md
+│   ├── CASES.md                        # scenario index (generated)
+│   ├── cases/                          # case_*.json source of truth incl. answer keys
+│   ├── output/<case>/                  # radiology.pdf, labs.pdf, history.pdf, intake_expected.json
+│   ├── network/                        # plans, services, providers, member accumulators
+│   ├── reference/lab_catalog.json      # lab panels and reference ranges
+│   ├── samples/history/                # trimmed Synthea Coherent bundle + one MIMIC-IV demo subject
+│   ├── build.py, labs.py, history.py, render.py, network.py
+│   └── tests/                          # integrity tests for the generators and mock network
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── HISTORY_AGENT.md
@@ -108,6 +120,8 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 
 | Doc | What it covers |
 |---|---|
+| [data/README.md](data/README.md) | Synthetic cases, mock network, tool functions, build and test commands |
+| [data/CASES.md](data/CASES.md) | The 10 case scenarios and their incidental findings |
 | [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Agents, Strands Graph pattern, incidental ledger, data flow |
 | [HISTORY_AGENT.md](docs/HISTORY_AGENT.md) | History Agent: inputs, `HistoryProfile`, risk flags, how to run and plug into the graph |
 | [DATASETS.md](docs/DATASETS.md) | Verified datasets per input type and knowledge sources |

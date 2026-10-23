@@ -16,6 +16,7 @@ from .schema import CodedItem, HistoryProfile
 # ICD-10-CM prefixes (match on the start of the code, dots removed)
 ICD10_PREFIXES: dict[str, str] = {
     "N18": "ckd",
+    "R73": "prediabetes",  # R73.03 prediabetes, R73.0x abnormal glucose
     "E10": "diabetes",
     "E11": "diabetes",
     "E13": "diabetes",
@@ -99,6 +100,7 @@ TEXT_KEYWORDS: dict[str, str] = {
     "chronic kidney": "ckd",
     "renal failure": "ckd",
     "end stage renal": "ckd",
+    "prediabetes": "prediabetes",  # checked before "diabetes" (see flags_for_condition)
     "diabetes": "diabetes",
     "hypertension": "hypertension",
     "high blood pressure": "hypertension",
@@ -145,7 +147,9 @@ MEDICATION_KEYWORDS: dict[str, str] = {
 # Keys are risk flags; values are lower-case substrings matched against finding labels.
 EXPLAINS: dict[str, list[str]] = {
     "diabetes": ["glucose", "hba1c", "hemoglobin a1c", "a1c"],
-    "prediabetes": ["glucose", "hba1c", "a1c"],
+    # prediabetes deliberately explains nothing: an A1c that is still high, or has crossed into the
+    # diabetes range, is actionable, not "already known" (matches the bundled answer keys).
+    "prediabetes": [],
     "ckd": ["creatinine", "bun", "urea nitrogen", "potassium", "egfr", "phosphate", "phosphorus", "bicarbonate"],
     "heart_failure": ["cardiomegaly", "effusion", "bnp", "edema", "enlarged cardiomediastinum"],
     "hypertension": ["cardiomegaly"],
@@ -184,6 +188,8 @@ def flags_for_condition(item: CodedItem) -> set[str]:
         for kw, flag in TEXT_KEYWORDS.items():
             if kw in text:
                 flags.add(flag)
+        if "prediabetes" in flags:
+            flags.discard("diabetes")  # "prediabetes" contains "diabetes"
     return flags
 
 

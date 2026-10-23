@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import re
 
-from ..comprehend import ComprehendMedicalError, infer_icd10cm, infer_rxnorm
+from ..coding import Mode, code_items
 from ..risk_flags import derive_risk_flags
 from ..schema import CodedItem, HistoryProfile
 from ._specialties import specialties_in_text
@@ -96,61 +96,12 @@ def parse_intake_text(text: str, *, offline: bool = False, region: str | None = 
         profile.warnings.append("Intake text was empty")
         return profile
 
-    # Conditions
-    cond_items = sections.get("conditions", [])
-    coded_conditions: list[CodedItem] = []
-    if cond_items and not offline:
-        try:
-            for c in infer_icd10cm("\n".join(cond_items), region=region):
-                if c.negated:
-                    continue
-                coded_conditions.append(
-                    CodedItem(
-                        display=c.description or c.text,
-                        code=c.code,
-                        system="icd10cm" if c.code else "text",
-                        status="active",
-                        confidence=c.score,
-                        detail=f"patient wrote: {c.text}" if c.description and c.description.lower() != c.text.lower() else None,
-                        source_ref=f"intake conditions[{c.begin}:{c.end}]",
-                    )
-                )
-        except ComprehendMedicalError as exc:
-            profile.warnings.append(f"Comprehend Medical InferICD10CM unavailable, conditions left uncoded: {exc}")
-    if cond_items and not coded_conditions:
-        coded_conditions = [
-            CodedItem(display=item, status="active", source_ref=f"intake conditions[{i}]") for i, item in enumerate(cond_items)
-        ]
-        if not offline and "InferICD10CM unavailable" not in " ".join(profile.warnings):
-            profile.warnings.append("Comprehend Medical returned no condition codes; conditions left uncoded")
-    profile.conditions = coded_conditions
-
-    # Medications
-    med_items = sections.get("medications", [])
-    coded_meds: list[CodedItem] = []
-    if med_items and not offline:
-        try:
-            for c in infer_rxnorm("\n".join(med_items), region=region):
-                if c.negated or (c.category and c.category != "MEDICATION"):
-                    continue
-                coded_meds.append(
-                    CodedItem(
-                        display=c.description or c.text,
-                        code=c.code,
-                        system="rxnorm" if c.code else "text",
-                        status="active",
-                        confidence=c.score,
-                        detail=c.text,
-                        source_ref=f"intake medications[{c.begin}:{c.end}]",
-                    )
-                )
-        except ComprehendMedicalError as exc:
-            profile.warnings.append(f"Comprehend Medical InferRxNorm unavailable, medications left uncoded: {exc}")
-    if med_items and not coded_meds:
-        coded_meds = [
-            CodedItem(display=item, status="active", source_ref=f"intake medications[{i}]") for i, item in enumerate(med_items)
-        ]
-    profile.medications = coded_meds
+    # Conditions and medications go through the coding cascade (Comprehend Medical -> Bedrock coder -> text)
+    mode: Mode = "none" if offline else "auto"
+    profile.conditions = code_items(sections.get("conditions", []), "condition", mode=mode, ref="intake conditions",
+                                    warnings=profile.warnings, region=region)
+    profile.medications = code_items(sections.get("medications", []), "medication", mode=mode, ref="intake medications",
+                                     warnings=profile.warnings, region=region)
 
     # Allergies (never sent to Comprehend Medical; substance plus optional reaction in parentheses)
     for i, item in enumerate(sections.get("allergies", [])):
@@ -172,7 +123,5 @@ def parse_intake_text(text: str, *, offline: bool = False, region: str | None = 
         specialties |= specialties_in_text(item)
     profile.known_specialists = sorted(specialties)
 
-    if offline:
-        profile.warnings.append("Offline mode: intake items are uncoded text")
     profile.risk_flags = derive_risk_flags(profile)
     return profile

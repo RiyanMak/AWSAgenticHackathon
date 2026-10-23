@@ -1,0 +1,965 @@
+{
+  "case_id": "case_006",
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [
+      {
+        "type": {
+          "text": "MRN"
+        },
+        "value": "RRR-3381920"
+      }
+    ],
+    "name": [
+      {
+        "given": [
+          "Jamal"
+        ],
+        "family": "Washington"
+      }
+    ],
+    "gender": "male",
+    "birthDate": "1979-02-14",
+    "address": [
+      {
+        "city": "Round Rock",
+        "state": "TX",
+        "postalCode": "78664"
+      }
+    ]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [
+      {
+        "display": "Bluebonnet Health"
+      }
+    ],
+    "class": [
+      {
+        "type": {
+          "text": "plan"
+        },
+        "value": "BLUEBONNET-PPO-500",
+        "name": "Bluebonnet PPO 500"
+      }
+    ],
+    "subscriberId": "BBH-6025-7713"
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [
+      {
+        "type": {
+          "text": "Accession"
+        },
+        "value": "RRR-26-1011-0563"
+      }
+    ],
+    "status": "final",
+    "category": [
+      {
+        "text": "Radiology"
+      }
+    ],
+    "code": {
+      "text": "CT Angiography Chest (pulmonary embolism protocol)"
+    },
+    "effectiveDateTime": "2026-10-11T22:18:00",
+    "issued": "2026-10-11T23:02:00",
+    "basedOn": [
+      {
+        "display": "Kimberly Shaw, DO, Round Rock Regional Emergency Department"
+      }
+    ],
+    "performer": [
+      {
+        "display": "Round Rock Regional Hospital"
+      }
+    ],
+    "resultsInterpreter": [
+      {
+        "display": "Olivia Grant, MD"
+      }
+    ],
+    "conclusion": "1. No pulmonary embolism.\n2. Dilated ascending aorta measuring 4.4 cm. Recommend annual follow-up imaging with CT angiography or MR angiography.\n3. 5 mm hepatic hypodensity, too small to characterize. In a patient without known malignancy, no follow-up imaging is needed.\n4. Mild dependent atelectasis.",
+    "presentedForm": [
+      {
+        "contentType": "text/plain",
+        "text": "EXAM:\nCT ANGIOGRAPHY CHEST (PULMONARY EMBOLISM PROTOCOL)\n\nCLINICAL INDICATION:\nAcute shortness of breath and right-sided pleuritic chest pain 2 days after a 4-hour flight. Elevated D-dimer.\n\nTECHNIQUE:\nCT angiography of the chest was performed after intravenous administration of 75 mL iohexol 350 using a pulmonary embolism protocol. Multiplanar and MIP reformats were reviewed. CTDIvol: 9.8 mGy. DLP: 352 mGy-cm.\n\nCOMPARISON:\nNone available.\n\nFINDINGS:\nPulmonary arteries: Adequate opacification of the pulmonary arteries. No filling defect to the subsegmental level. Main pulmonary artery measures 2.7 cm.\nThoracic aorta: The ascending aorta measures 4.4 cm at the level of the right pulmonary artery. No dissection or intramural hematoma. The aortic arch and descending thoracic aorta are normal in caliber.\nHeart: Heart size is normal. No pericardial effusion.\nLungs and airways: Mild dependent atelectasis in both lower lobes. No consolidation. No suspicious pulmonary nodules. Central airways are patent.\nPleura: No pleural effusion or pneumothorax.\nMediastinum and hila: No lymphadenopathy.\nUpper abdomen: 5 mm hypodensity in hepatic segment 6, too small to characterize. Otherwise unremarkable.\nBones: No acute osseous abnormality.\n\nIMPRESSION:\n1. No pulmonary embolism.\n2. Dilated ascending aorta measuring 4.4 cm. Recommend annual follow-up imaging with CT angiography or MR angiography.\n3. 5 mm hepatic hypodensity, too small to characterize. In a patient without known malignancy, no follow-up imaging is needed.\n4. Mild dependent atelectasis."
+      }
+    ]
+  },
+  "LabReports": [
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "RRL-26-1011-3307"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "D-Dimer"
+      },
+      "effectiveDateTime": "2026-10-11T20:47:00",
+      "issued": "2026-10-11T21:35:00",
+      "basedOn": [
+        {
+          "display": "Kimberly Shaw, DO, Round Rock Regional Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Round Rock Regional Hospital Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "D-Dimer"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 0.82,
+            "unit": "mg/L FEU"
+          },
+          "referenceRange": [
+            {
+              "text": "<0.50",
+              "high": {
+                "value": 0.49,
+                "unit": "mg/L FEU"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "RRL-26-1011-3307"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "High-Sensitivity Troponin T"
+      },
+      "effectiveDateTime": "2026-10-11T20:47:00",
+      "issued": "2026-10-11T21:35:00",
+      "basedOn": [
+        {
+          "display": "Kimberly Shaw, DO, Round Rock Regional Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Round Rock Regional Hospital Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "hs-Troponin T"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueString": "<6",
+          "referenceRange": [
+            {
+              "text": "<15",
+              "high": {
+                "value": 14,
+                "unit": "ng/L"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "RRL-26-1011-3307"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "BNP"
+      },
+      "effectiveDateTime": "2026-10-11T20:47:00",
+      "issued": "2026-10-11T21:35:00",
+      "basedOn": [
+        {
+          "display": "Kimberly Shaw, DO, Round Rock Regional Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Round Rock Regional Hospital Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "BNP"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 38,
+            "unit": "pg/mL"
+          },
+          "referenceRange": [
+            {
+              "text": "<100",
+              "high": {
+                "value": 99,
+                "unit": "pg/mL"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "RRL-26-1011-3307"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "CBC"
+      },
+      "effectiveDateTime": "2026-10-11T20:47:00",
+      "issued": "2026-10-11T21:35:00",
+      "basedOn": [
+        {
+          "display": "Kimberly Shaw, DO, Round Rock Regional Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Round Rock Regional Hospital Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "WBC"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 7.4,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-11.0",
+              "low": {
+                "value": 4.0,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 11.0,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "RBC"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 5.1,
+            "unit": "x10^6/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.5-5.9",
+              "low": {
+                "value": 4.5,
+                "unit": "x10^6/uL"
+              },
+              "high": {
+                "value": 5.9,
+                "unit": "x10^6/uL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hemoglobin"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 15.2,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "13.5-17.5",
+              "low": {
+                "value": 13.5,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 17.5,
+                "unit": "g/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hematocrit"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 45.1,
+            "unit": "%"
+          },
+          "referenceRange": [
+            {
+              "text": "41-53",
+              "low": {
+                "value": 41,
+                "unit": "%"
+              },
+              "high": {
+                "value": 53,
+                "unit": "%"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "MCV"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 88,
+            "unit": "fL"
+          },
+          "referenceRange": [
+            {
+              "text": "80-100",
+              "low": {
+                "value": 80,
+                "unit": "fL"
+              },
+              "high": {
+                "value": 100,
+                "unit": "fL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Platelets"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 240,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "150-400",
+              "low": {
+                "value": 150,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 400,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "RRL-26-1011-3307"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Basic Metabolic Panel"
+      },
+      "effectiveDateTime": "2026-10-11T20:47:00",
+      "issued": "2026-10-11T21:35:00",
+      "basedOn": [
+        {
+          "display": "Kimberly Shaw, DO, Round Rock Regional Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Round Rock Regional Hospital Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Sodium"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 140,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "136-145",
+              "low": {
+                "value": 136,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 145,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Potassium"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 4.0,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "3.5-5.1",
+              "low": {
+                "value": 3.5,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 5.1,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Chloride"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 103,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "98-107",
+              "low": {
+                "value": 98,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 107,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "CO2"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 26,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "22-29",
+              "low": {
+                "value": 22,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 29,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "BUN"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 13,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "7-20",
+              "low": {
+                "value": 7,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 20,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Creatinine"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 1.0,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "0.7-1.3",
+              "low": {
+                "value": 0.7,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 1.3,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "eGFR"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 92,
+            "unit": "mL/min/1.73m2"
+          },
+          "referenceRange": [
+            {
+              "text": ">=60",
+              "low": {
+                "value": 60,
+                "unit": "mL/min/1.73m2"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Glucose"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 98,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "70-99",
+              "low": {
+                "value": 70,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 99,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Calcium"
+          },
+          "effectiveDateTime": "2026-10-11T20:47:00",
+          "valueQuantity": {
+            "value": 9.5,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "8.6-10.3",
+              "low": {
+                "value": 8.6,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 10.3,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "History": {
+    "source": "patient_questionnaire",
+    "resources": [
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Ibuprofen 200 mg oral tablet",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "5640",
+              "display": "Ibuprofen 200 mg oral tablet"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "200-400 mg by mouth as needed for back soreness"
+          }
+        ],
+        "informationSource": {
+          "display": "Patient"
+        },
+        "note": [
+          {
+            "text": "Patient wrote: Advil sometimes for my back after work"
+          }
+        ]
+      },
+      {
+        "resourceType": "AllergyIntolerance",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "unconfirmed"
+        },
+        "code": {
+          "text": "No known allergies"
+        }
+      },
+      {
+        "resourceType": "Procedure",
+        "status": "completed",
+        "code": {
+          "text": "Left knee ACL reconstruction"
+        },
+        "performedDateTime": "2003",
+        "note": [
+          {
+            "text": "Patient wrote: ACL surgery left knee, 2003 (football)"
+          }
+        ]
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Father"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Aortic aneurysm, surgically repaired"
+            },
+            "onsetAge": {
+              "value": 60,
+              "unit": "a"
+            }
+          }
+        ],
+        "note": [
+          {
+            "text": "Patient wrote: Dad had an aortic aneurysm fixed at 60"
+          }
+        ]
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Mother"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Hypertension"
+            }
+          }
+        ],
+        "note": [
+          {
+            "text": "Patient wrote: Mom has high blood pressure"
+          }
+        ]
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Tobacco"
+        },
+        "valueString": "Never smoked"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Alcohol"
+        },
+        "valueString": "4-6 beers a week"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Occupation"
+        },
+        "valueString": "Warehouse supervisor (day shift)"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Living situation"
+        },
+        "valueString": "Lives with wife and two kids"
+      }
+    ]
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": {
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat"
+      ],
+      "times": "afternoon"
+    },
+    "max_travel_miles": 20,
+    "medications": [],
+    "history": [
+      "Flew Seattle to Austin 2 days before symptoms",
+      "Told blood pressure was high in the ED (152/94)",
+      "Father had an aortic aneurysm repaired at age 60"
+    ],
+    "notes": "No regular doctor. Works days as a warehouse supervisor; prefers afternoons or Saturdays."
+  }
+}

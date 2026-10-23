@@ -1,0 +1,13 @@
+{
+  "_note": "SYNTHETIC. Mimics a payer eligibility lookup: year-to-date deductible and out-of-pocket spend per member, keyed by Coverage.subscriberId. Not on any PDF.",
+  "BBH-4471-0932": { "plan_id": "BLUEBONNET-PPO-500", "deductible_met": 120,  "oop_met": 310,  "as_of": "2026-10-22" },
+  "LSH-2290-1184": { "plan_id": "LONESTAR-HMO-2000", "deductible_met": 350,  "oop_met": 600,  "as_of": "2026-10-22" },
+  "PSA-7731-5520": { "plan_id": "PECAN-MA-HMO",      "deductible_met": 0,    "oop_met": 420,  "as_of": "2026-10-22" },
+  "CMU-5512-0067": { "plan_id": "CEDAR-HDHP-3500",   "deductible_met": 180,  "oop_met": 180,  "as_of": "2026-10-22" },
+  "PSA-3308-9145": { "plan_id": "PECAN-MA-HMO",      "deductible_met": 0,    "oop_met": 1260, "as_of": "2026-10-22" },
+  "BBH-6025-7713": { "plan_id": "BLUEBONNET-PPO-500", "deductible_met": 500,  "oop_met": 1480, "as_of": "2026-10-22" },
+  "CMU-8841-2236": { "plan_id": "CEDAR-HDHP-3500",   "deductible_met": 300,  "oop_met": 300,  "as_of": "2026-10-22" },
+  "PSA-1167-4402": { "plan_id": "PECAN-MA-HMO",      "deductible_met": 0,    "oop_met": 690,  "as_of": "2026-10-22" },
+  "LSH-4419-7350": { "plan_id": "LONESTAR-HMO-2000", "deductible_met": 2000, "oop_met": 2850, "as_of": "2026-10-22" },
+  "BBH-9073-3318": { "plan_id": "BLUEBONNET-PPO-500", "deductible_met": 500,  "oop_met": 2210, "as_of": "2026-10-22" }
+}

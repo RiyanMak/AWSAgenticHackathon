@@ -1,0 +1,100 @@
+{
+  "case_id": "case_004",
+  "_note": "SYNTHETIC. Fictional patient, facility, and clinicians. Hackathon prototype, not medical advice.",
+  "_scenario": "Negative control. Normal chest X-ray for cough and fever in a healthy 34-year-old; the flu PCR is positive. Nothing incidental. The agents should say so plainly, not invent follow-ups. High-deductible plan; no PCP.",
+  "portal": { "name": "Eastside Urgent Care Patient Portal", "printed": "2026-10-21T08:05:00" },
+  "facility": {
+    "name": "Eastside Urgent Care, Radiology",
+    "address": "1910 E 7th St, Austin, TX 78702",
+    "phone": "(512) 555-0115",
+    "fax": "(512) 555-0116"
+  },
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [{ "type": { "text": "MRN" }, "value": "EUC-220481" }],
+    "name": [{ "given": ["Aisha"], "family": "Rahman" }],
+    "gender": "female",
+    "birthDate": "1992-08-05",
+    "address": [{ "city": "Austin", "state": "TX", "postalCode": "78702" }]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [{ "display": "Cedar Mutual" }],
+    "class": [{ "type": { "text": "plan" }, "value": "CEDAR-HDHP-3500", "name": "Cedar Mutual HSA 3500" }],
+    "subscriberId": "CMU-5512-0067"
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": { "days": ["mon", "tue", "wed", "thu", "fri"], "times": "any" },
+    "max_travel_miles": 10,
+    "medications": ["Oseltamivir 75 mg twice daily for 5 days (from urgent care)"],
+    "history": ["No chronic conditions", "Never smoker"],
+    "notes": "No regular doctor."
+  },
+  "history": {
+    "source": "patient_questionnaire", "completed": "2026-10-21T07:50:00",
+    "conditions": [
+      { "icd10": "J30.2", "display": "Other seasonal allergic rhinitis", "onset": "2010", "status": "active", "as_written": "Seasonal allergies in the spring" }
+    ],
+    "medications": [
+      { "rxnorm": "260101", "display": "Oseltamivir 75 mg oral capsule", "dosage": "75 mg by mouth twice daily for 5 days", "status": "active", "prescriber": "Jordan Mills, FNP-C, Eastside Urgent Care", "as_written": "Tamiflu 75 mg, 2x a day for 5 days (urgent care gave it)" },
+      { "rxnorm": "20610", "display": "Cetirizine 10 mg oral tablet", "dosage": "10 mg by mouth once daily as needed", "status": "active", "prescriber": "Over the counter", "as_written": "Zyrtec 10 mg when my allergies act up" },
+      { "rxnorm": "6373", "display": "Levonorgestrel 52 mg intrauterine device", "dosage": "In place since 2023", "status": "active", "prescriber": "Outside provider", "as_written": "Mirena IUD since 2023" }
+    ],
+    "allergies": [
+      { "substance": "Sulfamethoxazole / trimethoprim", "rxnorm": "10831", "category": "medication", "reaction": "Rash", "criticality": "low", "onset": "2008", "as_written": "Sulfa (Bactrim) - got a rash as a teenager" }
+    ],
+    "procedures": [
+      { "display": "Wisdom tooth extraction", "date": "2011", "as_written": "Wisdom teeth out, 2011" }
+    ],
+    "family_history": [
+      { "relation": "Mother", "condition": "Hypothyroidism", "as_written": "Mom has hypothyroid" },
+      { "relation": "Father", "condition": "Type 2 diabetes", "onset_age": 55, "as_written": "Dad has type 2 diabetes, found out around 55" }
+    ],
+    "social_history": { "Tobacco": "Never smoked", "Alcohol": "1-2 drinks a week", "Occupation": "Graduate student", "Living situation": "Lives with a roommate" },
+    "care_team": [],
+    "notes": "I don't have a regular doctor. Last checkup was a student health visit about 4 years ago. Not pregnant (IUD)."
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [{ "type": { "text": "Accession" }, "value": "EUC-26-1020-0077" }],
+    "status": "final",
+    "category": [{ "text": "Radiology" }],
+    "code": { "text": "XR Chest, 2 views (PA and lateral)" },
+    "effectiveDateTime": "2026-10-20T17:45:00",
+    "issued": "2026-10-20T18:32:00",
+    "basedOn": [{ "display": "Jordan Mills, FNP-C, Eastside Urgent Care" }],
+    "performer": [{ "display": "Lone Star Teleradiology" }],
+    "resultsInterpreter": [{ "display": "Ravi Menon, MD" }],
+    "conclusion": "1. No acute cardiopulmonary abnormality.",
+    "_sections": [
+      { "title": "EXAM", "text": "XR CHEST, 2 VIEWS (PA AND LATERAL)" },
+      { "title": "CLINICAL INDICATION", "text": "Cough, fever, and body aches for 5 days. Evaluate for pneumonia." },
+      { "title": "TECHNIQUE", "text": "PA and lateral views of the chest." },
+      { "title": "COMPARISON", "text": "None." },
+      { "title": "FINDINGS", "items": [
+        { "label": "Lungs", "text": "The lungs are clear. No focal consolidation, pleural effusion, or pneumothorax." },
+        { "label": "Heart and mediastinum", "text": "Heart size is normal. Mediastinal and hilar contours are normal." },
+        { "label": "Bones and soft tissues", "text": "No acute osseous abnormality." }
+      ] }
+    ]
+  },
+  "labs": [
+    {
+      "accession": "EUC-L-26-1020-0412", "lab": "eastside",
+      "ordering": "Jordan Mills, FNP-C, Eastside Urgent Care",
+      "collected": "2026-10-20T17:20:00", "reported": "2026-10-20T18:05:00", "fasting": false, "specimen": "Nasopharyngeal swab; blood",
+      "panels": [
+        { "panel": "Respiratory Pathogen PCR", "values": { "Influenza A": "Detected", "Influenza B": "Not Detected", "SARS-CoV-2": "Not Detected", "RSV": "Not Detected" } },
+        { "panel": "CBC", "values": { "WBC": 4.1, "RBC": 4.5, "Hemoglobin": 13.2, "Hematocrit": 39.6, "MCV": 88, "Platelets": 188 } }
+      ]
+    }
+  ],
+  "answer_key": [
+    { "source": "radiology", "finding": "Normal chest radiograph", "incidental": false, "in_impression": true, "triage": "none", "followup_services": [],
+      "expected_followup": "No pneumonia. No incidental findings; the system should say there is nothing to follow up from imaging." },
+    { "source": "lab", "finding": "Influenza A detected", "incidental": false, "in_impression": null, "triage": "none", "followup_services": [],
+      "expected_followup": "Explains symptoms. Supportive care; return precautions. Optionally suggest establishing a PCP (not required)." }
+  ]
+}

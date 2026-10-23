@@ -13,10 +13,23 @@ from typing import Any
 
 from strands import tool
 
-from .parsers import parse_fhir_bundle, parse_intake_text, parse_mimic_subject
+from .parsers import parse_fhir_bundle, parse_history_pdf, parse_intake_text, parse_mimic_subject
 from .risk_flags import derive_risk_flags as _derive_risk_flags
 from .risk_flags import explained_by as _explained_by
 from .schema import HistoryProfile
+
+
+@tool
+def parse_history_pdf_file(pdf_path: str, offline: bool = False) -> dict[str, Any]:
+    """Parse a patient-uploaded medical history PDF (PCP health summary or patient questionnaire) into a profile.
+
+    Args:
+        pdf_path: Path to the history PDF on local disk.
+        offline: Skip Comprehend Medical and the Bedrock coder; keep uncoded items as text.
+    """
+    if not Path(pdf_path).exists():
+        return {"error": f"File not found: {pdf_path}"}
+    return parse_history_pdf(pdf_path, offline=offline).model_dump()
 
 
 @tool
@@ -81,4 +94,11 @@ def check_finding_explained(finding_label: str, profile_json: str) -> dict[str, 
     return {"finding": finding_label, "explained_by": flags, "incidental": not flags}
 
 
-HISTORY_TOOLS = [parse_fhir_history, parse_mimic_history, parse_intake_history, derive_risk_flags, check_finding_explained]
+HISTORY_TOOLS = [
+    parse_history_pdf_file,
+    parse_fhir_history,
+    parse_mimic_history,
+    parse_intake_history,
+    derive_risk_flags,
+    check_finding_explained,
+]

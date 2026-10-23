@@ -1,0 +1,1429 @@
+{
+  "case_id": "case_002",
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [
+      {
+        "type": {
+          "text": "MRN"
+        },
+        "value": "SB-7710342"
+      }
+    ],
+    "name": [
+      {
+        "given": [
+          "David"
+        ],
+        "family": "Chen"
+      }
+    ],
+    "gender": "male",
+    "birthDate": "1974-06-11",
+    "address": [
+      {
+        "city": "Austin",
+        "state": "TX",
+        "postalCode": "78758"
+      }
+    ],
+    "generalPractitioner": [
+      {
+        "display": "Aaron Patel, MD, Lone Star Health Clinic, North"
+      }
+    ]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [
+      {
+        "display": "Lone Star Health"
+      }
+    ],
+    "class": [
+      {
+        "type": {
+          "text": "plan"
+        },
+        "value": "LONESTAR-HMO-2000",
+        "name": "Lone Star HMO 2000"
+      }
+    ],
+    "subscriberId": "LSH-2290-1184"
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [
+      {
+        "type": {
+          "text": "Accession"
+        },
+        "value": "SBR-26-1009-4471"
+      }
+    ],
+    "status": "final",
+    "category": [
+      {
+        "text": "Radiology"
+      }
+    ],
+    "code": {
+      "text": "CT Abdomen and Pelvis without contrast (renal stone protocol)"
+    },
+    "effectiveDateTime": "2026-10-09T03:12:00",
+    "issued": "2026-10-09T04:01:00",
+    "basedOn": [
+      {
+        "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+      }
+    ],
+    "performer": [
+      {
+        "display": "St. Brazos Medical Center"
+      }
+    ],
+    "resultsInterpreter": [
+      {
+        "display": "Michael Tanaka, MD"
+      }
+    ],
+    "conclusion": "1. 4 mm obstructing calculus at the right ureterovesical junction with mild right hydroureteronephrosis.\n2. 2 mm nonobstructing left lower pole renal calculus.\n3. 22 mm left adrenal nodule measuring 28 HU, indeterminate on this noncontrast exam. Recommend adrenal protocol CT or chemical shift MRI, and consider biochemical evaluation given history of hypertension.\n4. Hepatic steatosis.",
+    "presentedForm": [
+      {
+        "contentType": "text/plain",
+        "text": "EXAM:\nCT ABDOMEN AND PELVIS WITHOUT CONTRAST (RENAL STONE PROTOCOL)\n\nCLINICAL INDICATION:\nAcute right flank pain radiating to the groin, with hematuria. History of hypertension. Evaluate for urolithiasis.\n\nTECHNIQUE:\nHelical CT of the abdomen and pelvis was performed without intravenous or oral contrast using a low-dose renal stone protocol. Coronal and sagittal reformats were reviewed. CTDIvol: 8.4 mGy. DLP: 402 mGy-cm.\n\nCOMPARISON:\nNone available.\n\nFINDINGS:\nLower chest: Lung bases are clear. Heart size is normal.\nLiver and biliary: Diffusely decreased hepatic attenuation consistent with steatosis. No focal lesion identified on this noncontrast exam. Gallbladder is unremarkable. No biliary dilatation.\nSpleen and pancreas: Unremarkable.\nAdrenal glands: 22 mm well-circumscribed left adrenal nodule with attenuation of 28 HU (series 2, image 41). The right adrenal gland is normal.\nKidneys, ureters, and bladder: 4 mm calculus at the right ureterovesical junction with mild right hydroureteronephrosis and mild perinephric stranding. 2 mm nonobstructing calculus in the lower pole of the left kidney. No left hydronephrosis. The bladder is partially distended and otherwise unremarkable.\nBowel and appendix: Normal appendix. No bowel obstruction or bowel wall thickening.\nLymph nodes and vessels: No lymphadenopathy. Mild atherosclerotic calcification of the abdominal aorta, which is normal in caliber.\nPeritoneum: No free fluid or free air.\nBones and soft tissues: No aggressive osseous lesion.\n\nIMPRESSION:\n1. 4 mm obstructing calculus at the right ureterovesical junction with mild right hydroureteronephrosis.\n2. 2 mm nonobstructing left lower pole renal calculus.\n3. 22 mm left adrenal nodule measuring 28 HU, indeterminate on this noncontrast exam. Recommend adrenal protocol CT or chemical shift MRI, and consider biochemical evaluation given history of hypertension.\n4. Hepatic steatosis."
+      }
+    ]
+  },
+  "LabReports": [
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "SBL-26-1009-0218"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Comprehensive Metabolic Panel"
+      },
+      "effectiveDateTime": "2026-10-09T02:31:00",
+      "issued": "2026-10-09T03:20:00",
+      "basedOn": [
+        {
+          "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "St. Brazos Medical Center Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Sodium"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 143,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "136-145",
+              "low": {
+                "value": 136,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 145,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Potassium"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 3.2,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "3.5-5.1",
+              "low": {
+                "value": 3.5,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 5.1,
+                "unit": "mmol/L"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Low"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Chloride"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 101,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "98-107",
+              "low": {
+                "value": 98,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 107,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "CO2"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 31,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "22-29",
+              "low": {
+                "value": 22,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 29,
+                "unit": "mmol/L"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "BUN"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 16,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "7-20",
+              "low": {
+                "value": 7,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 20,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Creatinine"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 1.1,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "0.7-1.3",
+              "low": {
+                "value": 0.7,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 1.3,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "eGFR"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 79,
+            "unit": "mL/min/1.73m2"
+          },
+          "referenceRange": [
+            {
+              "text": ">=60",
+              "low": {
+                "value": 60,
+                "unit": "mL/min/1.73m2"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Glucose"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 108,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "70-99",
+              "low": {
+                "value": 70,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 99,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Calcium"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 9.4,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "8.6-10.3",
+              "low": {
+                "value": 8.6,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 10.3,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Total Protein"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 7.1,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "6.0-8.3",
+              "low": {
+                "value": 6.0,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 8.3,
+                "unit": "g/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Albumin"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 4.3,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "3.5-5.0",
+              "low": {
+                "value": 3.5,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 5.0,
+                "unit": "g/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Total Bilirubin"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 0.7,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "0.1-1.2",
+              "low": {
+                "value": 0.1,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 1.2,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Alkaline Phosphatase"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 74,
+            "unit": "U/L"
+          },
+          "referenceRange": [
+            {
+              "text": "44-147",
+              "low": {
+                "value": 44,
+                "unit": "U/L"
+              },
+              "high": {
+                "value": 147,
+                "unit": "U/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "AST"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 38,
+            "unit": "U/L"
+          },
+          "referenceRange": [
+            {
+              "text": "10-40",
+              "low": {
+                "value": 10,
+                "unit": "U/L"
+              },
+              "high": {
+                "value": 40,
+                "unit": "U/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "ALT"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 52,
+            "unit": "U/L"
+          },
+          "referenceRange": [
+            {
+              "text": "7-40",
+              "low": {
+                "value": 7,
+                "unit": "U/L"
+              },
+              "high": {
+                "value": 40,
+                "unit": "U/L"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "SBL-26-1009-0218"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "CBC"
+      },
+      "effectiveDateTime": "2026-10-09T02:31:00",
+      "issued": "2026-10-09T03:20:00",
+      "basedOn": [
+        {
+          "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "St. Brazos Medical Center Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "WBC"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 11.4,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-11.0",
+              "low": {
+                "value": 4.0,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 11.0,
+                "unit": "x10^3/uL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "RBC"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 4.9,
+            "unit": "x10^6/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.5-5.9",
+              "low": {
+                "value": 4.5,
+                "unit": "x10^6/uL"
+              },
+              "high": {
+                "value": 5.9,
+                "unit": "x10^6/uL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hemoglobin"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 14.8,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "13.5-17.5",
+              "low": {
+                "value": 13.5,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 17.5,
+                "unit": "g/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hematocrit"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 43.5,
+            "unit": "%"
+          },
+          "referenceRange": [
+            {
+              "text": "41-53",
+              "low": {
+                "value": 41,
+                "unit": "%"
+              },
+              "high": {
+                "value": 53,
+                "unit": "%"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "MCV"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 89,
+            "unit": "fL"
+          },
+          "referenceRange": [
+            {
+              "text": "80-100",
+              "low": {
+                "value": 80,
+                "unit": "fL"
+              },
+              "high": {
+                "value": 100,
+                "unit": "fL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Platelets"
+          },
+          "effectiveDateTime": "2026-10-09T02:31:00",
+          "valueQuantity": {
+            "value": 245,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "150-400",
+              "low": {
+                "value": 150,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 400,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "SBL-26-1009-0219"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Urinalysis with Microscopy"
+      },
+      "effectiveDateTime": "2026-10-09T02:40:00",
+      "issued": "2026-10-09T03:05:00",
+      "basedOn": [
+        {
+          "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "St. Brazos Medical Center Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Color"
+          },
+          "effectiveDateTime": "2026-10-09T02:40:00",
+          "valueString": "Yellow",
+          "referenceRange": [
+            {
+              "text": "Yellow"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Clarity"
+          },
+          "effectiveDateTime": "2026-10-09T02:40:00",
+          "valueString": "Clear",
+          "referenceRange": [
+            {
+              "text": "Clear"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Specific Gravity"
+          },
+          "effectiveDateTime": "2026-10-09T02:40:00",
+          "valueQuantity": {
+            "value": 1.022,
+            "unit": ""
+          },
+          "referenceRange": [
+            {
+              "text": "1.005-1.030",
+              "low": {
+                "value": 1.005,
+                "unit": ""
+              },
+              "high": {
+                "value": 1.03,
+                "unit": ""
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "pH"
+          },
+          "effectiveDateTime": "2026-10-09T02:40:00",
+          "valueQuantity": {
+            "value": 6.0,
+            "unit": ""
+          },
+          "referenceRange": [
+            {
+              "text": "5.0-8.0",
+              "low": {
+                "value": 5.0,
+                "unit": ""
+              },
+              "high": {
+                "value": 8.0,
+                "unit": ""
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Protein, urine"
+          },
+          "effectiveDateTime": "2026-10-09T02:40:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Glucose, urine"
+          },
+          "effectiveDateTime": "2026-10-09T02:40:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Ketones"
+          },
+          "effectiveDateTime": "2026-10-09T02:40:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Blood, urine"
+          },
+          "effectiveDateTime": "2026-10-09T02:40:00",
+          "valueString": "Large",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Abnormal"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Leukocyte Esterase"
+          },
+          "effectiveDateTime": "2026-10-09T02:40:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Nitrite"
+          },
+          "effectiveDateTime": "2026-10-09T02:40:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "RBC, urine"
+          },
+          "effectiveDateTime": "2026-10-09T02:40:00",
+          "valueString": "25-50",
+          "referenceRange": [
+            {
+              "text": "0-2"
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Abnormal"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "WBC, urine"
+          },
+          "effectiveDateTime": "2026-10-09T02:40:00",
+          "valueString": "0-2",
+          "referenceRange": [
+            {
+              "text": "0-5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "History": {
+    "source": "pcp_record",
+    "resources": [
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Essential (primary) hypertension",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "I10",
+              "display": "Essential (primary) hypertension"
+            }
+          ]
+        },
+        "onsetDateTime": "2019",
+        "note": [
+          {
+            "text": "Above goal on three agents; home readings 145-155/90-95."
+          }
+        ]
+      },
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Other seasonal allergic rhinitis",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "J30.2",
+              "display": "Other seasonal allergic rhinitis"
+            }
+          ]
+        },
+        "onsetDateTime": "2012"
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Lisinopril 40 mg oral tablet",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "29046",
+              "display": "Lisinopril 40 mg oral tablet"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "40 mg by mouth once daily"
+          }
+        ],
+        "informationSource": {
+          "display": "Aaron Patel, MD"
+        }
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Amlodipine 10 mg oral tablet",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "17767",
+              "display": "Amlodipine 10 mg oral tablet"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "10 mg by mouth once daily"
+          }
+        ],
+        "informationSource": {
+          "display": "Aaron Patel, MD"
+        }
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Hydrochlorothiazide 25 mg oral tablet",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "5487",
+              "display": "Hydrochlorothiazide 25 mg oral tablet"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "25 mg by mouth once daily"
+          }
+        ],
+        "informationSource": {
+          "display": "Aaron Patel, MD"
+        }
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Fluticasone propionate 50 mcg/actuation nasal spray",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "41126",
+              "display": "Fluticasone propionate 50 mcg/actuation nasal spray"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "2 sprays in each nostril once daily as needed"
+          }
+        ],
+        "informationSource": {
+          "display": "Over the counter"
+        }
+      },
+      {
+        "resourceType": "AllergyIntolerance",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          "medication"
+        ],
+        "criticality": "low",
+        "code": {
+          "text": "Codeine",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "2670",
+              "display": "Codeine"
+            }
+          ]
+        },
+        "onsetDateTime": "2015",
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "text": "Nausea and vomiting"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "resourceType": "Procedure",
+        "status": "completed",
+        "code": {
+          "text": "Screening colonoscopy, normal"
+        },
+        "performedDateTime": "2024-08-20"
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Father"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Hypertension; stroke"
+            },
+            "onsetAge": {
+              "value": 70,
+              "unit": "a"
+            }
+          }
+        ]
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Mother"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Hypothyroidism"
+            },
+            "onsetAge": {
+              "value": 55,
+              "unit": "a"
+            }
+          }
+        ]
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Tobacco"
+        },
+        "valueString": "Never smoker"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Alcohol"
+        },
+        "valueString": "2-4 beers per week"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Occupation"
+        },
+        "valueString": "Software engineer"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Living situation"
+        },
+        "valueString": "Lives with wife"
+      },
+      {
+        "resourceType": "CareTeam",
+        "status": "active",
+        "participant": [
+          {
+            "role": [
+              {
+                "text": "Primary care"
+              }
+            ],
+            "member": {
+              "display": "Aaron Patel, MD, Lone Star Health Clinic, North"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": {
+      "days": [
+        "mon",
+        "wed",
+        "fri"
+      ],
+      "times": "afternoon"
+    },
+    "max_travel_miles": 10,
+    "medications": [
+      "Lisinopril 40 mg daily",
+      "Amlodipine 10 mg daily",
+      "Hydrochlorothiazide 25 mg daily",
+      "Tamsulosin 0.4 mg daily (from ED)"
+    ],
+    "history": [
+      "High blood pressure since 2019, still high on three medications"
+    ],
+    "notes": "Software engineer; can do afternoon appointments near North Lamar."
+  }
+}

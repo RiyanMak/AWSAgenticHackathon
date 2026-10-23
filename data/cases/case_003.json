@@ -1,0 +1,115 @@
+{
+  "case_id": "case_003",
+  "_note": "SYNTHETIC. Fictional patient, facility, and clinicians. Hackathon prototype, not medical advice.",
+  "_scenario": "Preop chest X-ray before an elective knee replacement. It shows a 1.6 cm lung nodule in a current heavy smoker. The orthopedic surgeon ordered the film for anesthesia clearance and does not own lung follow-up. Preop labs show mildly high calcium, which adds urgency. Medicare Advantage HMO.",
+  "portal": { "name": "MyHealth Portal", "printed": "2026-10-05T18:22:00" },
+  "facility": {
+    "name": "Lakeline Diagnostic Imaging",
+    "address": "11200 Lakeline Blvd, Suite 100, Cedar Park, TX 78613",
+    "phone": "(512) 555-0124",
+    "fax": "(512) 555-0125"
+  },
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [{ "type": { "text": "MRN" }, "value": "LDI-0093318" }],
+    "name": [{ "given": ["Walter"], "family": "Simmons" }],
+    "gender": "male",
+    "birthDate": "1959-01-30",
+    "address": [{ "city": "Cedar Park", "state": "TX", "postalCode": "78613" }],
+    "generalPractitioner": [{ "display": "Maria Gutierrez, MD, Pecan Senior Care Clinic, Cedar Park" }]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [{ "display": "Pecan Health Plans" }],
+    "class": [{ "type": { "text": "plan" }, "value": "PECAN-MA-HMO", "name": "Pecan Senior Advantage (HMO)" }],
+    "subscriberId": "PSA-7731-5520"
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": { "days": ["mon", "tue", "wed", "thu", "fri"], "times": "any" },
+    "max_travel_miles": 20,
+    "medications": ["Meloxicam 15 mg daily", "Tiotropium inhaler daily"],
+    "history": ["Current smoker, about 1 pack per day for 45 years", "Right knee osteoarthritis; knee replacement scheduled 11/18/2026"],
+    "notes": "Retired; wife drives him to appointments."
+  },
+  "history": {
+    "source": "pcp_record", "provider_id": "PCP-PSCC", "printed": "2026-10-05T18:15:00",
+    "conditions": [
+      { "icd10": "M17.11", "display": "Unilateral primary osteoarthritis, right knee", "onset": "2021", "status": "active", "note": "Right total knee arthroplasty scheduled 11/18/2026 (Lakeline Orthopedics)." },
+      { "icd10": "F17.210", "display": "Nicotine dependence, cigarettes, uncomplicated", "onset": "1981", "status": "active", "note": "About 1 pack per day for 45 years. Declined cessation referral 2025." },
+      { "icd10": "R05.3", "display": "Chronic cough", "onset": "2024-03", "status": "active", "note": "Tiotropium started 03/2024 for cough and exertional breathlessness. Spirometry ordered, not completed." }
+    ],
+    "medications": [
+      { "rxnorm": "41493", "display": "Meloxicam 15 mg oral tablet", "dosage": "15 mg by mouth once daily", "status": "active", "prescriber": "Brian Castillo, MD" },
+      { "rxnorm": "69120", "display": "Tiotropium 18 mcg inhalation capsule", "dosage": "Inhale contents of 1 capsule once daily", "status": "active", "prescriber": "Maria Gutierrez, MD" }
+    ],
+    "allergies": [
+      { "substance": "Penicillin", "rxnorm": "7980", "category": "medication", "reaction": "Hives", "criticality": "low", "onset": "1970" }
+    ],
+    "procedures": [
+      { "display": "Left inguinal hernia repair", "date": "2009" },
+      { "display": "Right knee arthroscopy", "date": "2018-04-10" }
+    ],
+    "family_history": [
+      { "relation": "Father", "condition": "COPD", "onset_age": 65 },
+      { "relation": "Mother", "condition": "Type 2 diabetes", "onset_age": 58 }
+    ],
+    "social_history": { "Tobacco": "Current smoker, 1 pack per day for 45 years (about 45 pack-years)", "Alcohol": "2-3 beers per week", "Occupation": "Retired machinist", "Living situation": "Lives with wife, who drives him to appointments" },
+    "care_team": [
+      { "role": "Primary care", "name": "Maria Gutierrez, MD", "organization": "Pecan Senior Care Clinic, Cedar Park", "provider_id": "PCP-PSCC" },
+      { "role": "Orthopedic surgery", "name": "Brian Castillo, MD", "organization": "Lakeline Orthopedics" }
+    ]
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [{ "type": { "text": "Accession" }, "value": "LDI-26-1002-1185" }],
+    "status": "final",
+    "category": [{ "text": "Radiology" }],
+    "code": { "text": "XR Chest, 2 views (PA and lateral)" },
+    "effectiveDateTime": "2026-10-02T10:40:00",
+    "issued": "2026-10-02T13:15:00",
+    "basedOn": [{ "display": "Brian Castillo, MD, Lakeline Orthopedics" }],
+    "performer": [{ "display": "Lakeline Diagnostic Imaging" }],
+    "resultsInterpreter": [{ "display": "Sarah Lindgren, MD" }],
+    "conclusion": "1. 1.6 cm nodular opacity in the left upper lung zone. Recommend CT chest for further characterization.\n2. Hyperinflation, which can be seen with COPD.\n3. No acute cardiopulmonary process.",
+    "_sections": [
+      { "title": "EXAM", "text": "XR CHEST, 2 VIEWS (PA AND LATERAL)" },
+      { "title": "CLINICAL INDICATION", "text": "Preoperative evaluation before elective right total knee arthroplasty." },
+      { "title": "TECHNIQUE", "text": "PA and lateral views of the chest." },
+      { "title": "COMPARISON", "text": "None available." },
+      { "title": "FINDINGS", "items": [
+        { "label": "Lungs", "text": "The lungs are hyperinflated with flattening of the hemidiaphragms. There is a 1.6 cm rounded nodular opacity projecting over the left upper lung zone, best seen on the frontal view. No consolidation, pleural effusion, or pneumothorax." },
+        { "label": "Heart and mediastinum", "text": "Heart size is within normal limits. Calcification of the aortic knob. Mediastinal contours are otherwise normal." },
+        { "label": "Bones", "text": "Degenerative changes of the thoracic spine. No acute osseous abnormality." }
+      ] }
+    ]
+  },
+  "labs": [
+    {
+      "accession": "HC-26-1002-2214", "lab": "hill_country",
+      "ordering": "Brian Castillo, MD, Lakeline Orthopedics",
+      "collected": "2026-10-02T09:15:00", "reported": "2026-10-02T17:30:00", "fasting": true,
+      "panels": [
+        { "panel": "CBC", "values": { "WBC": 8.1, "RBC": 5.8, "Hemoglobin": 17.8, "Hematocrit": 54.1, "MCV": 92, "Platelets": 231 } },
+        { "panel": "Basic Metabolic Panel", "values": { "Sodium": 140, "Potassium": 4.4, "Chloride": 102, "CO2": 27, "BUN": 18, "Creatinine": 1.0, "eGFR": 81, "Glucose": 96, "Calcium": 10.7 } },
+        { "panel": "Prothrombin Time / INR", "values": { "PT": 12.4, "INR": 1.0 } }
+      ]
+    }
+  ],
+  "answer_key": [
+    { "source": "radiology", "finding": "No acute cardiopulmonary process", "incidental": false, "in_impression": true, "triage": "none", "followup_services": [],
+      "expected_followup": "Answers the preop question, but surgery clearance should wait for the nodule workup." },
+    { "source": "radiology", "finding": "Lung nodule 1.6 cm on radiograph", "site": "Left upper lung zone", "size_mm": 16, "incidental": true, "in_impression": true, "triage": "urgent", "followup_services": ["ct_chest_wo", "visit_pulmonology"],
+      "expected_followup": "CT chest promptly (within about 1-2 weeks) in a current heavy smoker, then pulmonology. Tell the orthopedic surgeon before the 11/18 knee surgery.",
+      "lab_link": "Calcium 10.7 mg/dL (high) with a lung nodule in a smoker raises concern." },
+    { "source": "radiology", "finding": "Hyperinflation suggesting COPD", "incidental": true, "in_impression": true, "triage": "watch", "followup_services": ["pft", "visit_primary_care"],
+      "expected_followup": "Spirometry; smoking cessation support." },
+    { "source": "radiology", "finding": "Aortic knob calcification", "incidental": true, "in_impression": false, "triage": "none", "followup_services": [],
+      "expected_followup": "Common; no specific follow-up. Should not trigger a referral." },
+    { "source": "lab", "finding": "Hypercalcemia (Ca 10.7)", "incidental": true, "in_impression": null, "triage": "soon", "followup_services": ["lab_pth_calcium", "visit_primary_care"],
+      "expected_followup": "Repeat calcium with PTH." },
+    { "source": "lab", "finding": "Elevated hemoglobin (17.8)", "incidental": true, "in_impression": null, "triage": "watch", "followup_services": ["visit_primary_care"],
+      "expected_followup": "Likely smoking-related; PCP review." }
+  ]
+}

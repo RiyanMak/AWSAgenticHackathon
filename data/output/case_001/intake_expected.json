@@ -1,0 +1,1132 @@
+{
+  "case_id": "case_001",
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [
+      {
+        "type": {
+          "text": "MRN"
+        },
+        "value": "00482917"
+      }
+    ],
+    "name": [
+      {
+        "given": [
+          "Linda"
+        ],
+        "family": "Marquez"
+      }
+    ],
+    "gender": "female",
+    "birthDate": "1968-03-22",
+    "address": [
+      {
+        "city": "Austin",
+        "state": "TX",
+        "postalCode": "78745"
+      }
+    ],
+    "generalPractitioner": [
+      {
+        "display": "Laura Kim, MD, Bluebonnet Family Medicine"
+      }
+    ]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [
+      {
+        "display": "Bluebonnet Health"
+      }
+    ],
+    "class": [
+      {
+        "type": {
+          "text": "plan"
+        },
+        "value": "BLUEBONNET-PPO-500",
+        "name": "Bluebonnet PPO 500"
+      }
+    ],
+    "subscriberId": "BBH-4471-0932"
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [
+      {
+        "type": {
+          "text": "Accession"
+        },
+        "value": "BRI-26-0081734"
+      }
+    ],
+    "status": "final",
+    "category": [
+      {
+        "text": "Radiology"
+      }
+    ],
+    "code": {
+      "text": "CT Chest without contrast"
+    },
+    "effectiveDateTime": "2026-10-14T14:05:00",
+    "issued": "2026-10-14T16:52:00",
+    "basedOn": [
+      {
+        "display": "Rebecca Lindqvist, PA-C, Riverside Urgent Care"
+      }
+    ],
+    "performer": [
+      {
+        "display": "Barton Ridge Imaging Center"
+      }
+    ],
+    "resultsInterpreter": [
+      {
+        "display": "Daniel Okafor, MD"
+      }
+    ],
+    "conclusion": "1. Mild bronchial wall thickening in the lower lobes, which can be seen with bronchitis or reactive airways disease. No pneumonia.\n2. 9 mm solid noncalcified nodule in the superior segment of the right lower lobe. For a solid nodule greater than 8 mm, Fleischner Society 2017 guidelines suggest considering CT at 3 months, PET/CT, or tissue sampling.\n3. 18 mm left thyroid nodule. Recommend thyroid ultrasound if not previously evaluated.\n4. Mild centrilobular emphysema.",
+    "presentedForm": [
+      {
+        "contentType": "text/plain",
+        "text": "EXAM:\nCT CHEST WITHOUT CONTRAST\n\nCLINICAL INDICATION:\nPersistent cough for 6 weeks, not improved after a course of antibiotics. Former smoker (approximately 20 pack-years, quit 2016). Evaluate for pneumonia or other cause.\n\nTECHNIQUE:\nHelical CT images of the chest were obtained from the thoracic inlet through the upper abdomen without intravenous contrast. Axial images were reconstructed with coronal and sagittal reformats. Automated exposure control and iterative reconstruction were used to minimize radiation dose. CTDIvol: 6.2 mGy. DLP: 241 mGy-cm.\n\nCOMPARISON:\nChest radiograph dated 09/30/2026 (outside study, report only).\n\nFINDINGS:\nLungs and airways: Mild bronchial wall thickening in both lower lobes. No consolidation, ground-glass opacity, or mucus plugging. There is a 9 mm solid noncalcified nodule in the superior segment of the right lower lobe (series 3, image 142) with smooth margins. No other suspicious pulmonary nodules. Mild centrilobular emphysema, upper lobe predominant. The central airways are patent.\nPleura: No pleural effusion or pneumothorax.\nHeart and mediastinum: No mediastinal or hilar lymphadenopathy by size criteria. The heart is normal in size. No pericardial effusion. Mild coronary artery calcification in the left anterior descending artery. The thoracic aorta is normal in caliber.\nLower neck: 18 mm hypodense nodule in the left lobe of the thyroid gland (series 2, image 18).\nUpper abdomen: Limited evaluation without contrast. The visualized liver, spleen, adrenal glands, and upper kidneys are unremarkable.\nBones and soft tissues: Mild degenerative changes of the thoracic spine. No suspicious osseous lesion.\n\nIMPRESSION:\n1. Mild bronchial wall thickening in the lower lobes, which can be seen with bronchitis or reactive airways disease. No pneumonia.\n2. 9 mm solid noncalcified nodule in the superior segment of the right lower lobe. For a solid nodule greater than 8 mm, Fleischner Society 2017 guidelines suggest considering CT at 3 months, PET/CT, or tissue sampling.\n3. 18 mm left thyroid nodule. Recommend thyroid ultrasound if not previously evaluated.\n4. Mild centrilobular emphysema."
+      }
+    ]
+  },
+  "LabReports": [
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "HC-26-1014-3381"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "CBC"
+      },
+      "effectiveDateTime": "2026-10-14T11:20:00",
+      "issued": "2026-10-14T19:05:00",
+      "basedOn": [
+        {
+          "display": "Rebecca Lindqvist, PA-C, Riverside Urgent Care"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Hill Country Clinical Laboratories"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "WBC"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 9.8,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-11.0",
+              "low": {
+                "value": 4.0,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 11.0,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "RBC"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 4.6,
+            "unit": "x10^6/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-5.2",
+              "low": {
+                "value": 4.0,
+                "unit": "x10^6/uL"
+              },
+              "high": {
+                "value": 5.2,
+                "unit": "x10^6/uL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hemoglobin"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 13.6,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "12.0-15.5",
+              "low": {
+                "value": 12.0,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 15.5,
+                "unit": "g/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hematocrit"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 40.8,
+            "unit": "%"
+          },
+          "referenceRange": [
+            {
+              "text": "36-46",
+              "low": {
+                "value": 36,
+                "unit": "%"
+              },
+              "high": {
+                "value": 46,
+                "unit": "%"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "MCV"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 88.7,
+            "unit": "fL"
+          },
+          "referenceRange": [
+            {
+              "text": "80-100",
+              "low": {
+                "value": 80,
+                "unit": "fL"
+              },
+              "high": {
+                "value": 100,
+                "unit": "fL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Platelets"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 262,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "150-400",
+              "low": {
+                "value": 150,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 400,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "HC-26-1014-3381"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Basic Metabolic Panel"
+      },
+      "effectiveDateTime": "2026-10-14T11:20:00",
+      "issued": "2026-10-14T19:05:00",
+      "basedOn": [
+        {
+          "display": "Rebecca Lindqvist, PA-C, Riverside Urgent Care"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Hill Country Clinical Laboratories"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Sodium"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 139,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "136-145",
+              "low": {
+                "value": 136,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 145,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Potassium"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 4.2,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "3.5-5.1",
+              "low": {
+                "value": 3.5,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 5.1,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Chloride"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 103,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "98-107",
+              "low": {
+                "value": 98,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 107,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "CO2"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 25,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "22-29",
+              "low": {
+                "value": 22,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 29,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "BUN"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 14,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "7-20",
+              "low": {
+                "value": 7,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 20,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Creatinine"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 0.8,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "0.5-1.1",
+              "low": {
+                "value": 0.5,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 1.1,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "eGFR"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 84,
+            "unit": "mL/min/1.73m2"
+          },
+          "referenceRange": [
+            {
+              "text": ">=60",
+              "low": {
+                "value": 60,
+                "unit": "mL/min/1.73m2"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Glucose"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 104,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "70-99",
+              "low": {
+                "value": 70,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 99,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Calcium"
+          },
+          "effectiveDateTime": "2026-10-14T11:20:00",
+          "valueQuantity": {
+            "value": 9.3,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "8.6-10.3",
+              "low": {
+                "value": 8.6,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 10.3,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "HC-25-1104-0927"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Lipid Panel"
+      },
+      "effectiveDateTime": "2025-11-04T08:10:00",
+      "issued": "2025-11-04T16:40:00",
+      "basedOn": [
+        {
+          "display": "Laura Kim, MD, Bluebonnet Family Medicine"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Hill Country Clinical Laboratories"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Total Cholesterol"
+          },
+          "effectiveDateTime": "2025-11-04T08:10:00",
+          "valueQuantity": {
+            "value": 238,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "<200",
+              "high": {
+                "value": 199,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "LDL Cholesterol"
+          },
+          "effectiveDateTime": "2025-11-04T08:10:00",
+          "valueQuantity": {
+            "value": 158,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "<100",
+              "high": {
+                "value": 99,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "HDL Cholesterol"
+          },
+          "effectiveDateTime": "2025-11-04T08:10:00",
+          "valueQuantity": {
+            "value": 46,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": ">=40",
+              "low": {
+                "value": 40,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Triglycerides"
+          },
+          "effectiveDateTime": "2025-11-04T08:10:00",
+          "valueQuantity": {
+            "value": 170,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "<150",
+              "high": {
+                "value": 149,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "HC-25-1104-0927"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Hemoglobin A1c"
+      },
+      "effectiveDateTime": "2025-11-04T08:10:00",
+      "issued": "2025-11-04T16:40:00",
+      "basedOn": [
+        {
+          "display": "Laura Kim, MD, Bluebonnet Family Medicine"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Hill Country Clinical Laboratories"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hemoglobin A1c"
+          },
+          "effectiveDateTime": "2025-11-04T08:10:00",
+          "valueQuantity": {
+            "value": 5.9,
+            "unit": "%"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-5.6",
+              "low": {
+                "value": 4.0,
+                "unit": "%"
+              },
+              "high": {
+                "value": 5.6,
+                "unit": "%"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "History": {
+    "source": "pcp_record",
+    "resources": [
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Prediabetes",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "R73.03",
+              "display": "Prediabetes"
+            }
+          ]
+        },
+        "onsetDateTime": "2025-11-04",
+        "note": [
+          {
+            "text": "A1c 5.9% (11/2025). Diet and activity counseling; repeat A1c in 1 year."
+          }
+        ]
+      },
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Hyperlipidemia, unspecified",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "E78.5",
+              "display": "Hyperlipidemia, unspecified"
+            }
+          ]
+        },
+        "onsetDateTime": "2025-11-04",
+        "note": [
+          {
+            "text": "LDL 158 (11/2025). Patient prefers lifestyle changes before a statin; recheck lipids 11/2026."
+          }
+        ]
+      },
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Personal history of nicotine dependence",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "Z87.891",
+              "display": "Personal history of nicotine dependence"
+            }
+          ]
+        },
+        "onsetDateTime": "2016",
+        "note": [
+          {
+            "text": "About 20 pack-years, quit 2016."
+          }
+        ]
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Ibuprofen 200 mg oral tablet",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "5640",
+              "display": "Ibuprofen 200 mg oral tablet"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "400 mg by mouth every 6 hours as needed for pain"
+          }
+        ],
+        "informationSource": {
+          "display": "Over the counter"
+        }
+      },
+      {
+        "resourceType": "AllergyIntolerance",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          "medication"
+        ],
+        "criticality": "low",
+        "code": {
+          "text": "Dextromethorphan",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "3289",
+              "display": "Dextromethorphan"
+            }
+          ]
+        },
+        "onsetDateTime": "2019",
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "text": "Hives"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "resourceType": "Procedure",
+        "status": "completed",
+        "code": {
+          "text": "Tubal ligation"
+        },
+        "performedDateTime": "2001"
+      },
+      {
+        "resourceType": "Procedure",
+        "status": "completed",
+        "code": {
+          "text": "Screening colonoscopy, normal"
+        },
+        "performedDateTime": "2019-05-14"
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Father"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Myocardial infarction"
+            },
+            "onsetAge": {
+              "value": 63,
+              "unit": "a"
+            }
+          }
+        ]
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Mother"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Type 2 diabetes"
+            },
+            "onsetAge": {
+              "value": 60,
+              "unit": "a"
+            }
+          }
+        ]
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Tobacco"
+        },
+        "valueString": "Former smoker, about 20 pack-years, quit 2016"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Alcohol"
+        },
+        "valueString": "1-2 glasses of wine per week"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Occupation"
+        },
+        "valueString": "School administrator"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Living situation"
+        },
+        "valueString": "Lives with husband"
+      },
+      {
+        "resourceType": "CareTeam",
+        "status": "active",
+        "participant": [
+          {
+            "role": [
+              {
+                "text": "Primary care"
+              }
+            ],
+            "member": {
+              "display": "Laura Kim, MD, Bluebonnet Family Medicine"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": {
+      "days": [
+        "mon",
+        "tue",
+        "thu"
+      ],
+      "times": "morning"
+    },
+    "max_travel_miles": 15,
+    "medications": [
+      "Ibuprofen as needed"
+    ],
+    "history": [
+      "Former smoker, about 20 pack-years, quit 2016",
+      "Told she has prediabetes (2025)"
+    ],
+    "notes": "School administrator; prefers early-morning appointments before work."
+  }
+}

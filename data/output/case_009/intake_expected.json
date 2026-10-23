@@ -1,0 +1,1374 @@
+{
+  "case_id": "case_009",
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [
+      {
+        "type": {
+          "text": "MRN"
+        },
+        "value": "SB-8840215"
+      }
+    ],
+    "name": [
+      {
+        "given": [
+          "Sofia"
+        ],
+        "family": "Ramirez"
+      }
+    ],
+    "gender": "female",
+    "birthDate": "1997-01-25",
+    "address": [
+      {
+        "city": "Austin",
+        "state": "TX",
+        "postalCode": "78744"
+      }
+    ],
+    "generalPractitioner": [
+      {
+        "display": "Carmen Vega, MD, Lone Star Health Clinic, South"
+      }
+    ]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [
+      {
+        "display": "Lone Star Health"
+      }
+    ],
+    "class": [
+      {
+        "type": {
+          "text": "plan"
+        },
+        "value": "LONESTAR-HMO-2000",
+        "name": "Lone Star HMO 2000"
+      }
+    ],
+    "subscriberId": "LSH-4419-7350"
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [
+      {
+        "type": {
+          "text": "Accession"
+        },
+        "value": "SBR-26-1018-3318"
+      }
+    ],
+    "status": "final",
+    "category": [
+      {
+        "text": "Radiology"
+      }
+    ],
+    "code": {
+      "text": "CT Abdomen and Pelvis with IV contrast"
+    },
+    "effectiveDateTime": "2026-10-18T16:40:00",
+    "issued": "2026-10-18T17:12:00",
+    "basedOn": [
+      {
+        "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+      }
+    ],
+    "performer": [
+      {
+        "display": "St. Brazos Medical Center"
+      }
+    ],
+    "resultsInterpreter": [
+      {
+        "display": "Michael Tanaka, MD"
+      }
+    ],
+    "conclusion": "1. No acute traumatic injury in the abdomen or pelvis.\n2. Lower anterior abdominal wall contusion.\n3. 3.4 cm right adnexal cyst with a thin internal septation. Recommend nonemergent pelvic ultrasound for further characterization.",
+    "presentedForm": [
+      {
+        "contentType": "text/plain",
+        "text": "EXAM:\nCT ABDOMEN AND PELVIS WITH INTRAVENOUS CONTRAST\n\nCLINICAL INDICATION:\nMotor vehicle collision, restrained driver, airbag deployment. Lower abdominal pain and seatbelt mark. Evaluate for traumatic injury.\n\nTECHNIQUE:\nHelical CT of the abdomen and pelvis in the portal venous phase after intravenous administration of 100 mL iohexol 350. Coronal and sagittal reformats were reviewed. CTDIvol: 11.2 mGy. DLP: 548 mGy-cm.\n\nCOMPARISON:\nNone.\n\nFINDINGS:\nLower chest: Lung bases are clear. No pneumothorax.\nSolid organs: No laceration or hematoma of the liver, spleen, pancreas, kidneys, or adrenal glands.\nBowel and mesentery: No bowel wall thickening, mesenteric hematoma, or free air.\nPeritoneum: No free fluid.\nPelvic organs: The uterus is normal. 3.4 cm cystic lesion of the right ovary with a single thin internal septation; no solid component or mural nodularity. The left ovary is normal with physiologic follicles. The bladder is unremarkable.\nVessels: No vascular injury.\nBones: No fracture.\nSoft tissues: Mild subcutaneous stranding of the lower anterior abdominal wall, consistent with seatbelt contusion.\n\nIMPRESSION:\n1. No acute traumatic injury in the abdomen or pelvis.\n2. Lower anterior abdominal wall contusion.\n3. 3.4 cm right adnexal cyst with a thin internal septation. Recommend nonemergent pelvic ultrasound for further characterization."
+      }
+    ]
+  },
+  "LabReports": [
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "SBL-26-1018-2741"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "CBC"
+      },
+      "effectiveDateTime": "2026-10-18T16:05:00",
+      "issued": "2026-10-18T16:50:00",
+      "basedOn": [
+        {
+          "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "St. Brazos Medical Center Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "WBC"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 9.2,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-11.0",
+              "low": {
+                "value": 4.0,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 11.0,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "RBC"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 4.5,
+            "unit": "x10^6/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-5.2",
+              "low": {
+                "value": 4.0,
+                "unit": "x10^6/uL"
+              },
+              "high": {
+                "value": 5.2,
+                "unit": "x10^6/uL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hemoglobin"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 12.9,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "12.0-15.5",
+              "low": {
+                "value": 12.0,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 15.5,
+                "unit": "g/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hematocrit"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 38.7,
+            "unit": "%"
+          },
+          "referenceRange": [
+            {
+              "text": "36-46",
+              "low": {
+                "value": 36,
+                "unit": "%"
+              },
+              "high": {
+                "value": 46,
+                "unit": "%"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "MCV"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 86,
+            "unit": "fL"
+          },
+          "referenceRange": [
+            {
+              "text": "80-100",
+              "low": {
+                "value": 80,
+                "unit": "fL"
+              },
+              "high": {
+                "value": 100,
+                "unit": "fL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Platelets"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 301,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "150-400",
+              "low": {
+                "value": 150,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 400,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "SBL-26-1018-2741"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Comprehensive Metabolic Panel"
+      },
+      "effectiveDateTime": "2026-10-18T16:05:00",
+      "issued": "2026-10-18T16:50:00",
+      "basedOn": [
+        {
+          "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "St. Brazos Medical Center Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Sodium"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 139,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "136-145",
+              "low": {
+                "value": 136,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 145,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Potassium"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 3.8,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "3.5-5.1",
+              "low": {
+                "value": 3.5,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 5.1,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Chloride"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 104,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "98-107",
+              "low": {
+                "value": 98,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 107,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "CO2"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 23,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "22-29",
+              "low": {
+                "value": 22,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 29,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "BUN"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 11,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "7-20",
+              "low": {
+                "value": 7,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 20,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Creatinine"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 0.7,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "0.5-1.1",
+              "low": {
+                "value": 0.5,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 1.1,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "eGFR"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 120,
+            "unit": "mL/min/1.73m2"
+          },
+          "referenceRange": [
+            {
+              "text": ">=60",
+              "low": {
+                "value": 60,
+                "unit": "mL/min/1.73m2"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Glucose"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 112,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "70-99",
+              "low": {
+                "value": 70,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 99,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Calcium"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 9.2,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "8.6-10.3",
+              "low": {
+                "value": 8.6,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 10.3,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Total Protein"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 7.0,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "6.0-8.3",
+              "low": {
+                "value": 6.0,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 8.3,
+                "unit": "g/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Albumin"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 4.2,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "3.5-5.0",
+              "low": {
+                "value": 3.5,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 5.0,
+                "unit": "g/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Total Bilirubin"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 0.6,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "0.1-1.2",
+              "low": {
+                "value": 0.1,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 1.2,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Alkaline Phosphatase"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 62,
+            "unit": "U/L"
+          },
+          "referenceRange": [
+            {
+              "text": "44-147",
+              "low": {
+                "value": 44,
+                "unit": "U/L"
+              },
+              "high": {
+                "value": 147,
+                "unit": "U/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "AST"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 28,
+            "unit": "U/L"
+          },
+          "referenceRange": [
+            {
+              "text": "10-40",
+              "low": {
+                "value": 10,
+                "unit": "U/L"
+              },
+              "high": {
+                "value": 40,
+                "unit": "U/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "ALT"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 22,
+            "unit": "U/L"
+          },
+          "referenceRange": [
+            {
+              "text": "7-40",
+              "low": {
+                "value": 7,
+                "unit": "U/L"
+              },
+              "high": {
+                "value": 40,
+                "unit": "U/L"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "SBL-26-1018-2741"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "hCG, Qualitative, Serum"
+      },
+      "effectiveDateTime": "2026-10-18T16:05:00",
+      "issued": "2026-10-18T16:50:00",
+      "basedOn": [
+        {
+          "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "St. Brazos Medical Center Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "hCG, serum"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "SBL-26-1018-2741"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Lactate"
+      },
+      "effectiveDateTime": "2026-10-18T16:05:00",
+      "issued": "2026-10-18T16:50:00",
+      "basedOn": [
+        {
+          "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "St. Brazos Medical Center Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Lactate"
+          },
+          "effectiveDateTime": "2026-10-18T16:05:00",
+          "valueQuantity": {
+            "value": 1.4,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "0.5-2.0",
+              "low": {
+                "value": 0.5,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 2.0,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "SBL-26-1018-2742"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Urinalysis with Microscopy"
+      },
+      "effectiveDateTime": "2026-10-18T16:10:00",
+      "issued": "2026-10-18T16:40:00",
+      "basedOn": [
+        {
+          "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "St. Brazos Medical Center Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Color"
+          },
+          "effectiveDateTime": "2026-10-18T16:10:00",
+          "valueString": "Yellow",
+          "referenceRange": [
+            {
+              "text": "Yellow"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Clarity"
+          },
+          "effectiveDateTime": "2026-10-18T16:10:00",
+          "valueString": "Clear",
+          "referenceRange": [
+            {
+              "text": "Clear"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Specific Gravity"
+          },
+          "effectiveDateTime": "2026-10-18T16:10:00",
+          "valueQuantity": {
+            "value": 1.015,
+            "unit": ""
+          },
+          "referenceRange": [
+            {
+              "text": "1.005-1.030",
+              "low": {
+                "value": 1.005,
+                "unit": ""
+              },
+              "high": {
+                "value": 1.03,
+                "unit": ""
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "pH"
+          },
+          "effectiveDateTime": "2026-10-18T16:10:00",
+          "valueQuantity": {
+            "value": 6.5,
+            "unit": ""
+          },
+          "referenceRange": [
+            {
+              "text": "5.0-8.0",
+              "low": {
+                "value": 5.0,
+                "unit": ""
+              },
+              "high": {
+                "value": 8.0,
+                "unit": ""
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Protein, urine"
+          },
+          "effectiveDateTime": "2026-10-18T16:10:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Glucose, urine"
+          },
+          "effectiveDateTime": "2026-10-18T16:10:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Ketones"
+          },
+          "effectiveDateTime": "2026-10-18T16:10:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Blood, urine"
+          },
+          "effectiveDateTime": "2026-10-18T16:10:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Leukocyte Esterase"
+          },
+          "effectiveDateTime": "2026-10-18T16:10:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Nitrite"
+          },
+          "effectiveDateTime": "2026-10-18T16:10:00",
+          "valueString": "Negative",
+          "referenceRange": [
+            {
+              "text": "Negative"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "RBC, urine"
+          },
+          "effectiveDateTime": "2026-10-18T16:10:00",
+          "valueString": "0-2",
+          "referenceRange": [
+            {
+              "text": "0-2"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "WBC, urine"
+          },
+          "effectiveDateTime": "2026-10-18T16:10:00",
+          "valueString": "0-2",
+          "referenceRange": [
+            {
+              "text": "0-5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "History": {
+    "source": "pcp_record",
+    "resources": [
+      {
+        "resourceType": "AllergyIntolerance",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          "environment"
+        ],
+        "criticality": "low",
+        "code": {
+          "text": "Latex"
+        },
+        "onsetDateTime": "2021",
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "text": "Itchy rash on contact"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "resourceType": "Procedure",
+        "status": "completed",
+        "code": {
+          "text": "Spontaneous vaginal delivery"
+        },
+        "performedDateTime": "2021-06-02"
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Mother"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Type 2 diabetes"
+            },
+            "onsetAge": {
+              "value": 48,
+              "unit": "a"
+            }
+          }
+        ]
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Father"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Hypertension"
+            },
+            "onsetAge": {
+              "value": 52,
+              "unit": "a"
+            }
+          }
+        ]
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Tobacco"
+        },
+        "valueString": "Never smoker"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Alcohol"
+        },
+        "valueString": "None"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Occupation"
+        },
+        "valueString": "Bakery worker (mornings)"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Living situation"
+        },
+        "valueString": "Lives with partner and daughter"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Preferred language"
+        },
+        "valueString": "Spanish; interpreter for visits"
+      },
+      {
+        "resourceType": "CareTeam",
+        "status": "active",
+        "participant": [
+          {
+            "role": [
+              {
+                "text": "Primary care"
+              }
+            ],
+            "member": {
+              "display": "Carmen Vega, MD, Lone Star Health Clinic, South"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "intake": {
+    "preferred_language": "es",
+    "availability": {
+      "days": [
+        "tue",
+        "thu",
+        "sat"
+      ],
+      "times": "afternoon"
+    },
+    "max_travel_miles": 10,
+    "medications": [],
+    "history": [
+      "No chronic conditions"
+    ],
+    "notes": "Prefers Spanish for medical conversations. Works mornings at a bakery."
+  }
+}

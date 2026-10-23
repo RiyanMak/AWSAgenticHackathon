@@ -13,10 +13,11 @@ dependencies = [
     "strands-agents>=1.60",
     "boto3>=1.40",
     "pydantic>=2.7",
+    "pypdf>=5.0",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0"]
+dev = ["pytest>=8.0", "reportlab>=4.0"]
 agentcore = ["bedrock-agentcore>=1.0"]
 
 [project.scripts]

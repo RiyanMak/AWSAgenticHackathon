@@ -7,7 +7,8 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 CodeSystem = Literal["icd10cm", "icd9cm", "icd10pcs", "icd9pcs", "snomed", "rxnorm", "cpt", "text"]
-ProfileSource = Literal["fhir", "csv", "intake_text", "degraded"]
+ProfileSource = Literal["pdf", "fhir", "csv", "intake_text", "degraded"]
+CodeSource = Literal["document", "comprehend_medical", "llm"]
 
 
 class CodedItem(BaseModel):
@@ -20,6 +21,9 @@ class CodedItem(BaseModel):
     onset: str | None = Field(default=None, description="ISO date or free text for when it started / was done")
     detail: str | None = Field(default=None, description="Dose text, reaction, criticality, or other context")
     confidence: float | None = Field(default=None, description="Model confidence 0..1 when the code was inferred")
+    code_source: CodeSource | None = Field(
+        default=None, description="document = printed in the source, comprehend_medical or llm = inferred"
+    )
     source_ref: str | None = Field(default=None, description="Resource id, row reference, or text span for audit")
 
 
@@ -38,6 +42,12 @@ class HistoryProfile(BaseModel):
     medications: list[CodedItem] = Field(default_factory=list)
     allergies: list[CodedItem] = Field(default_factory=list)
     procedures: list[CodedItem] = Field(default_factory=list)
+    family_history: list[CodedItem] = Field(
+        default_factory=list, description="Condition in display, relation and age at onset in detail"
+    )
+    social_history: dict[str, str] = Field(
+        default_factory=dict, description="Tobacco, alcohol, occupation, living situation, as written"
+    )
     care_team: list[str] = Field(default_factory=list, description="Provider display names seen in the history")
     known_specialists: list[str] = Field(
         default_factory=list, description="Specialties the patient already sees (lower-case, e.g. 'cardiology')"
@@ -47,6 +57,10 @@ class HistoryProfile(BaseModel):
         description="Deterministic flags: ckd, diabetes, hypertension, liver, pregnancy, anticoagulant, ...",
     )
     source: ProfileSource = "degraded"
+    document_kind: str | None = Field(
+        default=None, description="For pdf input: pcp_record or patient_questionnaire"
+    )
+    no_known_allergies: bool = Field(default=False, description="Source explicitly states no known allergies")
     warnings: list[str] = Field(default_factory=list, description="Parse problems; non-empty means review the input")
     summary: str = Field(default="", description="2-3 sentence plain-language summary (LLM-written)")
     clinician_notes: list[str] = Field(

@@ -12,6 +12,7 @@ from .agent import DEFAULT_MODEL_ID, run_history_agent
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="carerelay-history", description="CareRelay History Agent")
+    p.add_argument("--pdf", help="Path to a history PDF (PCP health summary or patient questionnaire)")
     p.add_argument("--fhir", help="Path to a FHIR R4 Bundle JSON (Synthea)")
     p.add_argument("--mimic-dir", help="Directory with MIMIC-IV hosp tables (.csv or .csv.gz)")
     p.add_argument("--subject", help="MIMIC subject_id (required with --mimic-dir)")
@@ -23,8 +24,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--out", help="Write the profile JSON to this file instead of stdout")
     args = p.parse_args(argv)
 
-    if not (args.fhir or args.mimic_dir or args.intake):
-        p.error("provide at least one of --fhir, --mimic-dir/--subject, --intake")
+    if not (args.pdf or args.fhir or args.mimic_dir or args.intake):
+        p.error("provide at least one of --pdf, --fhir, --mimic-dir/--subject, --intake")
     if args.mimic_dir and not args.subject:
         p.error("--subject is required with --mimic-dir")
 
@@ -33,6 +34,7 @@ def main(argv: list[str] | None = None) -> int:
         intake_text = Path(args.intake).read_text() if Path(args.intake).is_file() else args.intake
 
     profile = run_history_agent(
+        history_pdf=args.pdf,
         fhir_bundle=args.fhir,
         mimic_dir=args.mimic_dir,
         mimic_subject_id=args.subject,

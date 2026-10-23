@@ -1,0 +1,121 @@
+{
+  "case_id": "case_007",
+  "_note": "SYNTHETIC. Fictional patient, facility, and clinicians. Hackathon prototype, not medical advice.",
+  "_scenario": "Urgent case. Ultrasound for gallbladder pain confirms gallstones (answered) and finds a 2.8 cm solid, vascular kidney mass that needs prompt MRI and urology. The UA shows microscopic blood. High-deductible plan with little deductible met, so cost is a real barrier and the Insurance agent matters.",
+  "portal": { "name": "MyHealth Portal", "printed": "2026-10-08T21:30:00" },
+  "facility": {
+    "name": "Southpark Ultrasound & Women's Imaging",
+    "address": "9600 S IH-35, Suite 300, Austin, TX 78748",
+    "phone": "(512) 555-0157",
+    "fax": "(512) 555-0158"
+  },
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [{ "type": { "text": "MRN" }, "value": "SUW-0417762" }],
+    "name": [{ "given": ["Emily"], "family": "Novak" }],
+    "gender": "female",
+    "birthDate": "1985-04-02",
+    "address": [{ "city": "Austin", "state": "TX", "postalCode": "78741" }],
+    "generalPractitioner": [{ "display": "Laura Kim, MD, Bluebonnet Family Medicine" }]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [{ "display": "Cedar Mutual" }],
+    "class": [{ "type": { "text": "plan" }, "value": "CEDAR-HDHP-3500", "name": "Cedar Mutual HSA 3500" }],
+    "subscriberId": "CMU-8841-2236"
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": { "days": ["mon", "wed", "fri"], "times": "any" },
+    "max_travel_miles": 15,
+    "medications": ["Norgestimate-ethinyl estradiol daily"],
+    "history": ["Never smoker"],
+    "notes": "Freelance graphic designer. Worried about cost; HSA balance about $1,200."
+  },
+  "history": {
+    "source": "pcp_record", "provider_id": "PCP-BFM", "printed": "2026-10-08T21:25:00",
+    "conditions": [
+      { "icd10": "G43.009", "display": "Migraine without aura, not intractable, without status migrainosus", "onset": "2008", "status": "active", "note": "No aura; combined oral contraceptive acceptable. About 2 migraines per month." }
+    ],
+    "medications": [
+      { "rxnorm": "214559", "display": "Norgestimate 0.25 mg / ethinyl estradiol 0.035 mg oral tablet", "dosage": "1 tablet by mouth once daily", "status": "active", "prescriber": "Laura Kim, MD" },
+      { "rxnorm": "37418", "display": "Sumatriptan 50 mg oral tablet", "dosage": "50 mg by mouth at migraine onset; may repeat once after 2 hours", "status": "active", "prescriber": "Laura Kim, MD" }
+    ],
+    "allergies": [
+      { "substance": "Ibuprofen", "rxnorm": "5640", "category": "medication", "reaction": "Hives and lip swelling", "criticality": "high", "onset": "2015" }
+    ],
+    "procedures": [
+      { "display": "Cesarean delivery", "date": "2016-02-19" }
+    ],
+    "family_history": [
+      { "relation": "Mother", "condition": "Gallstones, cholecystectomy", "onset_age": 45 },
+      { "relation": "Father", "condition": "Hypertension", "onset_age": 50 }
+    ],
+    "social_history": { "Tobacco": "Never smoker", "Alcohol": "1-3 drinks per week", "Occupation": "Freelance graphic designer", "Living situation": "Lives with partner and daughter" },
+    "care_team": [
+      { "role": "Primary care", "name": "Laura Kim, MD", "organization": "Bluebonnet Family Medicine", "provider_id": "PCP-BFM" }
+    ]
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [{ "type": { "text": "Accession" }, "value": "SUW-26-1006-0391" }],
+    "status": "final",
+    "category": [{ "text": "Radiology" }],
+    "code": { "text": "US Abdomen, complete" },
+    "effectiveDateTime": "2026-10-06T09:30:00",
+    "issued": "2026-10-06T14:48:00",
+    "basedOn": [{ "display": "Laura Kim, MD, Bluebonnet Family Medicine" }],
+    "performer": [{ "display": "Southpark Ultrasound & Women's Imaging" }],
+    "resultsInterpreter": [{ "display": "Benjamin Afolabi, MD" }],
+    "conclusion": "1. Cholelithiasis without sonographic evidence of acute cholecystitis.\n2. 2.8 cm solid, vascular exophytic mass in the upper pole of the left kidney, concerning for a renal neoplasm. Recommend contrast-enhanced renal mass protocol MRI or CT.",
+    "_sections": [
+      { "title": "EXAM", "text": "US ABDOMEN, COMPLETE" },
+      { "title": "CLINICAL INDICATION", "text": "Intermittent right upper quadrant pain after meals for 3 months. Evaluate for gallstones." },
+      { "title": "TECHNIQUE", "text": "Real-time grayscale and color Doppler sonography of the abdomen." },
+      { "title": "COMPARISON", "text": "None." },
+      { "title": "FINDINGS", "items": [
+        { "label": "Liver", "text": "Normal in size (15.2 cm) and echotexture. No focal lesion. Hepatopetal portal venous flow." },
+        { "label": "Gallbladder", "text": "Multiple mobile, shadowing gallstones, the largest measuring 1.4 cm. Wall thickness 2 mm. No pericholecystic fluid. Sonographic Murphy sign is negative." },
+        { "label": "Bile ducts", "text": "Common bile duct measures 4 mm. No intrahepatic biliary dilatation." },
+        { "label": "Pancreas", "text": "Visualized head and body are unremarkable. The tail is obscured by bowel gas." },
+        { "label": "Spleen", "text": "Normal in size (10.1 cm)." },
+        { "label": "Right kidney", "text": "10.8 cm. Normal echotexture. No hydronephrosis, stone, or mass." },
+        { "label": "Left kidney", "text": "11.4 cm. 2.8 x 2.5 x 2.6 cm solid, mildly hypoechoic exophytic mass in the upper pole with internal vascularity on color Doppler. No hydronephrosis." },
+        { "label": "Aorta and IVC", "text": "Normal in caliber where visualized." },
+        { "label": "Other", "text": "No ascites." }
+      ] }
+    ]
+  },
+  "labs": [
+    {
+      "accession": "HC-26-0915-1866", "lab": "hill_country",
+      "ordering": "Laura Kim, MD, Bluebonnet Family Medicine",
+      "collected": "2026-09-15T08:05:00", "reported": "2026-09-15T15:20:00", "fasting": true,
+      "panels": [
+        { "panel": "Comprehensive Metabolic Panel", "values": { "Sodium": 138, "Potassium": 4.0, "Chloride": 104, "CO2": 24, "BUN": 12, "Creatinine": 0.7, "eGFR": 108, "Glucose": 92, "Calcium": 9.4, "Total Protein": 7.2, "Albumin": 4.4, "Total Bilirubin": 0.9, "Alkaline Phosphatase": 98, "AST": 30, "ALT": 41 } },
+        { "panel": "Lipase", "values": { "Lipase": 32 } },
+        { "panel": "CBC", "values": { "WBC": 6.8, "RBC": 4.4, "Hemoglobin": 13.4, "Hematocrit": 40.1, "MCV": 91, "Platelets": 275 } }
+      ]
+    },
+    {
+      "accession": "HC-26-0915-1867", "lab": "hill_country",
+      "ordering": "Laura Kim, MD, Bluebonnet Family Medicine",
+      "collected": "2026-09-15T08:10:00", "reported": "2026-09-15T12:45:00", "fasting": true, "specimen": "Urine, clean catch",
+      "panels": [
+        { "panel": "Urinalysis with Microscopy", "values": { "Color": "Yellow", "Clarity": "Clear", "Specific Gravity": 1.018, "pH": 6.0, "Protein, urine": "Negative", "Glucose, urine": "Negative", "Ketones": "Negative", "Blood, urine": "Small", "Leukocyte Esterase": "Negative", "Nitrite": "Negative", "RBC, urine": "3-10", "WBC, urine": "0-2" } }
+      ]
+    }
+  ],
+  "answer_key": [
+    { "source": "radiology", "finding": "Cholelithiasis without cholecystitis", "incidental": false, "in_impression": true, "triage": "soon", "followup_services": ["visit_general_surgery"],
+      "expected_followup": "Answers the indication. Elective surgical consultation for symptomatic gallstones." },
+    { "source": "radiology", "finding": "Solid vascular left renal mass 2.8 cm", "site": "Left kidney, upper pole", "size_mm": 28, "incidental": true, "in_impression": true, "triage": "urgent", "followup_services": ["mri_abdomen_renal", "visit_urology"],
+      "expected_followup": "Renal mass protocol MRI or CT within about 2-4 weeks; urology referral. Takes priority over gallbladder surgery.",
+      "lab_link": "Microscopic hematuria (UA 3-10 RBC/hpf, blood small)." },
+    { "source": "radiology", "finding": "Pancreatic tail not visualized", "incidental": true, "in_impression": false, "triage": "none", "followup_services": [],
+      "expected_followup": "Technical limitation; covered by the renal MRI. No separate follow-up." },
+    { "source": "lab", "finding": "Mildly elevated ALT (41)", "incidental": true, "in_impression": null, "triage": "watch", "followup_services": [],
+      "expected_followup": "Minimal; recheck with PCP." }
+  ]
+}

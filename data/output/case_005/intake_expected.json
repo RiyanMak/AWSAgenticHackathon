@@ -1,0 +1,1055 @@
+{
+  "case_id": "case_005",
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [
+      {
+        "type": {
+          "text": "MRN"
+        },
+        "value": "SB-6602178"
+      }
+    ],
+    "name": [
+      {
+        "given": [
+          "Margaret"
+        ],
+        "family": "Ellison"
+      }
+    ],
+    "gender": "female",
+    "birthDate": "1950-05-17",
+    "address": [
+      {
+        "city": "Austin",
+        "state": "TX",
+        "postalCode": "78731"
+      }
+    ],
+    "generalPractitioner": [
+      {
+        "display": "Helen Park, MD, Pecan Senior Care Clinic, Tarrytown"
+      }
+    ]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [
+      {
+        "display": "Pecan Health Plans"
+      }
+    ],
+    "class": [
+      {
+        "type": {
+          "text": "plan"
+        },
+        "value": "PECAN-MA-HMO",
+        "name": "Pecan Senior Advantage (HMO)"
+      }
+    ],
+    "subscriberId": "PSA-3308-9145"
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [
+      {
+        "type": {
+          "text": "Accession"
+        },
+        "value": "SBR-26-0928-2290"
+      }
+    ],
+    "status": "final",
+    "category": [
+      {
+        "text": "Radiology"
+      }
+    ],
+    "code": {
+      "text": "CT Head without contrast"
+    },
+    "effectiveDateTime": "2026-09-28T19:22:00",
+    "issued": "2026-09-28T19:58:00",
+    "basedOn": [
+      {
+        "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+      }
+    ],
+    "performer": [
+      {
+        "display": "St. Brazos Medical Center"
+      }
+    ],
+    "resultsInterpreter": [
+      {
+        "display": "Michael Tanaka, MD"
+      }
+    ],
+    "conclusion": "1. No acute intracranial hemorrhage or calvarial fracture.\n2. Small left frontal scalp hematoma.\n3. 14 mm extra-axial lesion along the left frontal convexity, most consistent with a meningioma. Consider nonemergent MRI brain with and without contrast.\n4. Mild chronic small vessel ischemic changes.",
+    "presentedForm": [
+      {
+        "contentType": "text/plain",
+        "text": "EXAM:\nCT HEAD WITHOUT CONTRAST\n\nCLINICAL INDICATION:\nGround-level fall at home with head strike. On apixaban for atrial fibrillation. Evaluate for intracranial hemorrhage.\n\nTECHNIQUE:\nAxial CT images of the head were obtained without intravenous contrast. Coronal and sagittal reformats were reviewed. CTDIvol: 48 mGy. DLP: 812 mGy-cm.\n\nCOMPARISON:\nNone available.\n\nFINDINGS:\nBrain: No intracranial hemorrhage, mass effect, midline shift, or CT evidence of acute infarct. There is a 14 mm homogeneous, mildly hyperdense extra-axial lesion along the left frontal convexity with a broad dural base and no surrounding edema. Mild periventricular white matter hypoattenuation, consistent with chronic small vessel ischemic change. Age-appropriate volume loss.\nVentricles and cisterns: Ventricles are normal in size for age. Basal cisterns are patent.\nSinuses and mastoids: Mild mucosal thickening of the maxillary sinuses. Mastoid air cells are clear.\nCalvarium and soft tissues: No calvarial fracture. Small left frontal scalp hematoma.\n\nIMPRESSION:\n1. No acute intracranial hemorrhage or calvarial fracture.\n2. Small left frontal scalp hematoma.\n3. 14 mm extra-axial lesion along the left frontal convexity, most consistent with a meningioma. Consider nonemergent MRI brain with and without contrast.\n4. Mild chronic small vessel ischemic changes."
+      }
+    ]
+  },
+  "LabReports": [
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "SBL-26-0928-1730"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "CBC"
+      },
+      "effectiveDateTime": "2026-09-28T18:55:00",
+      "issued": "2026-09-28T19:40:00",
+      "basedOn": [
+        {
+          "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "St. Brazos Medical Center Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "WBC"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 7.9,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-11.0",
+              "low": {
+                "value": 4.0,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 11.0,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "RBC"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 3.9,
+            "unit": "x10^6/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-5.2",
+              "low": {
+                "value": 4.0,
+                "unit": "x10^6/uL"
+              },
+              "high": {
+                "value": 5.2,
+                "unit": "x10^6/uL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Low"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hemoglobin"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 11.3,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "12.0-15.5",
+              "low": {
+                "value": 12.0,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 15.5,
+                "unit": "g/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Low"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hematocrit"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 34.6,
+            "unit": "%"
+          },
+          "referenceRange": [
+            {
+              "text": "36-46",
+              "low": {
+                "value": 36,
+                "unit": "%"
+              },
+              "high": {
+                "value": 46,
+                "unit": "%"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Low"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "MCV"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 82,
+            "unit": "fL"
+          },
+          "referenceRange": [
+            {
+              "text": "80-100",
+              "low": {
+                "value": 80,
+                "unit": "fL"
+              },
+              "high": {
+                "value": 100,
+                "unit": "fL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Platelets"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 210,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "150-400",
+              "low": {
+                "value": 150,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 400,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "SBL-26-0928-1730"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Basic Metabolic Panel"
+      },
+      "effectiveDateTime": "2026-09-28T18:55:00",
+      "issued": "2026-09-28T19:40:00",
+      "basedOn": [
+        {
+          "display": "Alicia Moreno, MD, St. Brazos Emergency Department"
+        }
+      ],
+      "performer": [
+        {
+          "display": "St. Brazos Medical Center Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Sodium"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 131,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "136-145",
+              "low": {
+                "value": 136,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 145,
+                "unit": "mmol/L"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Low"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Potassium"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 4.1,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "3.5-5.1",
+              "low": {
+                "value": 3.5,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 5.1,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Chloride"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 96,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "98-107",
+              "low": {
+                "value": 98,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 107,
+                "unit": "mmol/L"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Low"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "CO2"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 25,
+            "unit": "mmol/L"
+          },
+          "referenceRange": [
+            {
+              "text": "22-29",
+              "low": {
+                "value": 22,
+                "unit": "mmol/L"
+              },
+              "high": {
+                "value": 29,
+                "unit": "mmol/L"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "BUN"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 24,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "7-20",
+              "low": {
+                "value": 7,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 20,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Creatinine"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "0.5-1.1",
+              "low": {
+                "value": 0.5,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 1.1,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "eGFR"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 46,
+            "unit": "mL/min/1.73m2"
+          },
+          "referenceRange": [
+            {
+              "text": ">=60",
+              "low": {
+                "value": 60,
+                "unit": "mL/min/1.73m2"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Low"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Glucose"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 121,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "70-99",
+              "low": {
+                "value": 70,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 99,
+                "unit": "mg/dL"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "High"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Calcium"
+          },
+          "effectiveDateTime": "2026-09-28T18:55:00",
+          "valueQuantity": {
+            "value": 9.1,
+            "unit": "mg/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "8.6-10.3",
+              "low": {
+                "value": 8.6,
+                "unit": "mg/dL"
+              },
+              "high": {
+                "value": 10.3,
+                "unit": "mg/dL"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "History": {
+    "source": "pcp_record",
+    "resources": [
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Unspecified atrial fibrillation",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "I48.91",
+              "display": "Unspecified atrial fibrillation"
+            }
+          ]
+        },
+        "onsetDateTime": "2022",
+        "note": [
+          {
+            "text": "Rate control with metoprolol; anticoagulated with apixaban. Followed by cardiology."
+          }
+        ]
+      },
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Essential (primary) hypertension",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "I10",
+              "display": "Essential (primary) hypertension"
+            }
+          ]
+        },
+        "onsetDateTime": "2010"
+      },
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Bilateral primary osteoarthritis of knee",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "M17.0",
+              "display": "Bilateral primary osteoarthritis of knee"
+            }
+          ]
+        },
+        "onsetDateTime": "2015",
+        "note": [
+          {
+            "text": "Avoid NSAIDs while on apixaban; acetaminophen as needed."
+          }
+        ]
+      },
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "History of falling",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "Z91.81",
+              "display": "History of falling"
+            }
+          ]
+        },
+        "onsetDateTime": "2026-03",
+        "note": [
+          {
+            "text": "Fall at home 03/2026 without injury. Uses a cane outdoors."
+          }
+        ]
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Apixaban 5 mg oral tablet",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "1364430",
+              "display": "Apixaban 5 mg oral tablet"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "5 mg by mouth twice daily"
+          }
+        ],
+        "informationSource": {
+          "display": "Grace Okonkwo, MD"
+        }
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Metoprolol succinate 25 mg extended-release oral tablet",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "6918",
+              "display": "Metoprolol succinate 25 mg extended-release oral tablet"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "25 mg by mouth once daily"
+          }
+        ],
+        "informationSource": {
+          "display": "Grace Okonkwo, MD"
+        }
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Hydrochlorothiazide 12.5 mg oral capsule",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "5487",
+              "display": "Hydrochlorothiazide 12.5 mg oral capsule"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "12.5 mg by mouth once daily"
+          }
+        ],
+        "informationSource": {
+          "display": "Helen Park, MD"
+        }
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Acetaminophen 500 mg oral tablet",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "161",
+              "display": "Acetaminophen 500 mg oral tablet"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "500-1000 mg by mouth up to 3 times daily as needed for knee pain"
+          }
+        ],
+        "informationSource": {
+          "display": "Over the counter"
+        }
+      },
+      {
+        "resourceType": "AllergyIntolerance",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "confirmed"
+        },
+        "category": [
+          "medication"
+        ],
+        "criticality": "low",
+        "code": {
+          "text": "Codeine",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "2670",
+              "display": "Codeine"
+            }
+          ]
+        },
+        "onsetDateTime": "2018",
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "text": "Confusion and nausea"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "resourceType": "Procedure",
+        "status": "completed",
+        "code": {
+          "text": "Hysterectomy (benign fibroids)"
+        },
+        "performedDateTime": "1996"
+      },
+      {
+        "resourceType": "Procedure",
+        "status": "completed",
+        "code": {
+          "text": "Cataract extraction with lens implant, both eyes"
+        },
+        "performedDateTime": "2021"
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Mother"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Stroke"
+            },
+            "onsetAge": {
+              "value": 80,
+              "unit": "a"
+            }
+          }
+        ]
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Father"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Heart failure"
+            },
+            "onsetAge": {
+              "value": 75,
+              "unit": "a"
+            }
+          }
+        ]
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Tobacco"
+        },
+        "valueString": "Never smoker"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Alcohol"
+        },
+        "valueString": "Rarely"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Occupation"
+        },
+        "valueString": "Retired teacher"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Living situation"
+        },
+        "valueString": "Widowed, lives alone in a single-story house. Daughter (Karen Ellison) manages appointments and drives."
+      },
+      {
+        "resourceType": "CareTeam",
+        "status": "active",
+        "participant": [
+          {
+            "role": [
+              {
+                "text": "Primary care"
+              }
+            ],
+            "member": {
+              "display": "Helen Park, MD, Pecan Senior Care Clinic, Tarrytown"
+            }
+          },
+          {
+            "role": [
+              {
+                "text": "Cardiology"
+              }
+            ],
+            "member": {
+              "display": "Grace Okonkwo, MD, Heart of Texas Cardiology"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": {
+      "days": [
+        "tue",
+        "wed",
+        "thu"
+      ],
+      "times": "morning"
+    },
+    "max_travel_miles": 10,
+    "medications": [
+      "Apixaban 5 mg twice daily",
+      "Metoprolol succinate 25 mg daily",
+      "Hydrochlorothiazide 12.5 mg daily"
+    ],
+    "history": [
+      "Atrial fibrillation",
+      "High blood pressure",
+      "Osteoarthritis"
+    ],
+    "caregiver": "Daughter, Karen Ellison, schedules and drives to appointments; available Tue-Thu mornings.",
+    "notes": "Lives alone. Second fall this year."
+  }
+}

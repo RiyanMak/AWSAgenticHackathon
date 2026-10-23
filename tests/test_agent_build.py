@@ -29,7 +29,7 @@ def test_run_degraded_input_skips_llm(tmp_path):
 
 
 def test_tools_are_callable_as_plain_functions(synthea_bundle_path):
-    assert len(HISTORY_TOOLS) == 5
+    assert len(HISTORY_TOOLS) == 6
     data = parse_fhir_history(bundle_path=str(synthea_bundle_path))
     assert data["source"] == "fhir"
     flags = derive_risk_flags(profile_json=json.dumps(data))

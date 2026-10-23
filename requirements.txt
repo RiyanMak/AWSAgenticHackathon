@@ -1,4 +1,6 @@
 strands-agents>=1.60
 boto3>=1.40
 pydantic>=2.7
+pypdf>=5.0
 pytest>=8.0
+reportlab>=4.0

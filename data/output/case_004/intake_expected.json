@@ -1,0 +1,708 @@
+{
+  "case_id": "case_004",
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [
+      {
+        "type": {
+          "text": "MRN"
+        },
+        "value": "EUC-220481"
+      }
+    ],
+    "name": [
+      {
+        "given": [
+          "Aisha"
+        ],
+        "family": "Rahman"
+      }
+    ],
+    "gender": "female",
+    "birthDate": "1992-08-05",
+    "address": [
+      {
+        "city": "Austin",
+        "state": "TX",
+        "postalCode": "78702"
+      }
+    ]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [
+      {
+        "display": "Cedar Mutual"
+      }
+    ],
+    "class": [
+      {
+        "type": {
+          "text": "plan"
+        },
+        "value": "CEDAR-HDHP-3500",
+        "name": "Cedar Mutual HSA 3500"
+      }
+    ],
+    "subscriberId": "CMU-5512-0067"
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [
+      {
+        "type": {
+          "text": "Accession"
+        },
+        "value": "EUC-26-1020-0077"
+      }
+    ],
+    "status": "final",
+    "category": [
+      {
+        "text": "Radiology"
+      }
+    ],
+    "code": {
+      "text": "XR Chest, 2 views (PA and lateral)"
+    },
+    "effectiveDateTime": "2026-10-20T17:45:00",
+    "issued": "2026-10-20T18:32:00",
+    "basedOn": [
+      {
+        "display": "Jordan Mills, FNP-C, Eastside Urgent Care"
+      }
+    ],
+    "performer": [
+      {
+        "display": "Lone Star Teleradiology"
+      }
+    ],
+    "resultsInterpreter": [
+      {
+        "display": "Ravi Menon, MD"
+      }
+    ],
+    "conclusion": "1. No acute cardiopulmonary abnormality.",
+    "presentedForm": [
+      {
+        "contentType": "text/plain",
+        "text": "EXAM:\nXR CHEST, 2 VIEWS (PA AND LATERAL)\n\nCLINICAL INDICATION:\nCough, fever, and body aches for 5 days. Evaluate for pneumonia.\n\nTECHNIQUE:\nPA and lateral views of the chest.\n\nCOMPARISON:\nNone.\n\nFINDINGS:\nLungs: The lungs are clear. No focal consolidation, pleural effusion, or pneumothorax.\nHeart and mediastinum: Heart size is normal. Mediastinal and hilar contours are normal.\nBones and soft tissues: No acute osseous abnormality.\n\nIMPRESSION:\n1. No acute cardiopulmonary abnormality."
+      }
+    ]
+  },
+  "LabReports": [
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "EUC-L-26-1020-0412"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "Respiratory Pathogen PCR"
+      },
+      "effectiveDateTime": "2026-10-20T17:20:00",
+      "issued": "2026-10-20T18:05:00",
+      "basedOn": [
+        {
+          "display": "Jordan Mills, FNP-C, Eastside Urgent Care"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Eastside Urgent Care Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Influenza A"
+          },
+          "effectiveDateTime": "2026-10-20T17:20:00",
+          "valueString": "Detected",
+          "referenceRange": [
+            {
+              "text": "Not Detected"
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Abnormal"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Influenza B"
+          },
+          "effectiveDateTime": "2026-10-20T17:20:00",
+          "valueString": "Not Detected",
+          "referenceRange": [
+            {
+              "text": "Not Detected"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "SARS-CoV-2"
+          },
+          "effectiveDateTime": "2026-10-20T17:20:00",
+          "valueString": "Not Detected",
+          "referenceRange": [
+            {
+              "text": "Not Detected"
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "RSV"
+          },
+          "effectiveDateTime": "2026-10-20T17:20:00",
+          "valueString": "Not Detected",
+          "referenceRange": [
+            {
+              "text": "Not Detected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "DiagnosticReport",
+      "identifier": [
+        {
+          "type": {
+            "text": "Accession"
+          },
+          "value": "EUC-L-26-1020-0412"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "text": "Laboratory"
+        }
+      ],
+      "code": {
+        "text": "CBC"
+      },
+      "effectiveDateTime": "2026-10-20T17:20:00",
+      "issued": "2026-10-20T18:05:00",
+      "basedOn": [
+        {
+          "display": "Jordan Mills, FNP-C, Eastside Urgent Care"
+        }
+      ],
+      "performer": [
+        {
+          "display": "Eastside Urgent Care Laboratory"
+        }
+      ],
+      "result": [
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "WBC"
+          },
+          "effectiveDateTime": "2026-10-20T17:20:00",
+          "valueQuantity": {
+            "value": 4.1,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-11.0",
+              "low": {
+                "value": 4.0,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 11.0,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "RBC"
+          },
+          "effectiveDateTime": "2026-10-20T17:20:00",
+          "valueQuantity": {
+            "value": 4.5,
+            "unit": "x10^6/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "4.0-5.2",
+              "low": {
+                "value": 4.0,
+                "unit": "x10^6/uL"
+              },
+              "high": {
+                "value": 5.2,
+                "unit": "x10^6/uL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hemoglobin"
+          },
+          "effectiveDateTime": "2026-10-20T17:20:00",
+          "valueQuantity": {
+            "value": 13.2,
+            "unit": "g/dL"
+          },
+          "referenceRange": [
+            {
+              "text": "12.0-15.5",
+              "low": {
+                "value": 12.0,
+                "unit": "g/dL"
+              },
+              "high": {
+                "value": 15.5,
+                "unit": "g/dL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Hematocrit"
+          },
+          "effectiveDateTime": "2026-10-20T17:20:00",
+          "valueQuantity": {
+            "value": 39.6,
+            "unit": "%"
+          },
+          "referenceRange": [
+            {
+              "text": "36-46",
+              "low": {
+                "value": 36,
+                "unit": "%"
+              },
+              "high": {
+                "value": 46,
+                "unit": "%"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "MCV"
+          },
+          "effectiveDateTime": "2026-10-20T17:20:00",
+          "valueQuantity": {
+            "value": 88,
+            "unit": "fL"
+          },
+          "referenceRange": [
+            {
+              "text": "80-100",
+              "low": {
+                "value": 80,
+                "unit": "fL"
+              },
+              "high": {
+                "value": 100,
+                "unit": "fL"
+              }
+            }
+          ]
+        },
+        {
+          "resourceType": "Observation",
+          "status": "final",
+          "category": [
+            {
+              "text": "laboratory"
+            }
+          ],
+          "code": {
+            "text": "Platelets"
+          },
+          "effectiveDateTime": "2026-10-20T17:20:00",
+          "valueQuantity": {
+            "value": 188,
+            "unit": "x10^3/uL"
+          },
+          "referenceRange": [
+            {
+              "text": "150-400",
+              "low": {
+                "value": 150,
+                "unit": "x10^3/uL"
+              },
+              "high": {
+                "value": 400,
+                "unit": "x10^3/uL"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "History": {
+    "source": "patient_questionnaire",
+    "resources": [
+      {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "unconfirmed"
+        },
+        "category": [
+          {
+            "text": "problem-list-item"
+          }
+        ],
+        "code": {
+          "text": "Other seasonal allergic rhinitis",
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "J30.2",
+              "display": "Other seasonal allergic rhinitis"
+            }
+          ]
+        },
+        "onsetDateTime": "2010",
+        "note": [
+          {
+            "text": "Patient wrote: Seasonal allergies in the spring"
+          }
+        ]
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Oseltamivir 75 mg oral capsule",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "260101",
+              "display": "Oseltamivir 75 mg oral capsule"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "75 mg by mouth twice daily for 5 days"
+          }
+        ],
+        "informationSource": {
+          "display": "Patient"
+        },
+        "note": [
+          {
+            "text": "Patient wrote: Tamiflu 75 mg, 2x a day for 5 days (urgent care gave it)"
+          }
+        ]
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Cetirizine 10 mg oral tablet",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "20610",
+              "display": "Cetirizine 10 mg oral tablet"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "10 mg by mouth once daily as needed"
+          }
+        ],
+        "informationSource": {
+          "display": "Patient"
+        },
+        "note": [
+          {
+            "text": "Patient wrote: Zyrtec 10 mg when my allergies act up"
+          }
+        ]
+      },
+      {
+        "resourceType": "MedicationStatement",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "text": "Levonorgestrel 52 mg intrauterine device",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "6373",
+              "display": "Levonorgestrel 52 mg intrauterine device"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "text": "In place since 2023"
+          }
+        ],
+        "informationSource": {
+          "display": "Patient"
+        },
+        "note": [
+          {
+            "text": "Patient wrote: Mirena IUD since 2023"
+          }
+        ]
+      },
+      {
+        "resourceType": "AllergyIntolerance",
+        "clinicalStatus": {
+          "text": "active"
+        },
+        "verificationStatus": {
+          "text": "unconfirmed"
+        },
+        "category": [
+          "medication"
+        ],
+        "criticality": "low",
+        "code": {
+          "text": "Sulfamethoxazole / trimethoprim",
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "10831",
+              "display": "Sulfamethoxazole / trimethoprim"
+            }
+          ]
+        },
+        "onsetDateTime": "2008",
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "text": "Rash"
+              }
+            ]
+          }
+        ],
+        "note": [
+          {
+            "text": "Patient wrote: Sulfa (Bactrim) - got a rash as a teenager"
+          }
+        ]
+      },
+      {
+        "resourceType": "Procedure",
+        "status": "completed",
+        "code": {
+          "text": "Wisdom tooth extraction"
+        },
+        "performedDateTime": "2011",
+        "note": [
+          {
+            "text": "Patient wrote: Wisdom teeth out, 2011"
+          }
+        ]
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Mother"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Hypothyroidism"
+            }
+          }
+        ],
+        "note": [
+          {
+            "text": "Patient wrote: Mom has hypothyroid"
+          }
+        ]
+      },
+      {
+        "resourceType": "FamilyMemberHistory",
+        "status": "completed",
+        "relationship": {
+          "text": "Father"
+        },
+        "condition": [
+          {
+            "code": {
+              "text": "Type 2 diabetes"
+            },
+            "onsetAge": {
+              "value": 55,
+              "unit": "a"
+            }
+          }
+        ],
+        "note": [
+          {
+            "text": "Patient wrote: Dad has type 2 diabetes, found out around 55"
+          }
+        ]
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Tobacco"
+        },
+        "valueString": "Never smoked"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Alcohol"
+        },
+        "valueString": "1-2 drinks a week"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Occupation"
+        },
+        "valueString": "Graduate student"
+      },
+      {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "text": "social-history"
+          }
+        ],
+        "code": {
+          "text": "Living situation"
+        },
+        "valueString": "Lives with a roommate"
+      }
+    ]
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": {
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri"
+      ],
+      "times": "any"
+    },
+    "max_travel_miles": 10,
+    "medications": [
+      "Oseltamivir 75 mg twice daily for 5 days (from urgent care)"
+    ],
+    "history": [
+      "No chronic conditions",
+      "Never smoker"
+    ],
+    "notes": "No regular doctor."
+  }
+}

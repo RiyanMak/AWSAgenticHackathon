@@ -18,19 +18,17 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 from pathlib import Path
 from typing import Any
 
-from .parsers import parse_fhir_bundle, parse_intake_text, parse_mimic_subject
+from .bedrock import DEFAULT_MODEL_ID, make_bedrock_model
+from .parsers import parse_fhir_bundle, parse_history_pdf, parse_intake_text, parse_mimic_subject
 from .risk_flags import derive_risk_flags
 from .schema import CodedItem, HistoryNarrative, HistoryProfile
 
 log = logging.getLogger(__name__)
 
-# Verified invokable on 2026-10-23 in us-east-1 and us-west-2 on a personal account. The hackathon
-# account has its own allowlist: override with BEDROCK_MODEL_ID after `aws bedrock list-inference-profiles`.
-DEFAULT_MODEL_ID = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+__all__ = ["DEFAULT_MODEL_ID", "build_history_profile", "make_history_agent", "run_history_agent"]
 
 SYSTEM_PROMPT = """You are the History Agent in CareRelay, a hackathon prototype that uses synthetic data only.
 You are not a clinician and you do not give medical advice.
@@ -54,8 +52,9 @@ def _merge(profiles: list[HistoryProfile]) -> HistoryProfile:
         return HistoryProfile(source="degraded", warnings=["No inputs were provided"])
     if len(profiles) == 1:
         return profiles[0]
-    merged = HistoryProfile(source=profiles[0].source)
+    merged = HistoryProfile(source=profiles[0].source, document_kind=profiles[0].document_kind)
     merged.patient = next((p.patient for p in profiles if p.patient.patient_id or p.patient.gender), profiles[0].patient)
+    merged.no_known_allergies = any(p.no_known_allergies for p in profiles) and not any(p.allergies for p in profiles)
 
     def _extend(dst: list[CodedItem], src: list[CodedItem]) -> None:
         seen = {(i.code, i.display.lower()) for i in dst}
@@ -70,6 +69,9 @@ def _merge(profiles: list[HistoryProfile]) -> HistoryProfile:
         _extend(merged.medications, p.medications)
         _extend(merged.allergies, p.allergies)
         _extend(merged.procedures, p.procedures)
+        _extend(merged.family_history, p.family_history)
+        for k, v in p.social_history.items():
+            merged.social_history.setdefault(k, v)
         for name in p.care_team:
             if name not in merged.care_team:
                 merged.care_team.append(name)
@@ -86,14 +88,23 @@ def _merge(profiles: list[HistoryProfile]) -> HistoryProfile:
 
 def build_history_profile(
     *,
+    history_pdf: str | Path | None = None,
     fhir_bundle: str | Path | dict[str, Any] | None = None,
     mimic_dir: str | Path | None = None,
     mimic_subject_id: str | int | None = None,
     intake_text: str | None = None,
     offline: bool = False,
+    region: str | None = None,
+    model_id: str | None = None,
 ) -> HistoryProfile:
-    """Deterministically parse any combination of inputs into one HistoryProfile (no LLM)."""
+    """Parse any combination of inputs into one HistoryProfile.
+
+    Deterministic except for the coding cascade on free text (questionnaire PDFs, intake text,
+    PCP medication names), which calls Comprehend Medical and then a Bedrock coder unless ``offline``.
+    """
     parts: list[HistoryProfile] = []
+    if history_pdf is not None:
+        parts.append(parse_history_pdf(history_pdf, offline=offline, region=region, model_id=model_id))
     if fhir_bundle is not None:
         parts.append(parse_fhir_bundle(fhir_bundle))
     if mimic_dir is not None:
@@ -101,14 +112,14 @@ def build_history_profile(
             raise ValueError("mimic_subject_id is required with mimic_dir")
         parts.append(parse_mimic_subject(mimic_dir, mimic_subject_id))
     if intake_text:
-        parts.append(parse_intake_text(intake_text, offline=offline))
+        parts.append(parse_intake_text(intake_text, offline=offline, region=region))
     return _merge(parts)
 
 
 def _profile_for_prompt(profile: HistoryProfile) -> str:
     """Compact JSON view for the model: drop audit refs and the (empty) narrative fields."""
     data = profile.model_dump(exclude={"summary", "clinician_notes"})
-    for key in ("conditions", "medications", "allergies", "procedures"):
+    for key in ("conditions", "medications", "allergies", "procedures", "family_history"):
         for item in data[key]:
             item.pop("source_ref", None)
     data.pop("care_team", None)  # provider names are not needed for the narrative
@@ -120,20 +131,13 @@ def _profile_for_prompt(profile: HistoryProfile) -> str:
 def make_history_agent(model_id: str | None = None, region: str | None = None, *, with_tools: bool = True):
     """Create the Strands Agent. Imported lazily so the parsers work without strands installed."""
     from strands import Agent
-    from strands.models import BedrockModel
 
     from .tools import HISTORY_TOOLS
 
-    model = BedrockModel(
-        model_id=model_id or os.environ.get("BEDROCK_MODEL_ID", DEFAULT_MODEL_ID),
-        region_name=region or os.environ.get("AWS_REGION") or os.environ.get("AWS_DEFAULT_REGION"),
-        temperature=0.2,
-        max_tokens=1500,
-    )
     return Agent(
         name="history",
         description="Parses a patient's medical history into a coded profile and summarises it",
-        model=model,
+        model=make_bedrock_model(model_id, region),
         system_prompt=SYSTEM_PROMPT,
         tools=HISTORY_TOOLS if with_tools else [],
         callback_handler=None,  # quiet; the orchestrator streams node events instead
@@ -142,6 +146,7 @@ def make_history_agent(model_id: str | None = None, region: str | None = None, *
 
 def run_history_agent(
     *,
+    history_pdf: str | Path | None = None,
     fhir_bundle: str | Path | dict[str, Any] | None = None,
     mimic_dir: str | Path | None = None,
     mimic_subject_id: str | int | None = None,
@@ -153,11 +158,14 @@ def run_history_agent(
 ) -> HistoryProfile:
     """Parse inputs, then (optionally) have the model write the summary and clinician notes."""
     profile = build_history_profile(
+        history_pdf=history_pdf,
         fhir_bundle=fhir_bundle,
         mimic_dir=mimic_dir,
         mimic_subject_id=mimic_subject_id,
         intake_text=intake_text,
-        offline=offline,
+        offline=offline or not use_llm,
+        region=region,
+        model_id=model_id,
     )
     if not use_llm or profile.is_degraded():
         if profile.is_degraded():
@@ -165,7 +173,10 @@ def run_history_agent(
         return profile
 
     agent = make_history_agent(model_id=model_id, region=region, with_tools=False)
+    from datetime import date
+
     prompt = (
+        f"Today's date is {date.today().isoformat()}. "
         "Write the summary and clinician notes for this parsed history profile.\n\n"
         "<profile>\n" + _profile_for_prompt(profile) + "\n</profile>"
     )

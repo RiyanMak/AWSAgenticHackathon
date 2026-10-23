@@ -1,0 +1,114 @@
+{
+  "case_id": "case_010",
+  "_note": "SYNTHETIC. Fictional patient, facility, and clinicians. Hackathon prototype, not medical advice.",
+  "_scenario": "Restraint test. Annual lung screening CT is Lung-RADS 2 (benign, stable). Moderate coronary calcification plus labs (LDL 131, A1c in the diabetes range) make the S-modifier actionable. An 11 mm thyroid nodule is below the ACR threshold and should NOT trigger a referral. PPO; his PCP is not accepting new patients, but he is an established patient.",
+  "portal": { "name": "MyHealth Portal", "printed": "2026-10-09T10:05:00" },
+  "facility": {
+    "name": "Lakeline Diagnostic Imaging",
+    "address": "11200 Lakeline Blvd, Suite 100, Cedar Park, TX 78613",
+    "phone": "(512) 555-0124",
+    "fax": "(512) 555-0125"
+  },
+  "Patient": {
+    "resourceType": "Patient",
+    "identifier": [{ "type": { "text": "MRN" }, "value": "LDI-0071245" }],
+    "name": [{ "given": ["Thomas"], "family": "Whitfield" }],
+    "gender": "male",
+    "birthDate": "1960-03-03",
+    "address": [{ "city": "Austin", "state": "TX", "postalCode": "78750" }],
+    "generalPractitioner": [{ "display": "Samuel Brooks, MD, Northwest Austin Primary Care" }]
+  },
+  "Coverage": {
+    "resourceType": "Coverage",
+    "status": "active",
+    "payor": [{ "display": "Bluebonnet Health" }],
+    "class": [{ "type": { "text": "plan" }, "value": "BLUEBONNET-PPO-500", "name": "Bluebonnet PPO 500" }],
+    "subscriberId": "BBH-9073-3318"
+  },
+  "intake": {
+    "preferred_language": "en",
+    "availability": { "days": ["mon", "wed", "fri"], "times": "any" },
+    "max_travel_miles": 20,
+    "medications": ["Lisinopril 10 mg daily"],
+    "history": ["Former smoker, 30 pack-years, quit 2018", "Told blood sugar was borderline in the past"],
+    "notes": "Still working full time as an engineer; employer PPO."
+  },
+  "history": {
+    "source": "pcp_record", "provider_id": "PCP-NWAPC", "printed": "2026-10-09T10:00:00",
+    "conditions": [
+      { "icd10": "I10", "display": "Essential (primary) hypertension", "onset": "2017", "status": "active", "note": "Controlled on lisinopril." },
+      { "icd10": "R73.03", "display": "Prediabetes", "onset": "2022", "status": "active", "note": "A1c 6.1% (2022). Not rechecked since." },
+      { "icd10": "Z87.891", "display": "Personal history of nicotine dependence", "onset": "2018", "status": "active", "note": "30 pack-years, quit 2018. Enrolled in annual lung cancer screening." }
+    ],
+    "medications": [
+      { "rxnorm": "29046", "display": "Lisinopril 10 mg oral tablet", "dosage": "10 mg by mouth once daily", "status": "active", "prescriber": "Samuel Brooks, MD" }
+    ],
+    "allergies": [
+      { "substance": "Shellfish", "category": "food", "reaction": "Hives", "criticality": "low", "onset": "1995" }
+    ],
+    "procedures": [
+      { "display": "Appendectomy", "date": "1985" },
+      { "display": "Low-dose CT lung cancer screening, Lung-RADS 2", "date": "2025-10-02" }
+    ],
+    "family_history": [
+      { "relation": "Father", "condition": "Type 2 diabetes; myocardial infarction", "onset_age": 68 },
+      { "relation": "Mother", "condition": "Breast cancer", "onset_age": 72 }
+    ],
+    "social_history": { "Tobacco": "Former smoker, 30 pack-years, quit 2018", "Alcohol": "2-3 drinks per week", "Occupation": "Engineer, full time", "Living situation": "Lives with wife" },
+    "care_team": [
+      { "role": "Primary care", "name": "Samuel Brooks, MD", "organization": "Northwest Austin Primary Care", "provider_id": "PCP-NWAPC" }
+    ]
+  },
+  "DiagnosticReport": {
+    "resourceType": "DiagnosticReport",
+    "identifier": [{ "type": { "text": "Accession" }, "value": "LDI-26-1007-0844" }],
+    "status": "final",
+    "category": [{ "text": "Radiology" }],
+    "code": { "text": "CT Chest, low-dose lung cancer screening" },
+    "effectiveDateTime": "2026-10-07T08:30:00",
+    "issued": "2026-10-07T12:10:00",
+    "basedOn": [{ "display": "Samuel Brooks, MD, Northwest Austin Primary Care" }],
+    "performer": [{ "display": "Lakeline Diagnostic Imaging" }],
+    "resultsInterpreter": [{ "display": "Sarah Lindgren, MD" }],
+    "conclusion": "1. Lung-RADS category 2: benign appearance or behavior. 4 mm solid right middle lobe nodule, stable since 10/02/2025. Continue annual screening with low-dose CT in 12 months.\n2. S: Moderate coronary artery calcification. Clinical correlation for cardiovascular risk management is recommended.\n3. Mild centrilobular emphysema.",
+    "_sections": [
+      { "title": "EXAM", "text": "CT CHEST, LOW-DOSE LUNG CANCER SCREENING" },
+      { "title": "CLINICAL INDICATION", "text": "Annual lung cancer screening. Asymptomatic. Former smoker, 30 pack-years, quit 2018." },
+      { "title": "TECHNIQUE", "text": "Low-dose helical CT of the chest was performed without intravenous contrast. Axial images were reconstructed at 1 mm with coronal and sagittal reformats. CTDIvol: 1.4 mGy. DLP: 52 mGy-cm." },
+      { "title": "COMPARISON", "text": "Low-dose CT chest dated 10/02/2025." },
+      { "title": "FINDINGS", "items": [
+        { "label": "Lungs", "text": "4 mm solid nodule in the right middle lobe (series 4, image 88), unchanged from 10/02/2025. No new or growing nodules. Mild centrilobular emphysema. No consolidation. The airways are patent." },
+        { "label": "Pleura", "text": "No pleural effusion or pneumothorax." },
+        { "label": "Heart and mediastinum", "text": "Heart size is normal. Moderate coronary artery calcification involving the left anterior descending and right coronary arteries. No mediastinal lymphadenopathy." },
+        { "label": "Lower neck", "text": "11 mm hypodense nodule in the right thyroid lobe." },
+        { "label": "Upper abdomen", "text": "Unremarkable on this limited noncontrast exam." },
+        { "label": "Bones", "text": "Mild degenerative changes of the thoracic spine." }
+      ] }
+    ]
+  },
+  "labs": [
+    {
+      "accession": "HC-26-0910-2950", "lab": "hill_country",
+      "ordering": "Samuel Brooks, MD, Northwest Austin Primary Care",
+      "collected": "2026-09-10T07:55:00", "reported": "2026-09-10T15:35:00", "fasting": true,
+      "panels": [
+        { "panel": "Lipid Panel", "values": { "Total Cholesterol": 205, "LDL Cholesterol": 131, "HDL Cholesterol": 39, "Triglycerides": 176 } },
+        { "panel": "Hemoglobin A1c", "values": { "Hemoglobin A1c": 6.8 } },
+        { "panel": "Basic Metabolic Panel", "values": { "Sodium": 139, "Potassium": 4.5, "Chloride": 102, "CO2": 26, "BUN": 17, "Creatinine": 1.1, "eGFR": 72, "Glucose": 134, "Calcium": 9.4 } }
+      ]
+    }
+  ],
+  "answer_key": [
+    { "source": "radiology", "finding": "Stable 4 mm RML nodule, Lung-RADS 2", "site": "Right middle lobe", "size_mm": 4, "incidental": false, "in_impression": true, "triage": "watch", "followup_services": ["ldct_lung_screening"],
+      "expected_followup": "Answers the screening question. Annual LDCT in 12 months (10/2027)." },
+    { "source": "radiology", "finding": "Moderate coronary artery calcification", "site": "LAD and RCA", "incidental": true, "in_impression": true, "triage": "soon", "followup_services": ["visit_primary_care"],
+      "expected_followup": "PCP visit to discuss statin and diabetes management.",
+      "lab_link": "LDL 131, HDL 39, A1c 6.8% (diabetes range): statin indicated." },
+    { "source": "radiology", "finding": "Mild centrilobular emphysema", "incidental": true, "in_impression": true, "triage": "watch", "followup_services": ["pft"],
+      "expected_followup": "Optional spirometry; PCP awareness." },
+    { "source": "radiology", "finding": "Thyroid nodule 11 mm", "site": "Right thyroid lobe", "size_mm": 11, "incidental": true, "in_impression": false, "triage": "none", "followup_services": [],
+      "expected_followup": "Below ACR threshold (<15 mm, age >=35, no suspicious features): no ultrasound. Should NOT trigger a referral." },
+    { "source": "lab", "finding": "A1c 6.8% (diabetes range)", "incidental": true, "in_impression": null, "triage": "soon", "followup_services": ["visit_primary_care"],
+      "expected_followup": "Confirm with a repeat test; start diabetes care." }
+  ]
+}
