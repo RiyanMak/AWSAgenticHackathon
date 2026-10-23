@@ -1,160 +1,82 @@
 <!--
-Animated CareRelay architecture (README version). Each <g class="fragment" data-fragment-index="N">
-is one click. To change the design: move/rename cards, re-point edge paths, and keep each
-packet's <mpath href> matching an edge path id. Colours come from theme.scss variables.
+The agent course (same picture as the app's live course, src/carerelay/ui/views.py).
+Each <g class="fragment" data-fragment-index="N"> is one click; the newest step's legs flow.
+To change the design: move controls (circle + labels) and re-point the legs. Colours: theme.scss.
 -->
 
 ```{=html}
-<svg class="arch" viewBox="0 0 1600 760" role="img" aria-label="CareRelay agent architecture">
-  <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0,0 L10,5 L0,10 z" fill="#8b9097"/>
-    </marker>
-  </defs>
+<svg class="arch" viewBox="0 0 1600 760" role="img" aria-label="CareRelay agent course: Lab, Radiology and History run in parallel, Summarize merges, Wellness and Next Steps act, Insurance checks every proposal, the patient confirms">
+  <ellipse class="contour" cx="760" cy="390" rx="720" ry="330"/>
+  <ellipse class="contour" cx="760" cy="390" rx="520" ry="230"/>
+  <ellipse class="contour" cx="760" cy="390" rx="300" ry="130"/>
+  <ellipse class="contour" cx="1330" cy="640" rx="230" ry="100"/>
+  <ellipse class="contour" cx="1330" cy="640" rx="110" ry="48"/>
 
-  <!-- Stage labels -->
-  <text class="stage" x="20" y="70">INPUTS</text>
-  <text class="stage fragment" data-fragment-index="1" x="330" y="70">STAGE 1 · PARALLEL</text>
-  <text class="stage fragment" data-fragment-index="2" x="700" y="70">STAGE 2 · MERGE</text>
-  <text class="stage fragment" data-fragment-index="3" x="1060" y="70">STAGE 3 · ACT</text>
-  <text class="stage fragment" data-fragment-index="5" x="1400" y="70">OUTPUT</text>
+  <!-- Start: the uploads -->
+  <path class="start" d="M90 345 L130 415 L50 415 Z"/>
+  <text class="name" x="90" y="455" text-anchor="middle">Uploads</text>
+  <text class="task" x="90" y="480" text-anchor="middle">labs · imaging · history</text>
 
-  <!-- Step 0: inputs -->
-  <g class="input">
-    <rect class="card" x="20" y="125" width="230" height="80" rx="10"/>
-    <text class="title" x="40" y="160">Lab results</text>
-    <text class="sub" x="40" y="186">PDF</text>
-    <rect class="card" x="20" y="315" width="230" height="80" rx="10"/>
-    <text class="title" x="40" y="350">Imaging</text>
-    <text class="sub" x="40" y="376">report PDF · X-ray</text>
-    <rect class="card" x="20" y="505" width="230" height="80" rx="10"/>
-    <text class="title" x="40" y="540">Medical history</text>
-    <text class="sub" x="40" y="566">PCP summary · questionnaire</text>
-    <rect class="card" x="20" y="640" width="230" height="80" rx="10"/>
-    <text class="title" x="40" y="675">Insurance card</text>
-    <text class="sub" x="40" y="701">image · coverage</text>
-  </g>
-
-  <!-- Step 1: three specialists in parallel -->
+  <!-- 1: three specialists in parallel -->
   <g class="fragment" data-fragment-index="1">
-    <g class="edge">
-      <path id="e-lab" d="M250 165 H326" marker-end="url(#arrow)"/>
-      <path id="e-img" d="M250 355 H326" marker-end="url(#arrow)"/>
-      <path id="e-hist" d="M250 545 H326" marker-end="url(#arrow)"/>
-    </g>
-    <circle class="packet" r="5"><animateMotion dur="1.6s" repeatCount="indefinite"><mpath href="#e-lab"/></animateMotion></circle>
-    <circle class="packet" r="5"><animateMotion dur="1.6s" begin="0.3s" repeatCount="indefinite"><mpath href="#e-img"/></animateMotion></circle>
-    <circle class="packet" r="5"><animateMotion dur="1.6s" begin="0.6s" repeatCount="indefinite"><mpath href="#e-hist"/></animateMotion></circle>
-
-    <rect class="card" x="330" y="110" width="280" height="110" rx="10"/>
-    <rect x="330" y="110" width="7" height="110" rx="3" fill="var(--violet)"/>
-    <text class="title" x="355" y="148">Lab Agent</text>
-    <text class="sub" x="355" y="174">values vs reference ranges</text>
-    <text class="mono" x="355" y="200">→ flags · incidental</text>
-
-    <rect class="card" x="330" y="300" width="280" height="110" rx="10"/>
-    <rect x="330" y="300" width="7" height="110" rx="3" fill="var(--blue)"/>
-    <text class="title" x="355" y="338">Radiology Agent</text>
-    <text class="sub" x="355" y="364">findings vs impression</text>
-    <text class="mono" x="355" y="390">→ findings · incidental</text>
-
-    <rect class="card" x="330" y="490" width="280" height="110" rx="10"/>
-    <rect x="330" y="490" width="7" height="110" rx="3" fill="var(--amber)"/>
-    <text class="title" x="355" y="528">History Agent</text>
-    <text class="sub" x="355" y="554">conditions · meds · allergies</text>
-    <text class="mono" x="355" y="580">→ HistoryProfile</text>
+    <path class="leg" d="M118 370 L352 182"/>
+    <path class="leg" d="M132 390 L350 390"/>
+    <path class="leg" d="M118 410 L352 598"/>
+    <circle class="ctrl" cx="380" cy="160" r="30"/><text class="ctrl-num" x="380" y="169" text-anchor="middle">1</text>
+    <text class="name" x="380" y="95" text-anchor="middle">Lab</text><text class="task" x="380" y="120" text-anchor="middle">values vs reference ranges</text>
+    <circle class="ctrl" cx="380" cy="390" r="30"/><text class="ctrl-num" x="380" y="399" text-anchor="middle">2</text>
+    <text class="name" x="425" y="343">Radiology</text><text class="task" x="425" y="368">answered vs incidental</text>
+    <circle class="ctrl" cx="380" cy="620" r="30"/><text class="ctrl-num" x="380" y="629" text-anchor="middle">3</text>
+    <text class="name" x="380" y="685" text-anchor="middle">History</text><text class="task" x="380" y="710" text-anchor="middle">conditions · meds · allergies</text>
   </g>
 
-  <!-- Step 2: merge -->
+  <!-- 2: merge -->
   <g class="fragment" data-fragment-index="2">
-    <g class="edge">
-      <path id="e-lab-sum" d="M610 165 H655 V320 H696" marker-end="url(#arrow)"/>
-      <path id="e-img-sum" d="M610 355 H696" marker-end="url(#arrow)"/>
-      <path id="e-hist-sum" d="M610 545 H655 V410 H696" marker-end="url(#arrow)"/>
-    </g>
-    <circle class="packet" r="5"><animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#e-lab-sum"/></animateMotion></circle>
-    <circle class="packet" r="5"><animateMotion dur="1.8s" begin="0.4s" repeatCount="indefinite"><mpath href="#e-img-sum"/></animateMotion></circle>
-    <circle class="packet" r="5"><animateMotion dur="1.8s" begin="0.8s" repeatCount="indefinite"><mpath href="#e-hist-sum"/></animateMotion></circle>
-
-    <rect class="card" x="700" y="250" width="280" height="225" rx="10"/>
-    <rect x="700" y="250" width="7" height="225" rx="3" fill="var(--teal)"/>
-    <text class="title" x="725" y="290">Summarize</text>
-    <text class="sub" x="725" y="316">merge · critic pass</text>
-    <text class="sub" x="725" y="340">expected vs incidental</text>
-    <rect class="ledger" x="725" y="365" width="230" height="86" rx="8"/>
-    <text class="ledger-text" x="740" y="390">INCIDENTAL LEDGER</text>
-    <text class="ledger-text" x="740" y="414">• 9 mm lung nodule</text>
-    <text class="ledger-text" x="740" y="436">• coronary Ca (findings only)</text>
+    <path class="leg" d="M408 172 L692 376"/>
+    <path class="leg" d="M410 390 L690 390"/>
+    <path class="leg" d="M408 608 L692 404"/>
+    <circle class="ctrl" cx="720" cy="390" r="30"/><text class="ctrl-num" x="720" y="399" text-anchor="middle">4</text>
+    <text class="name" x="720" y="458" text-anchor="middle">Summarize</text><text class="task" x="720" y="483" text-anchor="middle">expected vs incidental,</text>
+    <text class="task" x="720" y="506" text-anchor="middle">keeps the incidental ledger</text>
   </g>
 
-  <!-- Step 3: wellness while waiting -->
+  <!-- 3: wellness while waiting -->
   <g class="fragment" data-fragment-index="3">
-    <g class="edge">
-      <path id="e-sum-well" d="M980 300 H1020 V165 H1056" marker-end="url(#arrow)"/>
-    </g>
-    <circle class="packet" r="5"><animateMotion dur="1.6s" repeatCount="indefinite"><mpath href="#e-sum-well"/></animateMotion></circle>
-    <rect class="card" x="1060" y="110" width="270" height="110" rx="10"/>
-    <rect x="1060" y="110" width="7" height="110" rx="3" fill="var(--orange)"/>
-    <text class="title" x="1085" y="148">Wellness Agent</text>
-    <text class="sub" x="1085" y="174">nutrition · physio · OTC</text>
-    <text class="mono" x="1085" y="200">filtered by allergies, meds</text>
+    <path class="leg" d="M744 372 L1036 198"/>
+    <circle class="ctrl" cx="1060" cy="180" r="30"/><text class="ctrl-num" x="1060" y="189" text-anchor="middle">5</text>
+    <text class="name" x="1060" y="85" text-anchor="middle">Wellness</text><text class="task" x="1060" y="110" text-anchor="middle">options while you wait,</text>
+    <text class="task" x="1060" y="132" text-anchor="middle">filtered by allergies and meds</text>
   </g>
 
-  <!-- Step 4: next steps negotiates with insurance -->
+  <!-- 4: next steps proposes, insurance checks, re-propose -->
   <g class="fragment" data-fragment-index="4">
-    <g class="edge">
-      <path id="e-sum-next" d="M980 420 H1020 V435 H1056" marker-end="url(#arrow)"/>
-      <path id="e-card-ins" d="M250 680 H1056" marker-end="url(#arrow)"/>
-      <path id="e-next-ins" d="M1165 490 V621" marker-end="url(#arrow)"/>
-      <path id="e-ins-next" d="M1225 625 V494" marker-end="url(#arrow)"/>
-      <text class="label" x="700" y="670">card image · member ID</text>
-      <text class="label" x="1060" y="563" text-anchor="end">in-network?</text>
-      <text class="label" x="1238" y="563">re-propose</text>
-    </g>
-    <circle class="packet" r="5"><animateMotion dur="1.6s" repeatCount="indefinite"><mpath href="#e-sum-next"/></animateMotion></circle>
-    <circle class="packet" r="5"><animateMotion dur="3.2s" repeatCount="indefinite"><mpath href="#e-card-ins"/></animateMotion></circle>
-    <circle class="packet" r="5"><animateMotion dur="1.4s" repeatCount="indefinite"><mpath href="#e-next-ins"/></animateMotion></circle>
-    <circle class="packet" r="5"><animateMotion dur="1.4s" begin="0.7s" repeatCount="indefinite"><mpath href="#e-ins-next"/></animateMotion></circle>
-
-    <rect class="card" x="1060" y="380" width="270" height="110" rx="10"/>
-    <rect x="1060" y="380" width="7" height="110" rx="3" fill="var(--magenta)"/>
-    <text class="title" x="1085" y="418">Next Steps</text>
-    <text class="sub" x="1085" y="444">specialty map · scheduling</text>
-    <text class="mono" x="1085" y="470">known specialists first</text>
-
-    <rect class="card" x="1060" y="625" width="270" height="110" rx="10"/>
-    <rect x="1060" y="625" width="7" height="110" rx="3" fill="var(--slate)"/>
-    <text class="title" x="1085" y="663">Insurance Agent</text>
-    <text class="sub" x="1085" y="689">plan · network · cost</text>
-    <text class="mono" x="1085" y="715">referral · prior auth</text>
+    <path class="leg" d="M746 404 L1034 506"/>
+    <path class="leg" d="M1082 540 Q1210 560 1310 622"/>
+    <path class="leg" d="M1318 662 Q1180 650 1072 548"/>
+    <text class="label" x="1215" y="548">propose</text>
+    <text class="label" x="1150" y="655" text-anchor="end">re-propose</text>
+    <circle class="ctrl" cx="1060" cy="520" r="30"/><text class="ctrl-num" x="1060" y="529" text-anchor="middle">6</text>
+    <text class="name" x="1015" y="578" text-anchor="end">Next Steps</text><text class="task" x="1015" y="603" text-anchor="end">specialty · slot · cost</text>
+    <circle class="ctrl" cx="1340" cy="645" r="30"/><text class="ctrl-num" x="1340" y="654" text-anchor="middle">7</text>
+    <text class="name" x="1340" y="712" text-anchor="middle">Insurance</text><text class="task" x="1340" y="737" text-anchor="middle">network · referral · deductible</text>
   </g>
 
-  <!-- Step 5: patient-facing result -->
+  <!-- 5: the patient confirms -->
   <g class="fragment" data-fragment-index="5">
-    <g class="edge">
-      <path id="e-well-pt" d="M1330 165 H1365 V320 H1396" marker-end="url(#arrow)"/>
-      <path id="e-next-pt" d="M1330 435 H1365 V420 H1396" marker-end="url(#arrow)"/>
-    </g>
-    <circle class="packet" r="5"><animateMotion dur="1.6s" repeatCount="indefinite"><mpath href="#e-well-pt"/></animateMotion></circle>
-    <circle class="packet" r="5"><animateMotion dur="1.6s" begin="0.5s" repeatCount="indefinite"><mpath href="#e-next-pt"/></animateMotion></circle>
-    <g class="patient">
-      <rect class="card" x="1400" y="270" width="185" height="200" rx="12"/>
-      <text class="title" x="1420" y="312">Patient</text>
-      <text class="title" x="1420" y="340">result</text>
-      <text class="sub" x="1420" y="375">plain-language</text>
-      <text class="sub" x="1420" y="398">summary</text>
-      <text class="sub" x="1420" y="430">proposed appts</text>
-      <text class="sub" x="1420" y="453">· human confirms</text>
-    </g>
+    <path class="leg" d="M1086 168 L1462 262"/>
+    <path class="leg" d="M1084 504 L1464 298"/>
+    <circle class="ctrl" cx="1490" cy="280" r="20"/><circle class="ctrl" cx="1490" cy="280" r="34"/>
+    <text class="name" x="1490" y="350" text-anchor="middle">You</text>
+    <text class="task" x="1490" y="375" text-anchor="middle">confirm</text>
   </g>
 </svg>
 ```
 
 ::: {.captions}
-[Four uploads from one patient: labs, imaging, history and an insurance card.]{.caption .fragment .fade-out fragment-index=1}
-[**Lab, Radiology and History** read in parallel. Each flags what looks incidental.]{.caption .fragment .fade-in-then-out fragment-index=1}
-[**Summarize** merges them. History decides what is *expected*; the rest goes on the incidental ledger.]{.caption .fragment .fade-in-then-out fragment-index=2}
-[**Wellness** offers budget nutrition, physio and OTC options while the patient waits.]{.caption .fragment .fade-in-then-out fragment-index=3}
-[**Next Steps and Insurance** trade proposals until every follow-up is in network and affordable.]{.caption .fragment .fade-in-then-out fragment-index=4}
-[One patient-facing result. **Appointments stay proposed until a human confirms.**]{.caption .fragment fragment-index=5}
+[Linda's uploads are the start of the course: labs, an imaging report and her health summary.]{.caption .fragment .fade-out fragment-index=1}
+[**Lab, Radiology and History** start together. Each flags what looks incidental.]{.caption .fragment .fade-in-then-out fragment-index=1}
+[**Summarize** merges them. History decides what is expected; the rest goes on the incidental ledger.]{.caption .fragment .fade-in-then-out fragment-index=2}
+[**Wellness** offers budget nutrition, activity and OTC options while she waits.]{.caption .fragment .fade-in-then-out fragment-index=3}
+[**Next Steps** proposes; **Insurance** checks network and cost and sends back anything out of network.]{.caption .fragment .fade-in-then-out fragment-index=4}
+[One plain-language result. **Appointments stay proposed until she confirms.**]{.caption .fragment fragment-index=5}
 :::

@@ -1,4 +1,6 @@
 ---
+# Four slides: intro, agent course (animated), demo, conclusion. Theme: Course (design/tokens.json).
+# [like this]{.tbd} marks undecided content. Render: quarto render presentation/index.qmd
 pagetitle: "CareRelay · AWS Austin Agentic AI Hackathon"
 format:
   revealjs:
@@ -17,36 +19,27 @@ format:
     footer: "SYNTHETIC DATA · PROTOTYPE · NOT MEDICAL ADVICE"
 ---
 
-<!--
-Four slides: intro, overview (animated architecture), demo, conclusion.
-Anything styled [like this]{.tbd} is still undecided. Speaker notes are in ::: notes blocks.
-Render: quarto render presentation/index.qmd   Preview: quarto preview presentation/index.qmd
--->
-
 ## {.intro}
 
 :::: {.columns}
 ::: {.column width="46%"}
-[AWS Austin Agentic AI Hackathon · Track 1 · Caregivers]{.kicker}
-
-[Care[Relay]{}]{.wordmark}
+[CareRelay]{.wordmark}
 
 [Patients get reports written for other doctors. **Upload yours, and understand what it means and what to do next.**]{.tagline}
 
-[[Team names]{.tbd} · Built on Amazon Bedrock, AgentCore and Strands Agents]{.team}
+[AWS Austin Agentic AI Hackathon, Track 1 (Caregivers) · [Team names]{.tbd} · Amazon Bedrock, AgentCore and Strands Agents]{.event}
 :::
 
 ::: {.column width="54%"}
 ::: {.report-card}
 [From the portal · CT Chest · 10/14/2026]{.card-head}
 
-[IMPRESSION:]{.mono-b}
 [2\. 9 mm solid noncalcified nodule in the superior segment of the right lower lobe. For a solid nodule greater than 8 mm, Fleischner Society 2017 guidelines suggest considering CT at 3 months, PET/CT, or tissue sampling.]{.jargon}
 
 [Linda, 58: *"Is this cancer? Who do I even call?"*]{.patient-q}
 :::
 
-[↓ upload]{.upload .fragment fragment-index=1}
+[Linda uploads it to CareRelay]{.upload .fragment fragment-index=1}
 
 ::: {.plain-card .fragment .fade-up fragment-index=2}
 [CareRelay · in plain language]{.card-head}
@@ -68,8 +61,6 @@ swap in real app output once we have it. TODO: team names.
 
 ## How the agents work together {.overview}
 
-[Overview]{.kicker}
-
 {{< include _architecture.qmd >}}
 
 ::: notes
@@ -80,8 +71,6 @@ Click through five steps. Emphasise: (1) parallel specialists, (2) History turns
 :::
 
 ## Demo {.demo}
-
-[Recorded · case_001]{.kicker}
 
 :::: {.columns}
 ::: {.column width="62%"}
@@ -94,7 +83,7 @@ save it as presentation/media/demo.mp4, and replace the whole demo-frame div bel
 Reveal plays it when the slide opens; add data-autoplay via the slide's attributes if wanted.
 -->
 ::: {.demo-frame}
-[Screen recording]{.big}
+[Screen recording of the CareRelay app]{.big}
 
 [case_001 end to end · [media/demo.mp4 TBD]{.tbd}]{}
 :::
@@ -103,21 +92,24 @@ Reveal plays it when the slide opens; add data-autoplay via the slide's attribut
 ::: {.column width="38%"}
 ::: {.beats}
 ::: {.beat .fragment}
+[1]{.ctrl-n}
 **Upload**
 
-Labs, CT report, history and card. Three agents stream in parallel.
+Labs, CT report and health summary. Lab, Radiology and History start together; every handoff shows on the course.
 :::
 
 ::: {.beat .fragment}
+[2]{.ctrl-n}
 **Merge and wait**
 
-Prediabetes is *expected*; the coronary calcium is *incidental*. A dextromethorphan cough syrup is excluded because of her allergy.
+The coronary calcium, mentioned only in FINDINGS, still gets an owner. A DM cough syrup is ruled out by her allergy.
 :::
 
 ::: {.beat .fragment}
+[3]{.ctrl-n}
 **Follow up**
 
-In-network pulmonology, thyroid ultrasound and PCP visit, priced against her deductible, waiting for a human to confirm.
+The nearest pulmonologist is out of network, so Insurance sends Next Steps back. Three visits, \$125, proposed until she confirms.
 :::
 :::
 :::
@@ -126,12 +118,10 @@ In-network pulmonology, thyroid ultrasound and PCP visit, priced against her ded
 ::: notes
 Recorded run of the app on case_001; narrate the three beats on the right as it plays.
 Keep it under 2 minutes. If there is time, offer a live run afterwards.
-TODO: record once the app works; confirm which surface we show (Streamlit, Function URL or AgentCore).
+Record from the Shiny UI (src/carerelay/ui/app.py) with demo fill on; drop demo fill as agents land.
 :::
 
 ## {.conclusion}
-
-[Conclusion]{.kicker}
 
 [Every finding gets an owner, an explanation and an in-network next step.]{.closing}
 
