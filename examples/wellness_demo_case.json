@@ -1,0 +1,31 @@
+{
+  "visit_reason": "low back pain for two weeks",
+  "patient_age": 58,
+  "human_confirmed": false,
+  "findings": [
+    {"id": "lab-glucose-1", "source": "lab", "label": "Glucose", "value": "182 mg/dL",
+     "evidence": "lab PDF p1 row 4", "confidence": 0.98, "severity": "follow_up",
+     "incidental": true, "explained_by": null, "specialty_hint": "primary care"},
+    {"id": "lab-ldl-1", "source": "lab", "label": "LDL cholesterol", "value": "162 mg/dL",
+     "evidence": "lab PDF p1 row 9", "confidence": 0.97, "severity": "info",
+     "incidental": false, "explained_by": "cond-htn", "specialty_hint": "cardiology"},
+    {"id": "rad-nodule-1", "source": "radiology", "label": "Nodule", "value": "0.71",
+     "evidence": "TorchXRayVision score, right upper zone", "confidence": 0.71, "severity": "follow_up",
+     "incidental": true, "explained_by": null, "specialty_hint": "pulmonology"}
+  ],
+  "ledger": [
+    {"finding_id": "lab-glucose-1", "source": "lab", "evidence": "lab PDF p1 row 4", "confidence": 0.98,
+     "specialty_hint": "primary care", "status": "open"},
+    {"finding_id": "rad-nodule-1", "source": "radiology", "evidence": "TorchXRayVision score, right upper zone",
+     "confidence": 0.71, "specialty_hint": "pulmonology", "status": "open"}
+  ],
+  "history": {
+    "source": "fhir",
+    "conditions": [{"system": "SNOMED", "code": "59621000", "display": "Essential hypertension", "status": "active"}],
+    "medications": [{"system": "RxNorm", "code": "314076", "display": "lisinopril 10 MG Oral Tablet", "status": "active"}],
+    "allergies": [{"display": "Aspirin", "detail": "hives"}],
+    "procedures": [],
+    "known_specialists": ["cardiology"],
+    "risk_flags": ["hypertension"]
+  }
+}

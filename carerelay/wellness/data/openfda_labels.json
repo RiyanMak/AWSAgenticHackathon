@@ -1,0 +1,143 @@
+{
+ "ACETAMINOPHEN": {
+  "active_ingredient": "Active ingredient (in each gelcap) Acetaminophen 500 mg",
+  "purpose": "Purpose Pain reliever/fever reducer",
+  "do_not_use": "Do not use if you are allergic to acetaminophen or any of the inactive ingredients in this product with any other drug containing acetaminophen (prescription or nonprescription). If you are not sure whether a drug contains acetaminophen, ask a doctor or pharmacist.",
+  "ask_doctor": "Ask a doctor before use if you have liver disease.",
+  "ask_doctor_or_pharmacist": "Ask a doctor or pharmacist before use if you are taking the blood thinning drug warfarin.",
+  "stop_use": "Stop use and ask a doctor if new symptoms occur pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days redness or swelling is present These could be signs of a serious condition.",
+  "pregnancy_or_breast_feeding": "If pregnant or breast-feeding, ask a health professional before use.",
+  "warnings": "Warnings Liver warning: This product contains acetaminophen. Severe liver damage may occur if you take more than 4,000 mg of acetaminophen in 24 hours with other drugs containing acetaminophen 3 or more alcoholic drinks every day while using this product Allergy alert: Acetaminophen may cause severe skin reactions. Symptoms may include: skin reddening blisters rash If a skin reaction occurs, stop use and seek medical help right away. Do not use if you are allergic to acetaminophen or any of the inactive ingredients in this product with any other drug containing acetaminophen (prescription or nonprescription). If you are not sure whether a drug contains acetaminophen, ask a doctor or pharmacist. Ask a doctor before use if you have liver disease. Ask a doctor or pharmacist before use if you are taking the blood thinning drug warfarin. Stop use and ask a doctor if new symptoms occur pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days redness or swelling is present These could be signs of a serious condition. If pregnant or breast-feeding, ask a health professional before use. Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center right away. Prompt medical attention is critical for adults as well as for children even if you do not notice any signs or symptoms.",
+  "dosage_and_administration": "Directions do not take more than directed adults and children 12 years and over take 2 gelcaps every 6 hours while symptoms last do not take more than 6 gelcaps in 24 hours, unless directed by a doctor do not take for more than 10 days unless directed by a doctor children under 12 years: ask a doctor",
+  "set_id": "0005aafa-08f8-4990-a54d-cc097195708f",
+  "effective_time": "20260102",
+  "brand_name": "Pain Reliever Extra Strength",
+  "generic_name": "ACETAMINOPHEN",
+  "substance_name": [
+   "ACETAMINOPHEN"
+  ]
+ },
+ "ASPIRIN": {
+  "active_ingredient": "Active ingredient (in each tablet) Aspirin 81 mg (NSAID)* *nonsteroidal anti-inflammatory drug",
+  "purpose": "Purpose Pain reliever",
+  "do_not_use": "Do not use if you are allergic to aspirin or any other pain reliever/fever reducer. if you have ever had an allergic reaction to his product or any of its ingredients",
+  "ask_doctor": "Ask a doctor before use if stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn you have high blood pressure, heart disease, liver cirrhosis, or kidney disease you are taking a diuretic you have asthma",
+  "ask_doctor_or_pharmacist": "Ask a doctor or pharmacist before use if you are taking a prescription drug for gout diabetes arthritis",
+  "stop_use": "Stop use and ask a doctor if an allergic reaction occurs. Seek medical help right away. you experience any of the following signs of stomach bleeding: feel faint vomit blood have bloody or black stool have stomach pain that does not get better pain gets worse or lasts more than 10 days redness or swelling is present ringing in the ears or loss of hearing occurs new symptoms occur These could be signs of a serious condition",
+  "pregnancy_or_breast_feeding": "If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use aspirin during the last 3 months of pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery.",
+  "warnings": "Warnings Reye's syndrome : Children and teenagers who have or are recovering from chicken pox or flu-like symptoms should not use this product. When using this product, if changes in behavior with nausea and vomiting occur, consult a doctor because these symptoms could be an early sign of Reye's syndrome, a rare but serious illness. Allergy alert : Aspirin may cause a severe allergic reaction, which may include: hives facial swelling shock asthma (wheezing) Stomach bleeding warning: This product contains an NSAID, which may cause severe stomach bleeding. The chance is higher if you: are age 60 or older have had stomach ulcers or bleeding problems take a blood thinning (anticoagulant) or steroid drug take other drugs containing prescription or nonprescription NSAIDs [aspirin, ibuprofen, naproxen, or others] have 3 or more alcoholic drinks every day while using this product take more or for a longer time than directed Do not use if you are allergic to aspirin or any other pain reliever/fever reducer. if you have ever had an allergic reaction to his product or any of its ingredients Ask a doctor before use if stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn you have high blood pressure, heart disease, liver cirrhosis, or kidney disease you are taking a diuretic you have asthma Ask a doctor or pharmacist before use if you are taking a prescription drug for gout diabetes arthritis Stop use and ask a doctor if an allergic reaction occurs. Seek medical help right away. you experience any of the following signs of stomach bleeding: feel faint vomit blood have bloody or black stool have stomach pain that does not get better pain gets worse or lasts more than 10 days redness or swelling is present ringing in the ears or loss of hearing occurs new symptoms occur These could be signs of a serious condition If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use aspirin during the last 3 months of pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery. Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away.",
+  "dosage_and_administration": "Directions drink a full glass of water with each dose adults and children 12 years and over: take 4 to 8 tablets every 4 hours not to exceed 48 tablets in 24 hours unless directed by a doctor children under 12 years: consult a doctor",
+  "set_id": "0058175f-3474-40c3-a046-6cfaec86d84b",
+  "effective_time": "20240416",
+  "brand_name": "Low Dose Aspirin",
+  "generic_name": "ASPIRIN",
+  "substance_name": [
+   "ASPIRIN"
+  ]
+ },
+ "CALCIUM CARBONATE": {
+  "active_ingredient": "Active ingredient (per tablet) Calcium Carbonate USP 1000mg",
+  "purpose": "Purpose Antacid",
+  "do_not_use": "Do Not Use Do not use if printed seal under cap is torn or missing",
+  "ask_doctor_or_pharmacist": "Ask a doctor or pharmacist before use if you are presently taking a prescription drug. Antacids may interact with certain prescription drugs.",
+  "when_using": "When using this product do not take more than 7 tablets in 24 hours if pregnant do not take more than 5 tablets in 24 hours do not use the maximum dosage for more than 2 weeks except under the advice and supervision of a doctor",
+  "warnings": "Warnings",
+  "dosage_and_administration": "Directions adults and children 12 years of age and over: chew 2-3 tablets as symptoms occur, or as directed by a doctor do not take for symptoms that persist for more than 2 weeks unless advised by a doctor",
+  "set_id": "04b3d397-df99-44e2-a191-6e9199b08398",
+  "effective_time": "20251108",
+  "brand_name": "Topcare Antacid Calcium",
+  "generic_name": "CALCIUM CARBONATE",
+  "substance_name": [
+   "CALCIUM CARBONATE"
+  ]
+ },
+ "DEXTROMETHORPHAN HYDROBROMIDE": {
+  "active_ingredient": "Active ingredients (in each lozenge) Dextromethorphan HBr 10mg",
+  "purpose": "Purpose Cough suppressant",
+  "do_not_use": "Do not use \u25a0this product for persistent or chronic cough such as occurs with smoking, asthema, or emphysem, or if cough is accompanied by excessive phlegm (mucus) unless directed by a doctor.",
+  "ask_doctor_or_pharmacist": "Ask a doctor or pharmacist before use if \u25a0you are now taking a prescription monoamine oxidase inhibitor (MAOI) (certain drugs for depression, psychiatric or emotional conditions, or Parkinson\u2019s disease), or for 2 weeks after stopping the MAOI drug. If you do not know if your prescription drug contains an MAOI, ask a doctor or pharmacist before taking this product. A persistent cough may be a sign of a serious condition. If cough persists for more than 1 week, tends to recur, or is accompanied by fever, rash, or persistent headache, consult a doctor.",
+  "pregnancy_or_breast_feeding": "If pregnant or breast-feeding , ask a health professional before use.",
+  "warnings": "Enter section text here Do not use \u25a0this product for persistent or chronic cough such as occurs with smoking, asthema, or emphysem, or if cough is accompanied by excessive phlegm (mucus) unless directed by a doctor. Ask a doctor or pharmacist before use if \u25a0you are now taking a prescription monoamine oxidase inhibitor (MAOI) (certain drugs for depression, psychiatric or emotional conditions, or Parkinson\u2019s disease), or for 2 weeks after stopping the MAOI drug. If you do not know if your prescription drug contains an MAOI, ask a doctor or pharmacist before taking this product. A persistent cough may be a sign of a serious condition. If cough persists for more than 1 week, tends to recur, or is accompanied by fever, rash, or persistent headache, consult a doctor. If pregnant or breast-feeding , ask a health professional before use. Keep out of reach of children. In case of accidental overdose, get medical help or contact a Poison Control Center right away.",
+  "dosage_and_administration": "Directions Adults and children 12 years and older - Let 1 or 2 lozenges dissolve slowly in the mouth every 4 hours, not more than 12 lozenges in 24 hours. Children 6 years to under 12 years - Let 1 lozenge dissolve slowly in the mouth every 4 hours, not more than 6 lozenges in 24 hours. Children under 6 years - Ask a doctor \u25a0once or twice daily, preferably morning and evening, when needed or as directed by a doctor \u25a0start initial dosage with minimum dose, then adjust it to suit to bowel condition",
+  "set_id": "1ccc9e56-32a4-450f-8412-5814b6aef285",
+  "effective_time": "20231128",
+  "brand_name": "Stona",
+  "generic_name": "DEXTROMETHORPHAN HYDROBROMIDE",
+  "substance_name": [
+   "DEXTROMETHORPHAN HYDROBROMIDE"
+  ]
+ },
+ "FAMOTIDINE": {
+  "active_ingredient": "Active ingredient (in each tablet) Famotidine USP 10 mg",
+  "purpose": "Purpose Acid reducer",
+  "do_not_use": "Do not use if you have trouble or pain swallowing food, vomiting with blood, or bloody or black stools. These may be signs of a serious condition. See your doctor. with other acid reducers",
+  "ask_doctor": "Ask a doctor before use if you have had heartburn over 3 months. This may be a sign of a more serious condition. heartburn with lightheadedness, sweating, or dizziness chest pain or shoulder pain with shortness of breath; sweating; pain spreading to arms, neck or shoulders; or lightheadedness frequent chest pain frequent wheezing, particularly with heartburn unexplained weight loss nausea or vomiting stomach pain kidney disease",
+  "ask_doctor_or_pharmacist": "Ask a doctor or pharmacist before use if you are taking a prescription drug. Acid reducers may interact with certain prescription drugs.",
+  "stop_use": "Stop use and ask a doctor if your heartburn continues or worsens you need to take this product for more than 14 days",
+  "pregnancy_or_breast_feeding": "If pregnant or breast-feeding, ask a health professional before use.",
+  "warnings": "Warnings Allergy alert: Do not use if you are allergic to famotidine or other acid reducers",
+  "dosage_and_administration": "Directions adults and children 12 years and over: to relieve symptoms, swallow 1 tablet with a glass of water. Do not chew. to prevent symptoms, swallow 1 tablet with a glass of water at any time from 15 to 60 minutes before eating food or drinking beverages that cause heartburn do not use more than 2 tablets in 24 hours children under 12 years: ask a doctor",
+  "set_id": "018b02e8-1005-4736-a4fc-962881f52adf",
+  "effective_time": "20250315",
+  "brand_name": "Famotidine",
+  "generic_name": "FAMOTIDINE",
+  "substance_name": [
+   "FAMOTIDINE"
+  ]
+ },
+ "GUAIFENESIN": {
+  "active_ingredient": "Active ingredient (in each extended-release bi-layer tablet) Guaifenesin 600 mg",
+  "purpose": "Purpose Expectorant",
+  "do_not_use": "Do not use for children under 12 years of age",
+  "ask_doctor": "Ask a doctor before use if you have persistent or chronic cough such as occurs with smoking, asthma, chronic bronchitis, or emphysema cough accompanied by too much phlegm (mucus)",
+  "stop_use": "Stop use and ask a doctor if cough lasts more than 7 days, comes back, or occurs with fever, rash, or persistent headache. These could be signs of a serious illness.",
+  "pregnancy_or_breast_feeding": "If pregnant or breast-feeding, ask a health professional before use.",
+  "warnings": "Warnings Do not use for children under 12 years of age Ask a doctor before use if you have persistent or chronic cough such as occurs with smoking, asthma, chronic bronchitis, or emphysema cough accompanied by too much phlegm (mucus) Stop use and ask a doctor if cough lasts more than 7 days, comes back, or occurs with fever, rash, or persistent headache. These could be signs of a serious illness. If pregnant or breast-feeding, ask a health professional before use. Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center right away.",
+  "dosage_and_administration": "Directions do not crush, chew, or break tablet take with a full glass of water this product can be administered without regard for the timing of meals adults and children 12 years of age and over: 1 or 2 tablets every 12 hours. Do not exceed 4 tablets in 24 hours. children under 12 years of age: do not use",
+  "set_id": "0129f47d-abc2-414c-b4e1-1064c5d6a623",
+  "effective_time": "20240725",
+  "brand_name": "Mucinex",
+  "generic_name": "GUAIFENESIN",
+  "substance_name": [
+   "GUAIFENESIN"
+  ]
+ },
+ "IBUPROFEN": {
+  "active_ingredient": "Active ingredient (in each white tablet) Ibuprofen USP, 200 mg (NSAID)* *nonsteroidal anti-inflammatory drug",
+  "purpose": "Purpose Pain reliever/fever reducer",
+  "do_not_use": "Do not use if you have ever had an allergic reaction to any other pain reliever/fever reducer right before or after heart surgery",
+  "ask_doctor": "Ask a doctor before use if stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn you have high blood pressure, heart disease, liver cirrhosis, kidney disease, asthma, or had a stroke you are taking a diuretic you have problems or serious side effects from taking pain relievers or fever reducers",
+  "ask_doctor_or_pharmacist": "Ask a doctor or pharmacist before use if you are under a doctor's care for any serious condition taking aspirin for heart attack or stroke, because ibuprofen may decrease this benefit of aspirin taking any other drug",
+  "when_using": "When using this product take with food or milk if stomach upset occurs",
+  "stop_use": "Stop use and ask a doctor if you experience any of the following signs of stomach bleeding: feel faint have bloody or black stools vomit blood have stomach pain that does not get better you have symptoms of heart problems or stroke: chest pain slurred speech trouble breathing leg swelling weakness in one part or side of body pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days redness or swelling is present in the painful area any new symptoms appear",
+  "pregnancy_or_breast_feeding": "If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use ibuprofen at 20 weeks or later in pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery.",
+  "warnings": "Warnings Allergy alert: Ibuprofen may cause a severe allergic reaction, especially in people allergic to aspirin. Symptoms may include: rash facial swelling asthma (wheezing) hives skin reddening shock blisters If an allergic reaction occurs, stop use and seek medical help right away. Stomach bleeding warning: This product contains an NSAID, which may cause severe stomach bleeding. The chance is higher if you: take more or for a longer time than directed take a blood thinning (anticoagulant) or steroid drug have had stomach ulcers or bleeding problems have 3 or more alcoholic drinks every day while using this product are age 60 or older take other drugs containing prescription or nonprescription NSAIDs [aspirin, ibuprofen, naproxen, or others] Heart attack and stroke warning: NSAIDs, except aspirin, increase the risk of heart attack, heart failure, and stroke. These can be fatal. The risk is higher if you use more than directed or for longer than directed. Do not use if you have ever had an allergic reaction to any other pain reliever/fever reducer right before or after heart surgery Ask a doctor before use if stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn you have high blood pressure, heart disease, liver cirrhosis, kidney disease, asthma, or had a stroke you are taking a diuretic you have problems or serious side effects from taking pain relievers or fever reducers Ask a doctor or pharmacist before use if you are under a doctor's care for any serious condition taking aspirin for heart attack or stroke, because ibuprofen may decrease this benefit of aspirin taking any other drug When using this product take with food or milk if stomach upset occurs Stop use and ask a doctor if you experience any of the following signs of stomach bleeding: feel faint have bloody or black stools vomit blood have stomach pain that does not get better you have symptoms of heart problems or stroke: chest pain slurred speech trouble breathing leg swelling weakness in one part or side of body pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days redness or swelling is present in the painful area any new symptoms appear If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use ibuprofen at 20 weeks or later in pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery. Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center right away.",
+  "dosage_and_administration": "Directions do not take more than directed the smallest effective dose should be used adults and children 12 years and over: take 1 tablet every 4 to 6 hours while symptoms persist if pain or fever does not respond to 1 tablet, 2 tablets may be used do not exceed 6 tablets in 24 hours, unless directed by a doctor children under 12 years: ask a doctor",
+  "set_id": "00653b7c-7099-487e-9a01-e89781c21323",
+  "effective_time": "20260429",
+  "brand_name": "Ibuprofen Dye Free",
+  "generic_name": "IBUPROFEN",
+  "substance_name": [
+   "IBUPROFEN"
+  ]
+ },
+ "NAPROXEN SODIUM": {
+  "active_ingredient": "Active ingredient (in each caplet) Naproxen sodium 220 mg (naproxen 200 mg) (NSAID)* *nonsteroidal anti-inflammatory drug",
+  "purpose": "Purposes Pain reliever/fever reducer",
+  "do_not_use": "Do not use \u2022 if you have ever had an allergic reaction to any other pain reliever/fever reducer \u2022 right before or after heart surgery",
+  "ask_doctor": "Ask a doctor before use if \u2022 the stomach bleeding warning applies to you \u2022 you have a history of stomach problems, such as heartburn \u2022 you have high blood pressure, heart disease, liver cirrhosis, kidney disease, asthma, or had a stroke \u2022 you are taking a diuretic \u2022 you have problems or serious side effects from taking pain relievers or fever reducers",
+  "ask_doctor_or_pharmacist": "Ask a doctor or pharmacist before use if you are \u2022 under a doctor\u2019s care for any serious condition \u2022 taking aspirin for heart attack or stroke, because naproxen may decrease this benefit of aspirin \u2022 taking any other drug",
+  "when_using": "When using this product \u2022 take with food or milk if stomach upset occurs",
+  "stop_use": "Stop use and ask a doctor if \u2022 you experience any of the following signs of stomach bleeding: \u2022 feel faint \u2022 vomit blood \u2022 have bloody or black stools \u2022 have stomach pain that does not get better \u2022 you have symptoms of heart problems or stroke: \u2022 chest pain \u2022 trouble breathing \u2022 weakness in one part or side of body \u2022 slurred speech \u2022 leg swelling \u2022 pain gets worse or lasts more than 10 days \u2022 fever gets worse or lasts more than 3 days \u2022 you have difficulty swallowing \u2022 it feels like the pill is stuck in your throat \u2022 redness or swelling is present in the painful area \u2022 any new symptoms appear",
+  "pregnancy_or_breast_feeding": "If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use naproxen sodium at 20 weeks or later in pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery.",
+  "warnings": "Warnings Allergy alert: Naproxen sodium may cause a severe allergic reaction, especially in people allergic to aspirin. Symptoms may include: \u2022 hives \u2022 facial swelling \u2022 asthma (wheezing) \u2022 shock \u2022 skin reddening \u2022 rash \u2022 blisters If an allergic reaction occurs, stop use and seek medical help right away. Stomach bleeding warning: This product contains an NSAID, which may cause severe stomach bleeding. The chance is higher if you \u2022 are age 60 or older \u2022 have had stomach ulcers or bleeding problems \u2022 take a blood thinning (anticoagulant) or steroid drug \u2022 take other drugs containing prescription or nonprescription NSAIDs (aspirin, ibuprofen, naproxen, or others) \u2022 have 3 or more alcoholic drinks every day while using this product \u2022 take more or for a longer time than directed Heart attack and stroke warning: NSAIDs, except aspirin, increase the risk of heart attack, heart failure, and stroke. These can be fatal. The risk is higher if you use more than directed or for longer than directed. Do not use \u2022 if you have ever had an allergic reaction to any other pain reliever/fever reducer \u2022 right before or after heart surgery Ask a doctor before use if \u2022 the stomach bleeding warning applies to you \u2022 you have a history of stomach problems, such as heartburn \u2022 you have high blood pressure, heart disease, liver cirrhosis, kidney disease, asthma, or had a stroke \u2022 you are taking a diuretic \u2022 you have problems or serious side effects from taking pain relievers or fever reducers Ask a doctor or pharmacist before use if you are \u2022 under a doctor\u2019s care for any serious condition \u2022 taking aspirin for heart attack or stroke, because naproxen may decrease this benefit of aspirin \u2022 taking any other drug When using this product \u2022 take with food or milk if stomach upset occurs Stop use and ask a doctor if \u2022 you experience any of the following signs of stomach bleeding: \u2022 feel faint \u2022 vomit blood \u2022 have bloody or black stools \u2022 have stomach pain that does not get better \u2022 you have symptoms of heart problems or stroke: \u2022 chest pain \u2022 trouble breathing \u2022 weakness in one part or side of body \u2022 slurred speech \u2022 leg swelling \u2022 pain gets worse or lasts more than 10 days \u2022 fever gets worse or lasts more than 3 days \u2022 you have difficulty swallowing \u2022 it feels like the pill is stuck in your throat \u2022 redness or swelling is present in the painful area \u2022 any new symptoms appear If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use naproxen sodium at 20 weeks or later in pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery. Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center right away (1-800-222-1222).",
+  "dosage_and_administration": "Directions \u2022 do not take more than directed \u2022 the smallest effective dose should be used \u2022 drink a full glass of water with each dose Adults and children 12 years and older: \u2022 take 1 caplet every 8 to 12 hours while symptoms last \u2022 for the first dose you may take 2 caplets within the first hour \u2022 do not exceed 2 caplets in any 8- to 12-hour period \u2022 do not exceed 3 caplets in a 24-hour period Children under 12 years: \u2022 ask a doctor",
+  "set_id": "00bd8490-f280-4336-b13d-0e11c0bf4586",
+  "effective_time": "20251104",
+  "brand_name": "up and up naproxen sodium",
+  "generic_name": "NAPROXEN SODIUM",
+  "substance_name": [
+   "NAPROXEN SODIUM"
+  ]
+ }
+}
