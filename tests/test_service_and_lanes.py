@@ -42,7 +42,9 @@ def test_handle_scenario_offline():
     assert lab["status"] == "ok" and lab["result"]["extraction_method"] == "local_text"
     assert any(f["label"] == "Sodium" and f["value"] == "131 mmol/L" for f in lab["result"]["findings"])
     assert rad["status"] == "ok" and rad["result"]["exam"] == "CT HEAD WITHOUT CONTRAST"
-    assert report["stages"]["next_steps"]["status"] == "not_implemented"
+    assert report["stages"]["summarize"]["status"] == "ok"
+    assert report["stages"]["wellness"]["status"] == "ok"
+    assert report["stages"]["next_steps"]["status"] == "ok"
     md = report["report"]["markdown"]
     assert "# CareRelay report" in md and "Apixaban" in md and service.DISCLAIMER in md
 
@@ -125,3 +127,42 @@ def test_template_and_policy_are_consistent():
         assert a in actions and a in template
     assert "ExpirationInDays" in template and "FunctionUrlConfig" in template
     assert "bedrock-agentcore.amazonaws.com" in template
+
+
+def test_full_flow_offline_case_001():
+    report = service.handle({"scenario": "case_001", "options": {"llm": False}})
+    st = report["stages"]
+    assert [st[n]["status"] for n in service.STAGES] == ["ok"] * 6
+    record = st["summarize"]["case_record"]
+    assert record["ledger"] and record["visit_reason"].startswith("Persistent cough")
+    plan = st["next_steps"]["plan"]
+    proposed = [s for s in plan["steps"] if s["status"] == "proposed"]
+    assert proposed and all(s["in_network"] for s in proposed)
+    assert all(s["appointment"]["status"] == "proposed" for s in proposed)
+    md = report["report"]["markdown"]
+    for heading in ("## Summary", "## Wellness while you wait", "## Next steps", "### Incidental ledger"):
+        assert heading in md
+
+
+def test_urgent_case_waits_for_confirmation():
+    report = service.handle({"scenario": "case_007", "options": {"llm": False}})
+    ns = report["stages"]["next_steps"]
+    assert ns["status"] == "awaiting_confirmation" and ns["needs_confirmation"]
+    confirmed = service.handle({"scenario": "case_007", "options": {"llm": False, "human_confirmed": True}})
+    steps = confirmed["stages"]["next_steps"]["plan"]["steps"]
+    assert any(s["triage"] == "urgent" and s["status"] == "proposed" for s in steps)
+
+
+def test_upload_without_coverage_skips_next_steps():
+    pdf = base64.b64encode((ROOT / "data/output/case_001/labs.pdf").read_bytes()).decode()
+    report = service.handle({"inputs": {"labs_pdf": pdf}, "options": {"llm": False}})
+    st = report["stages"]
+    assert st["summarize"]["status"] == "ok" and any("history" in g for g in st["summarize"]["case_record"]["gaps"])
+    assert st["next_steps"]["status"] == "skipped"
+
+
+@pytest.mark.parametrize("case_id", [f"case_{i:03d}" for i in range(1, 11)])
+def test_every_case_runs_end_to_end_offline(case_id):
+    report = service.handle({"scenario": case_id, "options": {"llm": False, "human_confirmed": True}})
+    for name in service.STAGES:
+        assert report["stages"][name]["status"] in ("ok", "skipped"), (name, report["stages"][name])

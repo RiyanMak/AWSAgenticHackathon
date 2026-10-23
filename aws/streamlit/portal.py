@@ -159,4 +159,29 @@ if report:
     c2.download_button("Download report (JSON)", json.dumps(report, indent=1), file_name="carerelay_report.json")
     c3.caption(f"Elapsed {report['elapsed_seconds']} s")
 
+st.divider()
+with st.expander("How this runs on AWS", expanded=False):
+    docs_dir = Path(__file__).resolve().parents[2] / "docs"
+    a, b = st.columns(2)
+    with a:
+        st.markdown("**Deployment lanes**")
+        if (docs_dir / "aws_architecture_1.png").exists():
+            st.image(str(docs_dir / "aws_architecture_1.png"), width="stretch")
+        st.markdown(
+            "- **Amazon Bedrock** (Claude): reads the lab and imaging PDFs, codes free-text history, writes the plain-language narration. Rules decide every flag and dose.\n"
+            "- **Amazon Comprehend Medical**: ICD-10-CM and RxNorm coding of patient-typed history, with Bedrock as fallback.\n"
+            "- **Bedrock AgentCore Runtime**: hosts this same pipeline as an arm64 container (`POST /invocations`).\n"
+            "- **AWS Lambda + Function URL**: shareable API; reports saved to a private **S3** bucket with presigned links, 14-day expiry.\n"
+            "- **CloudWatch Logs**, **IAM** least-privilege roles, **ECR** for both images. This page is the Streamlit lane, running the team in-process."
+        )
+    with b:
+        st.markdown("**The care team**")
+        if (docs_dir / "agent_architecture_1.png").exists():
+            st.image(str(docs_dir / "agent_architecture_1.png"), width="stretch")
+        st.markdown(
+            "History, Lab and Radiology run in parallel on the uploaded PDFs. Summarize merges them and keeps the incidental-findings ledger; "
+            "Wellness and Next Steps (Insurance + Scheduling) fan out from it. Deterministic tools do the math; humans confirm every appointment. "
+            "Details: `docs/AWS_INFRASTRUCTURE.md`."
+        )
+
 st.markdown(f'<div class="disclaimer">{service.DISCLAIMER}</div>', unsafe_allow_html=True)

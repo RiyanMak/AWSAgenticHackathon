@@ -1,0 +1,26 @@
+/* Generated from design/tokens.json by design/build_tokens.py. Do not edit by hand. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Archivo+Narrow:wght@500;600;700&display=swap");
+:root {
+  --color-ground: #ffffff;
+  --color-terrain: #f6f7f1;
+  --color-ink: #1c1c1a;
+  --color-muted: #5a5a52;
+  --color-rule: #e2e2da;
+  --color-course: #a1238a;
+  --color-course-ink: #ffffff;
+  --color-course-tint: #f6e6f2;
+  --color-contour: #b5651d;
+  --color-thicket: #8ea64a;
+  --color-open: #f2d16b;
+  --color-water: #2b7bb9;
+  --color-urgent: #c62828;
+  --color-soon: #a1238a;
+  --color-watch: #8a6d00;
+  --color-expected: #5a5a52;
+  --color-pending: #9a9a90;
+  --font-ui: 'Archivo', system-ui, sans-serif;
+  --font-numerals: 'Archivo Narrow', 'Archivo', system-ui, sans-serif;
+  --size-radius: 6px;
+  --size-leg: 3.5px;
+  --size-control: 16px;
+}

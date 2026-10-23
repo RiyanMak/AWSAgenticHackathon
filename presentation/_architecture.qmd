@@ -1,0 +1,82 @@
+<!--
+The agent course (same picture as the app's live course, src/carerelay/ui/views.py).
+Each <g class="fragment" data-fragment-index="N"> is one click; the newest step's legs flow.
+To change the design: move controls (circle + labels) and re-point the legs. Colours: theme.scss.
+-->
+
+```{=html}
+<svg class="arch" viewBox="0 0 1600 760" role="img" aria-label="CareRelay agent course: Lab, Radiology and History run in parallel, Summarize merges, Wellness and Next Steps act, Insurance checks every proposal, the patient confirms">
+  <ellipse class="contour" cx="760" cy="390" rx="720" ry="330"/>
+  <ellipse class="contour" cx="760" cy="390" rx="520" ry="230"/>
+  <ellipse class="contour" cx="760" cy="390" rx="300" ry="130"/>
+  <ellipse class="contour" cx="1330" cy="640" rx="230" ry="100"/>
+  <ellipse class="contour" cx="1330" cy="640" rx="110" ry="48"/>
+
+  <!-- Start: the uploads -->
+  <path class="start" d="M90 345 L130 415 L50 415 Z"/>
+  <text class="name" x="90" y="455" text-anchor="middle">Uploads</text>
+  <text class="task" x="90" y="480" text-anchor="middle">labs · imaging · history</text>
+
+  <!-- 1: three specialists in parallel -->
+  <g class="fragment" data-fragment-index="1">
+    <path class="leg" d="M118 370 L352 182"/>
+    <path class="leg" d="M132 390 L350 390"/>
+    <path class="leg" d="M118 410 L352 598"/>
+    <circle class="ctrl" cx="380" cy="160" r="30"/><text class="ctrl-num" x="380" y="169" text-anchor="middle">1</text>
+    <text class="name" x="380" y="95" text-anchor="middle">Lab</text><text class="task" x="380" y="120" text-anchor="middle">values vs reference ranges</text>
+    <circle class="ctrl" cx="380" cy="390" r="30"/><text class="ctrl-num" x="380" y="399" text-anchor="middle">2</text>
+    <text class="name" x="425" y="343">Radiology</text><text class="task" x="425" y="368">answered vs incidental</text>
+    <circle class="ctrl" cx="380" cy="620" r="30"/><text class="ctrl-num" x="380" y="629" text-anchor="middle">3</text>
+    <text class="name" x="380" y="685" text-anchor="middle">History</text><text class="task" x="380" y="710" text-anchor="middle">conditions · meds · allergies</text>
+  </g>
+
+  <!-- 2: merge -->
+  <g class="fragment" data-fragment-index="2">
+    <path class="leg" d="M408 172 L692 376"/>
+    <path class="leg" d="M410 390 L690 390"/>
+    <path class="leg" d="M408 608 L692 404"/>
+    <circle class="ctrl" cx="720" cy="390" r="30"/><text class="ctrl-num" x="720" y="399" text-anchor="middle">4</text>
+    <text class="name" x="720" y="458" text-anchor="middle">Summarize</text><text class="task" x="720" y="483" text-anchor="middle">expected vs incidental,</text>
+    <text class="task" x="720" y="506" text-anchor="middle">keeps the incidental ledger</text>
+  </g>
+
+  <!-- 3: wellness while waiting -->
+  <g class="fragment" data-fragment-index="3">
+    <path class="leg" d="M744 372 L1036 198"/>
+    <circle class="ctrl" cx="1060" cy="180" r="30"/><text class="ctrl-num" x="1060" y="189" text-anchor="middle">5</text>
+    <text class="name" x="1060" y="85" text-anchor="middle">Wellness</text><text class="task" x="1060" y="110" text-anchor="middle">options while you wait,</text>
+    <text class="task" x="1060" y="132" text-anchor="middle">filtered by allergies and meds</text>
+  </g>
+
+  <!-- 4: next steps proposes, insurance checks, re-propose -->
+  <g class="fragment" data-fragment-index="4">
+    <path class="leg" d="M746 404 L1034 506"/>
+    <path class="leg" d="M1082 540 Q1210 560 1310 622"/>
+    <path class="leg" d="M1318 662 Q1180 650 1072 548"/>
+    <text class="label" x="1215" y="548">propose</text>
+    <text class="label" x="1150" y="655" text-anchor="end">re-propose</text>
+    <circle class="ctrl" cx="1060" cy="520" r="30"/><text class="ctrl-num" x="1060" y="529" text-anchor="middle">6</text>
+    <text class="name" x="1015" y="578" text-anchor="end">Next Steps</text><text class="task" x="1015" y="603" text-anchor="end">specialty · slot · cost</text>
+    <circle class="ctrl" cx="1340" cy="645" r="30"/><text class="ctrl-num" x="1340" y="654" text-anchor="middle">7</text>
+    <text class="name" x="1340" y="712" text-anchor="middle">Insurance</text><text class="task" x="1340" y="737" text-anchor="middle">network · referral · deductible</text>
+  </g>
+
+  <!-- 5: the patient confirms -->
+  <g class="fragment" data-fragment-index="5">
+    <path class="leg" d="M1086 168 L1462 262"/>
+    <path class="leg" d="M1084 504 L1464 298"/>
+    <circle class="ctrl" cx="1490" cy="280" r="20"/><circle class="ctrl" cx="1490" cy="280" r="34"/>
+    <text class="name" x="1490" y="350" text-anchor="middle">You</text>
+    <text class="task" x="1490" y="375" text-anchor="middle">confirm</text>
+  </g>
+</svg>
+```
+
+::: {.captions}
+[Linda's uploads are the start of the course: labs, an imaging report and her health summary.]{.caption .fragment .fade-out fragment-index=1}
+[**Lab, Radiology and History** start together. Each flags what looks incidental.]{.caption .fragment .fade-in-then-out fragment-index=1}
+[**Summarize** merges them. History decides what is expected; the rest goes on the incidental ledger.]{.caption .fragment .fade-in-then-out fragment-index=2}
+[**Wellness** offers budget nutrition, activity and OTC options while she waits.]{.caption .fragment .fade-in-then-out fragment-index=3}
+[**Next Steps** proposes; **Insurance** checks network and cost and sends back anything out of network.]{.caption .fragment .fade-in-then-out fragment-index=4}
+[One plain-language result. **Appointments stay proposed until she confirms.**]{.caption .fragment fragment-index=5}
+:::

@@ -1,0 +1,177 @@
+/*-- scss:defaults --*/
+
+// Shared tokens (generated from design/tokens.json; same values as the Shiny UI)
+@import "tokens";
+@import url($font-google);
+
+$body-bg: $color-ground;
+$body-color: $color-ink;
+$link-color: $color-course;
+$font-family-sans-serif: $font-ui;
+$presentation-font-size-root: 34px;
+$presentation-heading-font: $font-ui;
+$presentation-heading-color: $color-ink;
+$presentation-heading-font-weight: 700;
+$presentation-heading-letter-spacing: -0.02em;
+$presentation-h2-font-size: 1.55em;
+$presentation-line-height: 1.35;
+
+/*-- scss:rules --*/
+
+.reveal .slides section { text-align: left; }
+.reveal ::selection { background: $color-course; color: $color-course-ink; }
+.reveal h2 { margin-bottom: 0.45em; }
+.muted { color: $color-muted; }
+
+// Still undecided: dashed course outline, impossible to miss on screen
+.tbd {
+  background: $color-course-tint;
+  outline: 2px dashed $color-course;
+  outline-offset: 1px;
+  border-radius: 3px;
+  padding: 0 0.2em;
+  color: $color-course;
+}
+
+// ---------- Slide 1: intro ----------
+.reveal .intro > .columns { display: flex; align-items: center; height: 720px; }
+
+.intro {
+  .wordmark {
+    display: block;
+    font-family: $font-numerals;
+    font-size: 3.6em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin: 0.5em 0 0.3em;
+  }
+  .tagline { display: block; font-size: 1.05em; max-width: 21em; }
+  .event { display: block; margin-top: 1.6em; font-size: 0.55em; color: $color-muted; }
+}
+
+.report-card, .plain-card {
+  border-radius: $size-radius;
+  padding: 0.8em 1em;
+  font-size: 0.55em;
+  p { margin: 0 0 0.45em; }
+  .card-head { display: block; font-weight: 600; color: $color-muted; margin-bottom: 0.4em; }
+}
+
+.report-card {
+  background: $color-terrain;
+  .jargon { display: block; line-height: 1.5; color: #3d3d38; }
+  .patient-q { display: block; margin-top: 0.7em; font-weight: 600; }
+}
+
+.upload {
+  display: block;
+  font-size: 0.5em;
+  font-weight: 600;
+  color: $color-course;
+  margin: 0.4em 0 0.4em 1em;
+}
+
+.plain-card {
+  background: $color-ground;
+  box-shadow: 0 14px 30px -18px rgba(28, 28, 26, 0.45), 0 2px 6px -3px rgba(28, 28, 26, 0.15);
+  font-size: 0.6em;
+  .next-step { display: block; margin-top: 0.6em; color: $color-course; font-weight: 600; }
+}
+
+// ---------- Slide 2: the agent course ----------
+.arch {
+  width: 100%;
+  height: auto;
+  font-family: $font-ui;
+  .contour { fill: none; stroke: $color-contour; stroke-width: 1.4; opacity: 0.45; }
+  .ctrl { fill: $color-ground; stroke: $color-course; stroke-width: 5; }
+  .start { fill: none; stroke: $color-course; stroke-width: 5; stroke-linejoin: round; }
+  .ctrl-num { font-family: $font-numerals; font-weight: 700; font-size: 26px; fill: $color-course; }
+  .name { font-size: 25px; font-weight: 700; fill: $color-ink; }
+  .task { font-size: 17px; fill: $color-muted; }
+  .leg { fill: none; stroke: $color-course; stroke-width: 4.5; stroke-linecap: round; }
+  .label { font-family: $font-numerals; font-size: 18px; font-weight: 600; fill: $color-course; }
+  .fragment.current-fragment .leg { stroke-dasharray: 14 10; animation: flow 0.9s linear infinite; }
+  .fragment.current-fragment .ctrl { fill: $color-course-tint; }
+}
+
+@keyframes flow { to { stroke-dashoffset: -48; } }
+@media (prefers-reduced-motion: reduce) { .arch .fragment.current-fragment .leg { animation: none; } }
+
+.captions {
+  position: relative;
+  height: 2.2em;
+  margin-top: 0.1em;
+  font-size: 0.62em;
+  > .caption { position: absolute; left: 0; top: 0; width: 100%; }
+}
+
+// ---------- Slide 3: demo ----------
+.demo-frame {
+  aspect-ratio: 16 / 9;
+  border-radius: $size-radius;
+  background: $color-terrain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: $color-muted;
+  font-size: 0.7em;
+  .big { font-size: 1.6em; font-weight: 700; color: $color-ink; }
+}
+
+.beats .beat {
+  position: relative;
+  padding: 0.55em 0 0.7em 2.4em;
+  border-bottom: 1px solid $color-rule;
+  font-size: 0.6em;
+  p { margin: 0.2em 0 0; color: $color-muted; }
+  p:first-of-type, strong { color: $color-ink; }
+  .ctrl-n {
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 1.5em;
+    height: 1.5em;
+    border: 3px solid $color-course;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: $font-numerals;
+    font-weight: 700;
+    color: $color-course;
+    box-sizing: border-box;
+  }
+}
+
+// ---------- Slide 4: conclusion ----------
+.closing {
+  display: block;
+  font-size: 1.5em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 0.9em;
+  max-width: 20em;
+}
+
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2em;
+  font-size: 0.58em;
+  .pillar {
+    border-top: 2px solid $color-ink;
+    padding-top: 0.6em;
+    h4 { font-size: 1.15em; margin: 0 0 0.4em; }
+    ul { margin-left: 1em; }
+  }
+}
+
+.repo { display: block; margin-top: 1.4em; font-size: 0.55em; color: $color-muted; }
+
+.reveal .footer { font-family: $font-numerals; font-size: 15px !important; color: $color-muted; }
+.reveal .slide-number { font-family: $font-numerals; background: transparent; color: $color-muted; }
+.reveal .controls { color: $color-course; }
+.reveal .progress { color: $color-course; }

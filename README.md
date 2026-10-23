@@ -55,27 +55,40 @@ The repo ships 10 synthetic cases in [data/](data/README.md): a radiology report
 4. Run what exists so far:
 
 ```bash
-uv venv .venv && uv pip install --python .venv/bin/python -e ".[dev]"
+uv venv .venv && uv pip install --python .venv/bin/python -e ".[dev,ui]"
 .venv/bin/python -m pytest -q tests data/tests
+.venv/bin/shiny run src/carerelay/ui/app.py          # patient UI: agent course + results (docs/FRONTEND.md)
 .venv/bin/python -m carerelay.history --pdf data/output/case_001/history.pdf --no-llm
 .venv/bin/python scripts/eval_history.py --offline
 ```
 
-The History Agent is implemented; see [docs/HISTORY_AGENT.md](docs/HISTORY_AGENT.md). Other agents follow the same package layout under `src/carerelay/`.
+The History Agent is implemented; see [docs/HISTORY_AGENT.md](docs/HISTORY_AGENT.md). Other agents follow the same package layout under `src/carerelay/`. The UI fills agents that are not built yet with labelled demo data, so the full course plays today; to plug an agent into the UI, follow [docs/FRONTEND.md](docs/FRONTEND.md).
 
-### Lab and Radiology agents
+### Running the pipeline
+
+History, Lab and Radiology run in parallel, then Summarize builds the `CaseRecord` (expected vs incidental, triage, incidental ledger, critic), then Wellness and Next Steps (which consults the Insurance Agent) run on it. Red-flag or urgent findings pause Next Steps until `options.human_confirmed` is set.
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
-.venv/bin/python -m pytest tests data/tests           # offline, no AWS
+.venv/bin/python -m pytest tests data/tests                # offline, no AWS
 .venv/bin/python -c "from carerelay import service; print(service.handle({'scenario': 'case_001', 'options': {'llm': False}})['report']['markdown'])"
-.venv/bin/python -m carerelay.run_case case_001       # local parsing only
+.venv/bin/python -m carerelay.run_case case_001            # Lab + Radiology only
+.venv/bin/python -m carerelay.next_steps.demo case_001     # Next Steps + Insurance from the answer-key triage (dev only)
 # Bedrock: paste the WSParticipantRole exports from Workshop Studio first (the VM's own role is more restricted)
-.venv/bin/python -m carerelay.run_case case_001 --aws
-.venv/bin/python -m carerelay.eval --aws              # score all 10 cases against the answer keys
+.venv/bin/python -m carerelay.eval --aws                   # Lab + Radiology extraction vs ground truth
+.venv/bin/python -m carerelay.eval --flow --aws            # whole flow: Summarize triage, Next Steps services
 ```
 
-Model: `us.anthropic.claude-sonnet-5` in us-east-1 (Sonnet 5.5 is denied in the workshop account; override with `BEDROCK_MODEL_ID`). AWS calls live in [src/carerelay/aws.py](src/carerelay/aws.py); rule tables in [src/carerelay/rules.py](src/carerelay/rules.py).
+| Package | Agent |
+|---|---|
+| `src/carerelay/agents/` | Lab and Radiology |
+| `src/carerelay/history/` | History |
+| `src/carerelay/summarize/` | Summarize: `CaseRecord`, triage rules, critic, ledger |
+| `src/carerelay/wellness/` | Wellness |
+| `src/carerelay/next_steps/` | Next Steps: rule table, planner, Strands agent with guardrails |
+| `src/carerelay/insurance/` | Insurance: coverage profile, cost checks, Strands agent (also a tool for Next Steps) |
+
+Model: `us.anthropic.claude-sonnet-5` in us-east-1 (Sonnet 5.5 is denied in the workshop account; it also rejects `temperature`, so our Strands models omit it). Override with `BEDROCK_MODEL_ID`. AWS calls live in [src/carerelay/aws.py](src/carerelay/aws.py); the mock payer and provider network is [data/network.py](data/network.py).
 
 ## Demo script (3 beats)
 
@@ -92,11 +105,16 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 ```text
 .
 ├── README.md
+├── PRODUCT.md                          # product facts for design work (users, purpose, constraints)
+├── DESIGN.md                           # the Course visual system: tokens, components, rules
 ├── pyproject.toml                      # package: carerelay (src layout)
 ├── requirements.txt
 ├── src/carerelay/
 │   ├── service.py                      # service.handle(request) -> report: the one entry point every lane calls
-│   └── history/                        # History Agent: schema, parsers (PDF, FHIR, MIMIC, intake), risk flags, tools, agent, CLI
+│   ├── history/                        # History Agent: schema, parsers (PDF, FHIR, MIMIC, intake), risk flags, tools, agent, CLI
+│   └── ui/                             # Shiny patient UI: agent contracts, pipeline events, demo fill, views (docs/FRONTEND.md)
+├── design/                             # tokens.json (shared theme) + build_tokens.py
+├── presentation/                       # Quarto reveal.js deck for the final presentation
 ├── aws/                                # deployment lanes (see docs/AWS_INFRASTRUCTURE.md)
 │   ├── template.yaml                   # SAM/CloudFormation: Lambda + Function URL + S3 + IAM + AgentCore role
 │   ├── lambda/, agentcore/, streamlit/ # lane A, B, C adapters and Dockerfiles
@@ -115,6 +133,7 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 │   └── tests/                          # integrity tests for the generators and mock network
 ├── docs/
 │   ├── ARCHITECTURE.md
+│   ├── FRONTEND.md
 │   ├── HISTORY_AGENT.md
 │   ├── DATASETS.md
 │   ├── APIS.md
@@ -143,6 +162,8 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 | [data/README.md](data/README.md) | Synthetic cases, mock network, tool functions, build and test commands |
 | [data/CASES.md](data/CASES.md) | The 10 case scenarios and their incidental findings |
 | [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Agents, Strands Graph pattern, incidental ledger, data flow |
+| [FRONTEND.md](docs/FRONTEND.md) | Shiny patient UI, agent course and handoff events, stage payload contracts, how to plug an agent in |
+| [DESIGN.md](DESIGN.md) | Course visual system shared by the UI and the deck |
 | [HISTORY_AGENT.md](docs/HISTORY_AGENT.md) | History Agent: inputs, `HistoryProfile`, risk flags, how to run and plug into the graph |
 | [DATASETS.md](docs/DATASETS.md) | Verified datasets per input type and knowledge sources |
 | [APIS.md](docs/APIS.md) | External APIs with auth, limits and example requests |
