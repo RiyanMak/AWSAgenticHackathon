@@ -63,6 +63,20 @@ uv venv .venv && uv pip install --python .venv/bin/python -e ".[dev]"
 
 The History Agent is implemented; see [docs/HISTORY_AGENT.md](docs/HISTORY_AGENT.md). Other agents follow the same package layout under `src/carerelay/`.
 
+### Lab and Radiology agents
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
+.venv/bin/python -m pytest tests data/tests           # offline, no AWS
+.venv/bin/python -c "from carerelay import service; print(service.handle({'scenario': 'case_001', 'options': {'llm': False}})['report']['markdown'])"
+.venv/bin/python -m carerelay.run_case case_001       # local parsing only
+# Bedrock: paste the WSParticipantRole exports from Workshop Studio first (the VM's own role is more restricted)
+.venv/bin/python -m carerelay.run_case case_001 --aws
+.venv/bin/python -m carerelay.eval --aws              # score all 10 cases against the answer keys
+```
+
+Model: `us.anthropic.claude-sonnet-5` in us-east-1 (Sonnet 5.5 is denied in the workshop account; override with `BEDROCK_MODEL_ID`). AWS calls live in [src/carerelay/aws.py](src/carerelay/aws.py); rule tables in [src/carerelay/rules.py](src/carerelay/rules.py).
+
 ## Demo script (3 beats)
 
 1. **Upload.** One synthetic patient: lab PDF, chest X-ray, medical history and insurance card. Show Lab, Radiology and History streaming in parallel. History surfaces a known condition and an allergy; Lab and Radiology each flag one anomaly.

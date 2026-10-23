@@ -38,7 +38,11 @@ def test_handle_scenario_offline():
     assert report["stages"]["history"]["status"] == "ok"
     profile = report["stages"]["history"]["profile"]
     assert "anticoagulant" in profile["risk_flags"]
-    assert report["stages"]["lab"]["status"] == "not_implemented" and report["stages"]["lab"]["input_present"]
+    lab, rad = report["stages"]["lab"], report["stages"]["radiology"]
+    assert lab["status"] == "ok" and lab["result"]["extraction_method"] == "local_text"
+    assert any(f["label"] == "Sodium" and f["value"] == "131 mmol/L" for f in lab["result"]["findings"])
+    assert rad["status"] == "ok" and rad["result"]["exam"] == "CT HEAD WITHOUT CONTRAST"
+    assert report["stages"]["next_steps"]["status"] == "not_implemented"
     md = report["report"]["markdown"]
     assert "# CareRelay report" in md and "Apixaban" in md and service.DISCLAIMER in md
 
@@ -47,9 +51,27 @@ def test_handle_base64_upload_offline():
     pdf_b64 = base64.b64encode((ROOT / "data/output/case_004/history.pdf").read_bytes()).decode()
     report = service.handle({"inputs": {"history_pdf": pdf_b64, "intake": "Allergies: latex (rash)"}, "options": {"llm": False}})
     assert report["case_id"] is None
+    assert report["stages"]["lab"]["status"] == "skipped" and report["stages"]["radiology"]["status"] == "skipped"
     prof = report["stages"]["history"]["profile"]
     assert prof["document_kind"] == "patient_questionnaire"
     assert any(a["display"] == "latex" for a in prof["allergies"])
+
+
+def test_handle_base64_lab_and_radiology_offline():
+    enc = lambda name: base64.b64encode((ROOT / f"data/output/case_007/{name}").read_bytes()).decode()  # noqa: E731
+    report = service.handle({"inputs": {"labs_pdf": enc("labs.pdf"), "radiology_pdf": enc("radiology.pdf")},
+                             "options": {"llm": False}})
+    assert report["stages"]["history"]["status"] == "skipped"
+    assert any(f["label"] == "ALT" for f in report["stages"]["lab"]["result"]["findings"])
+    assert report["stages"]["radiology"]["result"]["extraction_method"] == "local_rules"
+    md = report["report"]["markdown"]
+    assert "## Lab results" in md and "## Radiology" in md
+
+
+def test_bad_lab_pdf_does_not_crash_pipeline():
+    report = service.handle({"inputs": {"labs_pdf": base64.b64encode(b"%PDF-1.4 garbage").decode()},
+                             "options": {"llm": False}})
+    assert report["stages"]["lab"]["status"] == "needs_clinical_reevaluation"
 
 
 def test_handle_free_text_prompt():

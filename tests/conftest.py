@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import pytest
@@ -29,3 +30,7 @@ def intake_text() -> str:
         "Surgeries: appendectomy 2015, knee arthroscopy 2021\n"
         "Doctors: Dr. Lee (cardiology), primary care at Austin Family Clinic\n"
     )
+
+
+# Keep the suite offline: agents only call AWS when CARERELAY_USE_AWS=1.
+os.environ.pop("CARERELAY_USE_AWS", None)

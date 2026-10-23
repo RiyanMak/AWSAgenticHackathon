@@ -11,8 +11,8 @@ Request shape (JSON):
                 "intake": {...}},
      "options": {"llm": true, "model_id": "...", "region": "..."}}
 
-Report shape: see ``build_report``. Stages that are not implemented yet (lab, radiology, summarize,
-wellness, next_steps) are reported as ``"status": "not_implemented"`` so the UI and judges see an
+Report shape: see ``build_report``. History, Lab and Radiology run in parallel. Stages that are not
+implemented yet (summarize, wellness, next_steps) are reported as ``"status": "not_implemented"`` so the UI and judges see an
 honest pipeline view while the team fills them in.
 """
 
@@ -24,13 +24,17 @@ import os
 import re
 import tempfile
 import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from . import __version__
+from .agents.lab import run_lab_agent
+from .agents.radiology import report_text_from_bytes, run_radiology_agent
 from .history import run_history_agent
 from .history.schema import HistoryProfile
+from .schemas import Finding, ImagingFindings, LabFindings
 
 DISCLAIMER = (
     "CareRelay is a hackathon prototype that uses synthetic or public data. It is not a clinical "
@@ -188,6 +192,38 @@ def _history_markdown(p: HistoryProfile) -> str:
     return "\n".join(md)
 
 
+def _findings_md(findings: list[Finding]) -> str:
+    if not findings:
+        return "- none"
+    return "\n".join(
+        f"- **{f.severity}** {f.label}{f' {f.value}' if f.value else ''}"
+        + (" _(findings section only, not in impression)_" if f.in_impression is False else "")
+        + (f" (from {f.observed_at})" if f.observed_at else "")
+        + (f", follow-up: {f.specialty_hint}" if f.specialty_hint else "")
+        for f in findings
+    )
+
+
+def _lab_markdown(r: LabFindings) -> str:
+    return "\n".join(["## Lab results", r.summary, "", f"**Rows read:** {len(r.rows)} ({r.extraction_method})",
+                      "### Outside reference range", _findings_md(r.findings)])
+
+
+def _radiology_markdown(r: ImagingFindings) -> str:
+    return "\n".join(["## Radiology", r.summary, "", f"**Exam:** {r.exam}", f"**Indication:** {r.indication}",
+                      "### Findings", _findings_md(r.findings)])
+
+
+def _lab_stage(path: str, use_llm: bool) -> dict[str, Any]:
+    r = run_lab_agent(Path(path).read_bytes(), use_aws=use_llm)
+    return {"status": r.status, "result": r.model_dump(exclude_none=True), "markdown": _lab_markdown(r)}
+
+
+def _radiology_stage(path: str, use_llm: bool) -> dict[str, Any]:
+    r = run_radiology_agent(report_text_from_bytes(Path(path).read_bytes(), path), use_aws=use_llm)
+    return {"status": r.status, "result": r.model_dump(exclude_none=True), "markdown": _radiology_markdown(r)}
+
+
 def build_report(case_id: str | None, stages: dict[str, dict[str, Any]], started: float) -> dict[str, Any]:
     sections = ["# CareRelay report", f"_Generated {datetime.now(timezone.utc).isoformat(timespec='seconds')} for {case_id or 'uploaded inputs'}._", ""]
     for name in STAGES:
@@ -230,7 +266,14 @@ def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
     workdir = Path(tempfile.mkdtemp(prefix="carerelay_"))
     history_pdf = _materialize(inputs.get("history_pdf"), "history.pdf", workdir)
     intake_text = _intake_text(inputs.get("intake"))
+    labs_pdf = _materialize(inputs.get("labs_pdf"), "labs.pdf", workdir)
+    radiology_pdf = _materialize(inputs.get("radiology_pdf"), "radiology.pdf", workdir)
     stages: dict[str, dict[str, Any]] = {}
+
+    # Stages: lab and radiology run in the background while history runs below
+    pool = ThreadPoolExecutor(max_workers=2)
+    lab_future = pool.submit(_lab_stage, labs_pdf, use_llm) if labs_pdf else None
+    rad_future = pool.submit(_radiology_stage, radiology_pdf, use_llm) if radiology_pdf else None
 
     # Stage: history (implemented)
     if history_pdf or intake_text:
@@ -252,10 +295,17 @@ def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
     else:
         stages["history"] = {"status": "skipped", "reason": "no history_pdf or intake provided"}
 
+    for name, future in (("lab", lab_future), ("radiology", rad_future)):
+        # the agents already turn their own failures into needs_clinical_reevaluation; this is a backstop
+        try:
+            stages[name] = future.result() if future else {"status": "skipped", "reason": f"no {name} PDF provided"}
+        except Exception as exc:  # noqa: BLE001
+            stages[name] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
+    pool.shutdown()
+
     # Stages not built yet: declare them so the report is honest about coverage
-    for name in ("lab", "radiology", "summarize", "wellness", "next_steps"):
-        provided = {"lab": inputs.get("labs_pdf"), "radiology": inputs.get("radiology_pdf")}.get(name)
-        stages[name] = {"status": "not_implemented", "input_present": bool(provided)}
+    for name in ("summarize", "wellness", "next_steps"):
+        stages[name] = {"status": "not_implemented"}
 
     return build_report(case_id, stages, started)
 
