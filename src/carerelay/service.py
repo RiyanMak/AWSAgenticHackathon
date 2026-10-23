@@ -27,7 +27,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from . import __version__
 from .agents.lab import run_lab_agent
@@ -247,8 +247,29 @@ def build_report(case_id: str | None, stages: dict[str, dict[str, Any]], started
 # -------------------------------------------------------------------------------------- handle
 
 
-def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
-    """Run the CareRelay pipeline for one request. Raises ServiceError on bad input."""
+EventCallback = Callable[[dict[str, Any]], None]
+
+
+def _emit(on_event: EventCallback | None, kind: str, stage: str, **fields: Any) -> None:
+    """Report pipeline progress to a caller (the Shiny UI draws agent handoffs from these).
+
+    Events: ``{"type": "stage_start" | "stage_end", "stage": <name>, "t": <unix seconds>, ...}``;
+    ``stage_end`` adds ``status`` and ``elapsed_seconds``. A failing callback never breaks the run.
+    """
+    if on_event is None:
+        return
+    try:
+        on_event({"type": kind, "stage": stage, "t": time.time(), **fields})
+    except Exception:  # noqa: BLE001
+        pass
+
+
+def handle(request: dict[str, Any] | str | None, on_event: EventCallback | None = None) -> dict[str, Any]:
+    """Run the CareRelay pipeline for one request. Raises ServiceError on bad input.
+
+    ``on_event`` (optional) receives a stage_start / stage_end event per stage, so a UI can show
+    progress and handoffs while the run is in flight. Lanes that do not pass it are unaffected.
+    """
     started = time.time()
     if isinstance(request, str):
         request = _request_from_text(request)
@@ -272,11 +293,17 @@ def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
 
     # Stages: lab and radiology run in the background while history runs below
     pool = ThreadPoolExecutor(max_workers=2)
+    t_parallel = time.time()
+    for name, present in (("lab", labs_pdf), ("radiology", radiology_pdf)):
+        if present:
+            _emit(on_event, "stage_start", name)
     lab_future = pool.submit(_lab_stage, labs_pdf, use_llm) if labs_pdf else None
     rad_future = pool.submit(_radiology_stage, radiology_pdf, use_llm) if radiology_pdf else None
 
     # Stage: history (implemented)
     if history_pdf or intake_text:
+        t0 = time.time()
+        _emit(on_event, "stage_start", "history")
         try:
             profile = run_history_agent(
                 history_pdf=history_pdf,
@@ -292,8 +319,11 @@ def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
             }
         except Exception as exc:  # noqa: BLE001  (guardrail 2: never crash the pipeline)
             stages["history"] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
+        stages["history"]["elapsed_seconds"] = round(time.time() - t0, 2)
     else:
         stages["history"] = {"status": "skipped", "reason": "no history_pdf or intake provided"}
+    _emit(on_event, "stage_end", "history", status=stages["history"]["status"],
+          elapsed_seconds=stages["history"].get("elapsed_seconds", 0.0))
 
     for name, future in (("lab", lab_future), ("radiology", rad_future)):
         # the agents already turn their own failures into needs_clinical_reevaluation; this is a backstop
@@ -301,11 +331,16 @@ def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
             stages[name] = future.result() if future else {"status": "skipped", "reason": f"no {name} PDF provided"}
         except Exception as exc:  # noqa: BLE001
             stages[name] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
+        if future:
+            stages[name]["elapsed_seconds"] = round(time.time() - t_parallel, 2)
+        _emit(on_event, "stage_end", name, status=stages[name]["status"],
+              elapsed_seconds=stages[name].get("elapsed_seconds", 0.0))
     pool.shutdown()
 
     # Stages not built yet: declare them so the report is honest about coverage
     for name in ("summarize", "wellness", "next_steps"):
         stages[name] = {"status": "not_implemented"}
+        _emit(on_event, "stage_end", name, status="not_implemented", elapsed_seconds=0.0)
 
     return build_report(case_id, stages, started)
 
