@@ -6,6 +6,11 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
+# Load .env if present (copy .env.example and edit). Shell exports still win over the file.
+if [[ -f .env ]]; then
+  set -a; source .env; set +a
+fi
+
 if [[ ! -x .venv/bin/python ]]; then
   echo "creating .venv"
   if command -v uv >/dev/null; then uv venv .venv -q; else python3 -m venv .venv; fi
