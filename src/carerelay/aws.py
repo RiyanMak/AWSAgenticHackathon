@@ -17,8 +17,9 @@ BEDROCK_MODEL_ID = os.environ.get("BEDROCK_MODEL_ID", "us.anthropic.claude-sonne
 AWS_REGION = "us-east-1"
 
 
-def aws_enabled() -> bool:
-    return os.environ.get("CARERELAY_USE_AWS") == "1"
+def aws_enabled(enabled: bool | None = None) -> bool:
+    """Explicit per-request choice (service.py's options.llm) wins; else the CARERELAY_USE_AWS env var."""
+    return enabled if enabled is not None else os.environ.get("CARERELAY_USE_AWS") == "1"
 
 
 @cache
@@ -77,8 +78,8 @@ LAB_SCHEMA = {
 }
 
 
-def bedrock_extract_lab_rows(pdf_bytes: bytes) -> list[dict] | None:
-    if not aws_enabled():
+def bedrock_extract_lab_rows(pdf_bytes: bytes, enabled: bool | None = None) -> list[dict] | None:
+    if not aws_enabled(enabled):
         return None
     out = _converse_tool(
         LAB_SYSTEM,
@@ -142,8 +143,8 @@ RADIOLOGY_SCHEMA = {
 }
 
 
-def bedrock_read_radiology_report(report_text: str) -> dict | None:
-    if not aws_enabled():
+def bedrock_read_radiology_report(report_text: str, enabled: bool | None = None) -> dict | None:
+    if not aws_enabled(enabled):
         return None
     return _converse_tool(
         RADIOLOGY_SYSTEM,
@@ -165,8 +166,8 @@ SUMMARY_SYSTEM = """You write a short plain-language summary of test results for
 - No patient names or identifiers."""
 
 
-def bedrock_summarize(kind: str, findings_json: str) -> str | None:
-    if not aws_enabled():
+def bedrock_summarize(kind: str, findings_json: str, enabled: bool | None = None) -> str | None:
+    if not aws_enabled(enabled):
         return None
     resp = _bedrock().converse(
         modelId=BEDROCK_MODEL_ID,

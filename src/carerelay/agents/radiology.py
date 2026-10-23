@@ -189,7 +189,8 @@ def report_text_from_bytes(data: bytes, filename: str = "") -> str:
     return data.decode("utf-8", errors="replace")
 
 
-def run_radiology_agent(report_text: str) -> ImagingFindings:
+def run_radiology_agent(report_text: str, use_aws: bool | None = None) -> ImagingFindings:
+    """use_aws: None follows CARERELAY_USE_AWS; True/False overrides it for this call."""
     notes: list[str] = []
     try:
         body = report_body(report_text)
@@ -198,7 +199,7 @@ def run_radiology_agent(report_text: str) -> ImagingFindings:
                                    summary="The radiology report was empty. Please request clinical re-evaluation.")
         sections = split_sections(body)
         try:
-            result = aws.bedrock_read_radiology_report(body)
+            result = aws.bedrock_read_radiology_report(body, enabled=use_aws)
         except Exception as e:
             notes.append(f"Bedrock radiology extraction failed, used local rules: {type(e).__name__}: {e}")
             result = None
@@ -209,7 +210,7 @@ def run_radiology_agent(report_text: str) -> ImagingFindings:
         findings.sort(key=lambda f: -_SEVERITY_ORDER.index(f.severity))
         findings = [f.model_copy(update={"id": f"rad-{i + 1}"}) for i, f in enumerate(findings)]
         impression = sections.get("IMPRESSION") or sections.get("CONCLUSION")
-        summary = summarize("Radiology", findings, _template_summary(findings, impression), notes)
+        summary = summarize("Radiology", findings, _template_summary(findings, impression), notes, use_aws)
         return ImagingFindings(
             extraction_method=method,
             exam=(result or {}).get("exam") or sections.get("EXAM") or sections.get("EXAMINATION")

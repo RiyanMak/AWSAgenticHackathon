@@ -30,7 +30,7 @@ def test_sections_exam_and_indication():
 
 
 def _fake_model(findings):
-    return lambda body: {"exam": "CT", "indication": "cough", "findings": findings}
+    return lambda body, enabled=None: {"exam": "CT", "indication": "cough", "findings": findings}
 
 
 def test_bedrock_findings_are_quote_checked(monkeypatch):
@@ -51,7 +51,7 @@ def test_bedrock_findings_are_quote_checked(monkeypatch):
 
 
 def test_bedrock_error_falls_back_to_local_rules(monkeypatch):
-    def boom(body):
+    def boom(body, enabled=None):
         raise RuntimeError("AccessDenied")
     monkeypatch.setattr(aws, "bedrock_read_radiology_report", boom)
     result = run_radiology_agent(report("case_001"))

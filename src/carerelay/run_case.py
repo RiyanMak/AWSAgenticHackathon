@@ -8,9 +8,9 @@
 import os
 import sys
 from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
+from carerelay.service import find_data_dir
 
-DATA = Path(__file__).resolve().parents[1] / "data" / "output"
+DATA = find_data_dir() / "output"
 
 
 def run_case(case_id: str):

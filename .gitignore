@@ -8,3 +8,5 @@ data/raw/
 *.dcm
 *.png
 *.jpg
+*.egg-info/
+profile.json

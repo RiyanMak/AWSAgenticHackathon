@@ -171,9 +171,9 @@ def _template_summary(rows: list[LabRow], findings: list[Finding]) -> str:
     return text
 
 
-def _bedrock_rows(pdf_bytes: bytes, notes: list[str]) -> list[LabRow] | None:
+def _bedrock_rows(pdf_bytes: bytes, notes: list[str], use_aws: bool | None) -> list[LabRow] | None:
     try:
-        raw = aws.bedrock_extract_lab_rows(pdf_bytes)
+        raw = aws.bedrock_extract_lab_rows(pdf_bytes, enabled=use_aws)
     except Exception as e:
         notes.append(f"Bedrock lab extraction failed: {type(e).__name__}: {e}")
         return None
@@ -183,8 +183,9 @@ def _bedrock_rows(pdf_bytes: bytes, notes: list[str]) -> list[LabRow] | None:
                       r.get("panel"), r.get("collected"), r.get("page")) for r in raw if r.get("value_text")]
 
 
-def run_lab_agent(pdf_bytes: bytes, extractor: str = "auto") -> LabFindings:
-    """extractor: "auto" (local parser, Bedrock if it finds nothing), "local" or "bedrock"."""
+def run_lab_agent(pdf_bytes: bytes, extractor: str = "auto", use_aws: bool | None = None) -> LabFindings:
+    """extractor: "auto" (local parser, Bedrock if it finds nothing), "local" or "bedrock".
+    use_aws: None follows CARERELAY_USE_AWS; True/False overrides it for this call."""
     notes: list[str] = []
     try:
         rows, method = None, None
@@ -193,7 +194,7 @@ def run_lab_agent(pdf_bytes: bytes, extractor: str = "auto") -> LabFindings:
             if not rows and extractor == "auto":
                 notes.append("Local parser found no lab table; trying Bedrock.")
         if not rows and extractor in ("auto", "bedrock"):
-            rows, method = _bedrock_rows(pdf_bytes, notes), "bedrock"
+            rows, method = _bedrock_rows(pdf_bytes, notes, use_aws), "bedrock"
             if rows is None and extractor == "bedrock":
                 notes.append("Bedrock is off (set CARERELAY_USE_AWS=1); used the local parser.")
                 rows, method = parse_lab_text(pdf_pages_text(pdf_bytes)), "local_text"
@@ -204,7 +205,7 @@ def run_lab_agent(pdf_bytes: bytes, extractor: str = "auto") -> LabFindings:
         rows = [compare_ranges(r) for r in rows]
         notes += flag_disagreements(rows)
         findings = rows_to_findings(rows, method)
-        summary = summarize("Lab", findings, _template_summary(rows, findings), notes)
+        summary = summarize("Lab", findings, _template_summary(rows, findings), notes, use_aws)
         return LabFindings(extraction_method=method, rows=rows, findings=findings, summary=summary, notes=notes)
     except Exception as e:
         return LabFindings(status="needs_clinical_reevaluation", error=f"{type(e).__name__}: {e}", notes=notes,

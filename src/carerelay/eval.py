@@ -11,9 +11,9 @@ import json
 import os
 import re
 import sys
-from pathlib import Path
+from carerelay.service import find_data_dir
 
-ROOT = Path(__file__).resolve().parents[1] / "data"
+ROOT = find_data_dir()
 _FLAG = {"High": "H", "Low": "L", "Abnormal": "A"}
 _STOP = {"mild", "moderate", "small", "on", "radiograph", "suggesting", "no", "of", "and", "with", "without", "the",
          "a", "in", "not", "mm", "cm", "chronic", "probable", "simple", "indeterminate", "change", "changes"}
