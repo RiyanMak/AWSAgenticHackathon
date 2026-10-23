@@ -1,7 +1,7 @@
 """Run the pipeline for the UI and narrate it as agent events and handoffs.
 
 ``run(request, emit)`` calls ``service.handle(request, on_event=...)``. Real agents report through
-that callback; for any stage still ``not_implemented`` it optionally fills in demo output
+that callback, and each successful ``stage_end`` is narrated as handoffs immediately; for any stage still ``not_implemented`` it optionally fills in demo output
 (``demo.py``) at a readable pace, so the agent course and handoff log play end to end.
 
 Event types (all dicts with ``t`` in unix seconds):
@@ -88,19 +88,40 @@ def run(request: dict[str, Any], emit: Emit, demo_fill: bool = True, pace: float
     case_id = request.get("scenario")
     fill = demo_fill and bool(case_id)  # demo needs a bundled case's answer key
 
+    live: set[str] = set()  # stages whose handoffs were already narrated while the run was in flight
+
     def relay(event: dict[str, Any]) -> None:
         # Pass real agent progress through; hold back "not built" ends we are about to fill.
         if fill and event.get("status") == UNBUILT:
             return
-        _ev(emit, event["type"], agent=event["stage"], **{k: v for k, v in event.items() if k not in ("type", "stage", "t")})
+        output = event.get("output")
+        _ev(emit, event["type"], agent=event["stage"],
+            **{k: v for k, v in event.items() if k not in ("type", "stage", "t", "output")})
+        if event["type"] == "stage_end" and event.get("status") == "ok" and output is not None:
+            _live_handoffs(event["stage"], output)
+
+    def _live_handoffs(stage: str, output: dict[str, Any]) -> None:
+        if stage not in AGENT:
+            return
+        try:
+            if stage == "next_steps":
+                _insurance_loop(emit, next_steps_view(output).insurance_checks, pace=0)
+            _handoffs(emit, stage, output)
+            live.add(stage)
+        except Exception:  # noqa: BLE001  (a narration bug must not break the run; the batch below retries)
+            pass
+
+    def narrate(name: str) -> None:
+        if name not in live:
+            _handoffs(emit, name, stages[name])
 
     report = service.handle(request, on_event=relay)
     stages = report["stages"]
     if not fill or not any(st["status"] == UNBUILT for st in stages.values()):
         for name in ("lab", "radiology", "history", "summarize", "wellness"):
             if stages[name]["status"] == "ok":
-                _handoffs(emit, name, stages[name])
-        if stages["next_steps"]["status"] == "ok":
+                narrate(name)
+        if stages["next_steps"]["status"] == "ok" and "next_steps" not in live:
             _insurance_loop(emit, next_steps_view(stages["next_steps"]).insurance_checks, pace=0)
             _handoffs(emit, "next_steps", stages["next_steps"])
         return report
@@ -119,7 +140,7 @@ def run(request: dict[str, Any], emit: Emit, demo_fill: bool = True, pace: float
             finish(name, demo.findings(case, name), t0)
     for name in PARALLEL_FIRST:
         if stages[name]["status"] in ("ok", "demo"):
-            _handoffs(emit, name, stages[name])
+            narrate(name)
 
     # Stage 2: Summarize
     if stages["summarize"]["status"] == UNBUILT:
@@ -128,7 +149,7 @@ def run(request: dict[str, Any], emit: Emit, demo_fill: bool = True, pace: float
         time.sleep(pace)
         finish("summarize", demo.summarize(case).model_dump(), t0)
     summary = summarize_view(stages["summarize"])
-    _handoffs(emit, "summarize", stages["summarize"])
+    narrate("summarize")
 
     # Stage 3: Wellness and Next Steps (with the Insurance loop)
     profile = stages["history"].get("profile") if stages["history"]["status"] == "ok" else None
@@ -142,6 +163,6 @@ def run(request: dict[str, Any], emit: Emit, demo_fill: bool = True, pace: float
         plan = demo.next_steps(case, summary)
         _insurance_loop(emit, plan.insurance_checks, pace, status="demo")
         finish("next_steps", plan.model_dump(), t0)
-    _handoffs(emit, "wellness", stages["wellness"])
-    _handoffs(emit, "next_steps", stages["next_steps"])
+    narrate("wellness")
+    narrate("next_steps")
     return report

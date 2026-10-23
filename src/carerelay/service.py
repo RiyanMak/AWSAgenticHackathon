@@ -359,7 +359,8 @@ def _emit(on_event: EventCallback | None, kind: str, stage: str, **fields: Any) 
     """Report pipeline progress to a caller (the Shiny UI draws agent handoffs from these).
 
     Events: ``{"type": "stage_start" | "stage_end", "stage": <name>, "t": <unix seconds>, ...}``;
-    ``stage_end`` adds ``status`` and ``elapsed_seconds``. A failing callback never breaks the run.
+    ``stage_end`` adds ``status``, ``elapsed_seconds`` and ``output`` (the stage dict, so a UI can
+    describe the handoff live). A failing callback never breaks the run.
     """
     if on_event is None:
         return
@@ -371,7 +372,8 @@ def _emit(on_event: EventCallback | None, kind: str, stage: str, **fields: Any) 
 
 def _end(on_event: EventCallback | None, stages: dict[str, dict[str, Any]], name: str, t0: float) -> None:
     stages[name].setdefault("elapsed_seconds", round(time.time() - t0, 2))
-    _emit(on_event, "stage_end", name, status=stages[name]["status"], elapsed_seconds=stages[name]["elapsed_seconds"])
+    _emit(on_event, "stage_end", name, status=stages[name]["status"], elapsed_seconds=stages[name]["elapsed_seconds"],
+          output=stages[name])
 
 
 def handle(request: dict[str, Any] | str | None, on_event: EventCallback | None = None) -> dict[str, Any]:

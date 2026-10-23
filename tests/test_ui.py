@@ -81,6 +81,21 @@ def test_all_agents_run_for_real_on_case_001():
     assert all(states[a]["state"] == "ok" for a in ("history", "lab", "radiology", "summarize", "wellness", "next_steps", "insurance")), states
 
 
+def test_handoffs_stream_while_the_run_is_in_flight():
+    events: list[dict] = []
+    pipeline.run({"scenario": "case_001", "options": {"llm": False}}, events.append, demo_fill=False, pace=0)
+    kinds = [(e["type"], e.get("agent"), e.get("from")) for e in events]
+    # History's handoff arrives before Summarize starts, not in a batch after every agent is done
+    first_history_handoff = kinds.index(("handoff", None, "history"))
+    summarize_start = kinds.index(("stage_start", "summarize", None))
+    assert first_history_handoff < summarize_start, kinds
+    # No stage is narrated twice
+    pairs = [(e["from"], e["to"]) for e in events if e["type"] == "handoff" and e["from"] != "insurance"
+             and not (e["from"] == "next_steps" and e["to"] == "insurance")]
+    assert len(pairs) == len(set(pairs)), pairs
+    assert all("output" not in e for e in events)
+
+
 def test_views_render():
     report, events = _run("case_001")
     states = views.agent_states(events)
