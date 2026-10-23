@@ -1,0 +1,234 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  CareRelay hackathon infrastructure. Lane A: Lambda container image behind a Function URL that
+  saves reports to a private S3 bucket. Also provisions the execution role for Lane B (AgentCore
+  Runtime). Deploy with `sam deploy` or plain `aws cloudformation deploy --capabilities
+  CAPABILITY_IAM CAPABILITY_AUTO_EXPAND` (CloudFormation applies the SAM transform itself).
+
+Parameters:
+  LambdaImageUri:
+    Type: String
+    Description: ECR image URI for the Lambda container (aws/lambda/Dockerfile), e.g. 123456789012.dkr.ecr.us-east-1.amazonaws.com/carerelay-lambda:latest
+  BedrockModelId:
+    Type: String
+    Default: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+    Description: Inference profile id the agents call (must be on the account allowlist)
+  FunctionUrlAuthType:
+    Type: String
+    Default: NONE
+    AllowedValues: [NONE, AWS_IAM]
+    Description: NONE gives judges a link they can open; AWS_IAM requires SigV4
+  ReportRetentionDays:
+    Type: Number
+    Default: 14
+  PresignSeconds:
+    Type: Number
+    Default: 604800
+    Description: Presigned link lifetime (SigV4 maximum is 7 days = 604800)
+  LogRetentionDays:
+    Type: Number
+    Default: 14
+
+Resources:
+  ReportBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub carerelay-reports-${AWS::AccountId}-${AWS::Region}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Suspended
+      LifecycleConfiguration:
+        Rules:
+          - Id: ExpireReports
+            Status: Enabled
+            ExpirationInDays: !Ref ReportRetentionDays
+            AbortIncompleteMultipartUpload:
+              DaysAfterInitiation: 1
+
+  ReportBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ReportBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: "*"
+            Action: s3:*
+            Resource:
+              - !GetAtt ReportBucket.Arn
+              - !Sub ${ReportBucket.Arn}/*
+            Condition:
+              Bool:
+                aws:SecureTransport: "false"
+
+  BedrockInvokePolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Bedrock inference plus Comprehend Medical coding (mirrors aws/iam-bedrock-policy.json)
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: BedrockInference
+            Effect: Allow
+            Action:
+              - bedrock:InvokeModel
+              - bedrock:InvokeModelWithResponseStream
+              - bedrock:Converse
+              - bedrock:ConverseStream
+              - bedrock-mantle:CreateInference
+            Resource:
+              - arn:aws:bedrock:*::foundation-model/anthropic.*
+              - arn:aws:bedrock:*::foundation-model/amazon.*
+              - !Sub arn:aws:bedrock:*:${AWS::AccountId}:inference-profile/*
+              - !Sub arn:aws:bedrock:*:${AWS::AccountId}:application-inference-profile/*
+          - Sid: BedrockDiscovery
+            Effect: Allow
+            Action:
+              - bedrock:ListFoundationModels
+              - bedrock:ListInferenceProfiles
+              - bedrock:GetInferenceProfile
+            Resource: "*"
+          - Sid: ComprehendMedicalCoding
+            Effect: Allow
+            Action:
+              - comprehendmedical:InferICD10CM
+              - comprehendmedical:InferRxNorm
+              - comprehendmedical:DetectEntitiesV2
+              - comprehendmedical:DetectPHI
+            Resource: "*"
+
+  CareRelayFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: { Service: lambda.amazonaws.com }
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Ref BedrockInvokePolicy
+      Policies:
+        - PolicyName: ReportBucketReadWrite
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: [s3:PutObject, s3:GetObject]
+                Resource: !Sub ${ReportBucket.Arn}/reports/*
+
+  CareRelayFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: carerelay-careteam
+      Description: CareRelay care-team pipeline (service.handle) behind a Function URL
+      PackageType: Image
+      ImageUri: !Ref LambdaImageUri
+      Architectures: [arm64]
+      MemorySize: 2048
+      Timeout: 300
+      Role: !GetAtt CareRelayFunctionRole.Arn
+      Environment:
+        Variables:
+          REPORT_BUCKET: !Ref ReportBucket
+          BEDROCK_MODEL_ID: !Ref BedrockModelId
+          PRESIGN_SECONDS: !Ref PresignSeconds
+          CARERELAY_DATA_DIR: /var/task/data
+      FunctionUrlConfig:
+        AuthType: !Ref FunctionUrlAuthType
+        Cors:
+          AllowOrigins: ["*"]
+          AllowMethods: [GET, POST]
+          AllowHeaders: [content-type]
+
+  CareRelayLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${CareRelayFunction}
+      RetentionInDays: !Ref LogRetentionDays
+
+  # Lane B: execution role the AgentCore Runtime assumes (pull image, write logs, call Bedrock)
+  AgentCoreExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub carerelay-agentcore-execution-${AWS::Region}
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: { Service: bedrock-agentcore.amazonaws.com }
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+              ArnLike:
+                aws:SourceArn: !Sub arn:aws:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:*
+      ManagedPolicyArns:
+        - !Ref BedrockInvokePolicy
+      Policies:
+        - PolicyName: AgentCoreRuntimeBasics
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: EcrPull
+                Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                  - ecr:BatchGetImage
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchCheckLayerAvailability
+                Resource: "*"
+              - Sid: Logs
+                Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - logs:DescribeLogGroups
+                  - logs:DescribeLogStreams
+                Resource: "*"
+              - Sid: Telemetry
+                Effect: Allow
+                Action:
+                  - xray:PutTraceSegments
+                  - xray:PutTelemetryRecords
+                  - cloudwatch:PutMetricData
+                Resource: "*"
+              - Sid: WorkloadIdentity
+                Effect: Allow
+                Action:
+                  - bedrock-agentcore:GetWorkloadAccessToken
+                  - bedrock-agentcore:GetWorkloadAccessTokenForJWT
+                  - bedrock-agentcore:GetWorkloadAccessTokenForUserId
+                Resource: "*"
+              - Sid: ReportBucket
+                Effect: Allow
+                Action: [s3:PutObject, s3:GetObject]
+                Resource: !Sub ${ReportBucket.Arn}/reports/*
+
+Outputs:
+  FunctionUrl:
+    Description: Lane A entry point (shareable API)
+    Value: !GetAtt CareRelayFunctionUrl.FunctionUrl
+  FunctionName:
+    Value: !Ref CareRelayFunction
+  ReportBucketName:
+    Value: !Ref ReportBucket
+  AgentCoreExecutionRoleArn:
+    Description: Pass to create-agent-runtime --role-arn (Lane B)
+    Value: !GetAtt AgentCoreExecutionRole.Arn
+  BedrockInvokePolicyArn:
+    Description: Attach to any other role that must call the agents (SageMaker, EC2)
+    Value: !Ref BedrockInvokePolicy

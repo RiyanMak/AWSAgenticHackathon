@@ -81,8 +81,14 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 ├── pyproject.toml                      # package: carerelay (src layout)
 ├── requirements.txt
 ├── src/carerelay/
+│   ├── service.py                      # service.handle(request) -> report: the one entry point every lane calls
 │   └── history/                        # History Agent: schema, parsers (PDF, FHIR, MIMIC, intake), risk flags, tools, agent, CLI
-├── tests/                              # pytest for src/, runs offline against data/
+├── aws/                                # deployment lanes (see docs/AWS_INFRASTRUCTURE.md)
+│   ├── template.yaml                   # SAM/CloudFormation: Lambda + Function URL + S3 + IAM + AgentCore role
+│   ├── lambda/, agentcore/, streamlit/ # lane A, B, C adapters and Dockerfiles
+│   ├── iam-bedrock-policy.json
+│   └── scripts/, Makefile
+├── tests/                              # pytest for src/ and aws/, runs offline against data/
 ├── data/                               # synthetic cases, mock network, tools (see data/README.md)
 │   ├── README.md
 │   ├── CASES.md                        # scenario index (generated)
@@ -127,6 +133,7 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 | [DATASETS.md](docs/DATASETS.md) | Verified datasets per input type and knowledge sources |
 | [APIS.md](docs/APIS.md) | External APIs with auth, limits and example requests |
 | [AWS_SETUP.md](docs/AWS_SETUP.md) | Workshop Studio, starter kit, services, pricing, cleanup |
+| [AWS_INFRASTRUCTURE.md](docs/AWS_INFRASTRUCTURE.md) | The three deployment lanes (Lambda URL, AgentCore Runtime, Streamlit), IAM, S3, deploy flow, pipeline mapping |
 | [SAFETY.md](docs/SAFETY.md) | Guardrails checklist, OTC rules, escalation, eval idea |
 | [REFERENCES.md](docs/REFERENCES.md) | Every cited URL grouped by topic, plus prior work |
 | [TODO.md](docs/TODO.md) | Time-boxed build checklist |

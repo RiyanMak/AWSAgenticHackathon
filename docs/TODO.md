@@ -14,7 +14,7 @@ Ordered checklist with time boxes, assuming one build day. Adjust to the event s
 | 8 | Summarize: merged `CaseRecord`, expected-vs-incidental rule table, incidental ledger, critic pass, red-flag interrupt | 50 min | [ ] |
 | 9 | Next Steps: specialty map, known-specialist shortcut, NPI search, Insurance tool with synthetic roster (optionally Plan-Net), `proposed` Appointment on HAPI ([APIS.md](APIS.md)) | 60 min | [ ] |
 | 10 | Wellness Agent: openFDA-grounded OTC rules with allergy and current-medication filters, DASH nutrition shaped by history conditions, CDC physio ([SAFETY.md](SAFETY.md)) | 50 min | [ ] |
-| 11 | Wrap graph for AgentCore Runtime, deploy via `agentcore`, SSE handoff UI with disclaimers | 60 min | [ ] |
+| 11 | Deploy: lane C Streamlit first, then lane A Lambda URL, then lane B AgentCore ([AWS_INFRASTRUCTURE.md](AWS_INFRASTRUCTURE.md); scaffolding and scripts are in `aws/`) | 45 min | [ ] |
 | 12 | Eval pass: planted-error test, incidental recall, expected-vs-incidental pair, OTC exclusion and allergy cases | 30 min | [ ] |
 | 13 | Rehearse the 3-beat demo, record backup run | 30 min | [ ] |
 | 14 | Cleanup: delete runtimes, roles, buckets ([AWS_SETUP.md](AWS_SETUP.md)); push repo | 15 min | [ ] |

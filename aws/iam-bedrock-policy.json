@@ -1,0 +1,43 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "BedrockInference",
+      "Effect": "Allow",
+      "Action": [
+        "bedrock:InvokeModel",
+        "bedrock:InvokeModelWithResponseStream",
+        "bedrock:Converse",
+        "bedrock:ConverseStream",
+        "bedrock-mantle:CreateInference"
+      ],
+      "Resource": [
+        "arn:aws:bedrock:*::foundation-model/anthropic.*",
+        "arn:aws:bedrock:*::foundation-model/amazon.*",
+        "arn:aws:bedrock:*:*:inference-profile/*",
+        "arn:aws:bedrock:*:*:application-inference-profile/*"
+      ]
+    },
+    {
+      "Sid": "BedrockDiscovery",
+      "Effect": "Allow",
+      "Action": [
+        "bedrock:ListFoundationModels",
+        "bedrock:ListInferenceProfiles",
+        "bedrock:GetInferenceProfile"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ComprehendMedicalCoding",
+      "Effect": "Allow",
+      "Action": [
+        "comprehendmedical:InferICD10CM",
+        "comprehendmedical:InferRxNorm",
+        "comprehendmedical:DetectEntitiesV2",
+        "comprehendmedical:DetectPHI"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
