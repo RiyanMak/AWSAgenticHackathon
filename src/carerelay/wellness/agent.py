@@ -78,7 +78,9 @@ def make_wellness_agent(model=None, **kwargs) -> Agent:
 
 ALL_OTC = {n.lower() for names in K.OTC_CANDIDATES.values() for n in names}
 OTC_ALIASES = {"tylenol": "acetaminophen", "advil": "ibuprofen", "motrin": "ibuprofen",
-               "aleve": "naproxen sodium", "naproxen": "naproxen sodium", "bayer": "aspirin", "pepcid": "famotidine", "tums": "calcium carbonate"}
+               "aleve": "naproxen sodium", "naproxen": "naproxen sodium", "bayer": "aspirin", "pepcid": "famotidine",
+               "tums": "calcium carbonate", "delsym": "dextromethorphan hydrobromide",
+               "dextromethorphan": "dextromethorphan hydrobromide", "mucinex": "guaifenesin"}
 
 
 def check_narrative(plan: WellnessPlan, text: str) -> list[str]:

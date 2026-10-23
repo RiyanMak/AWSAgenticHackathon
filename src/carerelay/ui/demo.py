@@ -111,8 +111,9 @@ def summarize(case: dict) -> SummarizeOutput:
 
 
 def wellness(profile: dict[str, Any] | None) -> dict[str, Any]:
-    """A WellnessPlan-shaped stand-in (the real agent is carerelay/wellness, not yet wired into
-    service.handle). Uses the real HistoryProfile when present: allergies and risk flags exclude OTC."""
+    """A WellnessPlan-shaped stand-in, used only when the real Wellness stage (carerelay/wellness, run by
+    service.handle) did not produce output. Uses the real HistoryProfile when present: allergies and risk
+    flags exclude OTC."""
     profile = profile or {}
     allergies = " ".join(a.get("display", "") + " " + (a.get("detail") or "") for a in profile.get("allergies", [])).lower()
     flags = set(profile.get("risk_flags", []))

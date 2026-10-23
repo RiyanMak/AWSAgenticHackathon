@@ -11,6 +11,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from carerelay.history.risk_flags import NSAID_EXCLUSION_FLAGS
 from carerelay.schemas import CaseRecord, Finding
 from carerelay.wellness import knowledge as K
 from carerelay.wellness.clients import food_snapshot, get_otc_label
@@ -129,12 +130,16 @@ def _lab_flags(case: CaseRecord, terms: tuple[str, ...]) -> list[Finding]:
 
 
 def _active_meds(case: CaseRecord) -> list[str]:
-    return [m.display.lower() for m in case.history.medications if (m.status or "active").lower() == "active"]
+    return [m.display.lower() for m in case.history.active_medications()]
+
+
+# Questionnaire entries like "Never smoker" or "No chronic conditions" are negations, not conditions.
+_NEGATED = re.compile(r"^\s*(no|never|denies|denied|not|without|negative for)\b", re.IGNORECASE)
 
 
 def _conditions_text(case: CaseRecord) -> list[str]:
-    active = [c.display.lower() for c in case.history.conditions if (c.status or "active").lower() != "resolved"]
-    return active + [f.lower() for f in case.history.risk_flags]
+    active = [c.display.lower() for c in case.history.active_conditions() if not _NEGATED.match(c.display)]
+    return active + [f.lower().replace("_", " ") for f in case.history.risk_flags]
 
 
 def _has_hypertension(case: CaseRecord) -> bool:
@@ -152,8 +157,9 @@ def red_flag_gate(case: CaseRecord) -> tuple[bool, list[str]]:
     """Return (block_plan, audit). Red flags always replace the plan (SAFETY.md rule 6);
     urgent findings block it until a human has confirmed (SAFETY.md section 3)."""
     audit = []
-    red = [f.id for f in case.findings if f.severity == "red_flag"]
-    urgent = [f.id for f in case.findings if f.severity == "urgent"]
+    # Summarize's own lists are authoritative; severity on the findings is the backstop.
+    red = sorted(set(case.red_flags_open) | {f.id for f in case.findings if f.severity == "red_flag"})
+    urgent = sorted((set(case.needs_confirmation) | {f.id for f in case.findings if f.severity == "urgent"}) - set(red))
     if red:
         audit.append(f"gate: red_flag open {red}; wellness plan replaced with seek-care message")
         return True, audit
@@ -197,8 +203,9 @@ def otc_section(case: CaseRecord, audit: list[str]) -> OTCSection:
         blocking.append("age not provided, so label age limits cannot be checked")
     elif case.patient_age < K.MIN_OTC_AGE:
         blocking.append(f"age {case.patient_age} is under {K.MIN_OTC_AGE}")
-    if case.history.source == "degraded":
+    if case.history.is_degraded():
         blocking.append("medical history could not be read reliably, so allergy and medication checks are incomplete")
+    blocking += [f"incomplete input ({g}), so kidney, liver and other checks cannot be completed" for g in case.gaps]
     if blocking:
         audit.append(f"otc: pharmacist_only, blocked by {blocking}")
         return OTCSection(status="pharmacist_only", blocking_reasons=blocking)
@@ -209,6 +216,7 @@ def otc_section(case: CaseRecord, audit: list[str]) -> OTCSection:
     med_classes = {c for m in meds for kw, cs in K.MEDICATION_CLASSES.items() if kw in m for c in cs}
     conditions = _conditions_text(case)
     nsaid_labs = _lab_flags(case, K.NSAID_BLOCKING_LABS)
+    nsaid_flags = sorted(set(case.history.risk_flags) & NSAID_EXCLUSION_FLAGS)  # History's own NSAID rule
 
     options, excluded = [], []
     for name in candidates:
@@ -230,6 +238,8 @@ def otc_section(case: CaseRecord, audit: list[str]) -> OTCSection:
         if "nsaid" in classes and nsaid_labs:
             labs = ", ".join(f.label for f in nsaid_labs)
             reasons.append(f"NSAIDs avoided because {labs} was flagged (conservative prototype rule)")
+        if "nsaid" in classes and nsaid_flags:
+            reasons.append(f"NSAIDs avoided because of {', '.join(nsaid_flags)} in your history")
         # Rule 2a: label text names a medicine or condition from the history.
         label_text = " ".join(
             label.get(k, "") for k in ("do_not_use", "ask_doctor", "ask_doctor_or_pharmacist", "drug_interactions")
@@ -302,11 +312,12 @@ def nutrition_section(case: CaseRecord, audit: list[str]) -> NutritionSection:
     ))
     diabetes = "diabetes" in flags or any(_has_word(c, "diabetes") for c in conds)  # not "prediabetes"
     glucose_lab = _lab_flags(case, ("glucose", "hba1c", "a1c", "hemoglobin a1c"))
-    if diabetes or glucose_lab:
+    if diabetes or glucose_lab or "prediabetes" in flags:
         guidance.append(Guidance(
             text="Pair starchy foods with beans, eggs or tofu, keep portions of rice and pasta moderate, and "
                  "drink water instead of juice or soda.",
-            reason="diabetes in your history" if diabetes else f"{glucose_lab[0].label} was flagged",
+            reason=("diabetes in your history" if diabetes else
+                    f"{glucose_lab[0].label} was flagged" if glucose_lab else "prediabetes in your history"),
             source=None, rule="prototype",
         ))
     potassium_lab = _lab_flags(case, ("potassium",))
