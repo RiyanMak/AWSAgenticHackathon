@@ -2,7 +2,7 @@
 SHELL := /bin/bash
 ROOT  := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
 
-.PHONY: help validate build-lambda build-agentcore push deploy-lambda deploy-agentcore streamlit invoke-local clean
+.PHONY: help validate build-lambda build-agentcore push deploy-lambda deploy-agentcore streamlit portal invoke-local clean
 
 help:
 	@echo "validate         validate aws/template.yaml with CloudFormation"
@@ -11,7 +11,8 @@ help:
 	@echo "push             build and push both images to ECR"
 	@echo "deploy-lambda    deploy the stack (Lane A + AgentCore role)"
 	@echo "deploy-agentcore create/update the AgentCore Runtime (Lane B)"
-	@echo "streamlit        run the demo UI on :8501 (Lane C)"
+	@echo "portal           run the patient-portal demo on :8501 (Lane C, drag PDFs in)"
+	@echo "streamlit        run the minimal scenario picker on :8501 (Lane C)"
 	@echo "invoke-local     run service.handle for case_001 without AWS"
 	@echo "clean            delete runtime, bucket contents, stack, ECR repos"
 
@@ -35,6 +36,9 @@ deploy-agentcore:
 
 streamlit:
 	cd $(ROOT) && .venv/bin/python -m streamlit run aws/streamlit/app.py --server.port 8501
+
+portal:
+	cd $(ROOT) && .venv/bin/python -m streamlit run aws/streamlit/portal.py --server.port 8501
 
 invoke-local:
 	$(ROOT)/aws/scripts/invoke.sh local case_001

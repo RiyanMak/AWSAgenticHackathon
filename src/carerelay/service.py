@@ -8,8 +8,11 @@ Request shape (JSON):
     {"scenario": "case_001"}                                   # bundled synthetic case
     {"inputs": {"history_pdf": "<path or base64>",             # or explicit inputs
                 "labs_pdf": "...", "radiology_pdf": "...",
+                "documents": ["<base64>", ...],                # or unlabelled uploads, sorted by content
                 "intake": {...}},
      "options": {"llm": true, "model_id": "...", "region": "..."}}
+
+``iter_stages`` yields an event per completed stage for UIs that show progress; ``handle`` drains it.
 
 Report shape: see ``build_report``. History, Lab and Radiology run in parallel. Stages that are not
 implemented yet (summarize, wellness, next_steps) are reported as ``"status": "not_implemented"`` so the UI and judges see an
@@ -24,10 +27,10 @@ import os
 import re
 import tempfile
 import time
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterator, Literal
 
 from . import __version__
 from .agents.lab import run_lab_agent
@@ -247,8 +250,57 @@ def build_report(case_id: str | None, stages: dict[str, dict[str, Any]], started
 # -------------------------------------------------------------------------------------- handle
 
 
-def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
-    """Run the CareRelay pipeline for one request. Raises ServiceError on bad input."""
+DocumentKind = Literal["history", "labs", "radiology", "unknown"]
+_KIND_MARKERS: list[tuple[str, DocumentKind]] = [
+    ("PATIENT HEALTH SUMMARY", "history"),
+    ("HEALTH QUESTIONNAIRE", "history"),
+    ("LABORATORY REPORT", "labs"),
+    ("TEST RESULTS: LAB", "labs"),
+    ("REFERENCE RANGE", "labs"),
+    ("DIAGNOSTIC IMAGING REPORT", "radiology"),
+    ("TEST RESULTS: IMAGING", "radiology"),
+    ("IMPRESSION:", "radiology"),
+]
+
+
+def classify_pdf(pdf_bytes: bytes) -> DocumentKind:
+    """Guess which upload this is (history, labs or radiology) from its first page, so a patient can
+    drop every portal download at once without labelling them."""
+    try:
+        from .pdf_text import pdf_pages_text
+
+        first = (pdf_pages_text(pdf_bytes) or [""])[0].upper()
+    except Exception:  # noqa: BLE001
+        return "unknown"
+    for marker, kind in _KIND_MARKERS:
+        if marker in first:
+            return kind
+    return "unknown"
+
+
+def sort_documents(documents: list[bytes | str]) -> tuple[dict[str, bytes], list[str]]:
+    """Map unlabelled uploads to inputs by content. Returns ({kind: bytes}, warnings)."""
+    sorted_docs: dict[str, bytes] = {}
+    warnings: list[str] = []
+    for i, doc in enumerate(documents):
+        raw = base64.b64decode(doc) if isinstance(doc, str) else doc
+        kind = classify_pdf(raw)
+        if kind == "unknown":
+            warnings.append(f"document {i + 1}: not recognised as a history, lab or radiology report; ignored")
+        elif kind in sorted_docs:
+            warnings.append(f"document {i + 1}: second {kind} report ignored (one per run)")
+        else:
+            sorted_docs[kind] = raw
+    return sorted_docs, warnings
+
+
+def iter_stages(request: dict[str, Any] | str | None) -> Iterator[dict[str, Any]]:
+    """Run the pipeline and yield events as each stage completes, ending with the full report.
+
+    Events: ``{"event": "inputs", "present": {...}, "warnings": [...]}`` once,
+    ``{"event": "stage", "name": ..., "result": {...}}`` per stage in completion order,
+    ``{"event": "report", "report": {...}}`` last. ``handle()`` is this generator drained.
+    """
     started = time.time()
     if isinstance(request, str):
         request = _request_from_text(request)
@@ -263,20 +315,31 @@ def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
     elif not inputs:
         raise ServiceError("Request needs 'scenario' or 'inputs'")
 
+    input_warnings: list[str] = []
+    if inputs.get("documents"):  # unlabelled drag-and-drop uploads
+        sorted_docs, input_warnings = sort_documents(inputs.pop("documents"))
+        for kind, key in (("history", "history_pdf"), ("labs", "labs_pdf"), ("radiology", "radiology_pdf")):
+            if kind in sorted_docs and not inputs.get(key):
+                inputs[key] = sorted_docs[kind]
+
     workdir = Path(tempfile.mkdtemp(prefix="carerelay_"))
     history_pdf = _materialize(inputs.get("history_pdf"), "history.pdf", workdir)
     intake_text = _intake_text(inputs.get("intake"))
     labs_pdf = _materialize(inputs.get("labs_pdf"), "labs.pdf", workdir)
     radiology_pdf = _materialize(inputs.get("radiology_pdf"), "radiology.pdf", workdir)
+    if not (history_pdf or intake_text or labs_pdf or radiology_pdf):
+        raise ServiceError("No usable inputs: provide history_pdf, labs_pdf, radiology_pdf, intake or documents")
+    yield {
+        "event": "inputs",
+        "present": {"history": bool(history_pdf or intake_text), "lab": bool(labs_pdf), "radiology": bool(radiology_pdf)},
+        "warnings": input_warnings,
+    }
+
     stages: dict[str, dict[str, Any]] = {}
 
-    # Stages: lab and radiology run in the background while history runs below
-    pool = ThreadPoolExecutor(max_workers=2)
-    lab_future = pool.submit(_lab_stage, labs_pdf, use_llm) if labs_pdf else None
-    rad_future = pool.submit(_radiology_stage, radiology_pdf, use_llm) if radiology_pdf else None
-
-    # Stage: history (implemented)
-    if history_pdf or intake_text:
+    def _history() -> dict[str, Any]:
+        if not (history_pdf or intake_text):
+            return {"status": "skipped", "reason": "no history_pdf or intake provided"}
         try:
             profile = run_history_agent(
                 history_pdf=history_pdf,
@@ -285,29 +348,54 @@ def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
                 model_id=options.get("model_id"),
                 region=options.get("region"),
             )
-            stages["history"] = {
-                "status": "ok",
-                "profile": profile.model_dump(),
-                "markdown": _history_markdown(profile),
-            }
+            return {"status": "ok", "profile": profile.model_dump(), "markdown": _history_markdown(profile)}
         except Exception as exc:  # noqa: BLE001  (guardrail 2: never crash the pipeline)
-            stages["history"] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
-    else:
-        stages["history"] = {"status": "skipped", "reason": "no history_pdf or intake provided"}
+            return {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
 
-    for name, future in (("lab", lab_future), ("radiology", rad_future)):
+    def _guarded(name: str, fn, *args) -> dict[str, Any]:
         # the agents already turn their own failures into needs_clinical_reevaluation; this is a backstop
         try:
-            stages[name] = future.result() if future else {"status": "skipped", "reason": f"no {name} PDF provided"}
+            return fn(*args)
         except Exception as exc:  # noqa: BLE001
-            stages[name] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
-    pool.shutdown()
+            return {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
+
+    # The three specialists run in parallel; events are yielded in completion order
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        futures = {pool.submit(_guarded, "history", _history): "history"}
+        if labs_pdf:
+            futures[pool.submit(_guarded, "lab", _lab_stage, labs_pdf, use_llm)] = "lab"
+        else:
+            stages["lab"] = {"status": "skipped", "reason": "no lab PDF provided"}
+        if radiology_pdf:
+            futures[pool.submit(_guarded, "radiology", _radiology_stage, radiology_pdf, use_llm)] = "radiology"
+        else:
+            stages["radiology"] = {"status": "skipped", "reason": "no radiology PDF provided"}
+        for name in [n for n in ("lab", "radiology") if n in stages]:
+            yield {"event": "stage", "name": name, "result": stages[name]}
+        for future in as_completed(futures):
+            name = futures[future]
+            stages[name] = future.result()
+            yield {"event": "stage", "name": name, "result": stages[name]}
 
     # Stages not built yet: declare them so the report is honest about coverage
     for name in ("summarize", "wellness", "next_steps"):
         stages[name] = {"status": "not_implemented"}
+        yield {"event": "stage", "name": name, "result": stages[name]}
 
-    return build_report(case_id, stages, started)
+    report = build_report(case_id, stages, started)
+    if input_warnings:
+        report["input_warnings"] = input_warnings
+    yield {"event": "report", "report": report}
+
+
+def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
+    """Run the CareRelay pipeline for one request and return the report. Raises ServiceError on bad input."""
+    report: dict[str, Any] | None = None
+    for event in iter_stages(request):
+        if event["event"] == "report":
+            report = event["report"]
+    assert report is not None
+    return report
 
 
 def _request_from_text(text: str) -> dict[str, Any]:

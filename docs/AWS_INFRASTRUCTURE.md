@@ -47,7 +47,7 @@ Recommendation from the diagram: C is fastest, A gives judges a link, B shows Ag
  "saved": {"bucket": "...", "links": {"json": "https://...", "md": "https://..."}}}   // lane A only
 ```
 
-Lane B also accepts `{"prompt": "run case_005"}`; the prompt must name a scenario or be JSON. Stages that are not built yet report `not_implemented`, so the pipeline view stays honest while the team fills in Lab, Radiology, Summarize, Wellness and Next Steps.
+Lane B also accepts `{"prompt": "run case_005"}`; the prompt must name a scenario or be JSON. All lanes also accept `"inputs": {"documents": ["<base64 pdf>", ...]}` for unlabelled uploads: `service.classify_pdf` sorts them into history, labs and radiology by their first page, which is what the drag-and-drop portal page uses (`aws/streamlit/portal.py`, runbook in [DEMO.md](DEMO.md)). Stages that are not built yet report `not_implemented`, so the pipeline view stays honest while the team fills in Lab, Radiology, Summarize, Wellness and Next Steps.
 
 ## Components
 
