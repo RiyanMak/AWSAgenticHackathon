@@ -8,6 +8,7 @@ COPY src ./src
 COPY data/cases ./data/cases
 COPY data/output ./data/output
 COPY data/network ./data/network
+COPY data/network.py ./data/network.py
 COPY data/reference ./data/reference
 
 RUN pip install --no-cache-dir . bedrock-agentcore

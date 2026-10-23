@@ -14,8 +14,9 @@ from datetime import date
 from pathlib import Path
 
 from carerelay.schemas import CaseRecord, CodedItem, Finding, HistoryProfile
+from carerelay.service import find_data_dir
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = find_data_dir().parent
 CASES_DIR = ROOT / "data" / "cases"
 TODAY = date(2026, 10, 23)  # data/README.md: use 2026-10-23 as "today"
 
@@ -47,11 +48,11 @@ def _visit_reason(report: dict) -> str | None:
 
 
 def history_profile(h: dict) -> HistoryProfile:
-    conditions = [CodedItem(system="ICD-10-CM", code=c.get("icd10"), display=c["display"],
+    conditions = [CodedItem(system="icd10cm", code=c.get("icd10"), display=c["display"],
                             status=c.get("status"), detail=c.get("onset")) for c in h.get("conditions", [])]
-    meds = [CodedItem(system="RxNorm", code=m.get("rxnorm"), display=m["display"],
+    meds = [CodedItem(system="rxnorm", code=m.get("rxnorm"), display=m["display"],
                       status=m.get("status", "active"), detail=m.get("dosage")) for m in h.get("medications", [])]
-    allergies = [CodedItem(system="RxNorm" if a.get("rxnorm") else None, code=a.get("rxnorm"),
+    allergies = [CodedItem(system="rxnorm" if a.get("rxnorm") else "text", code=a.get("rxnorm"),
                            display=a["substance"], detail=f"{a.get('reaction', '')}; criticality {a.get('criticality')}")
                  for a in h.get("allergies", [])]
     procedures = [CodedItem(display=p["display"], detail=p.get("date")) for p in h.get("procedures", [])]
