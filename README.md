@@ -55,13 +55,14 @@ The repo ships 10 synthetic cases in [data/](data/README.md): a radiology report
 4. Run what exists so far:
 
 ```bash
-uv venv .venv && uv pip install --python .venv/bin/python -e ".[dev]"
+uv venv .venv && uv pip install --python .venv/bin/python -e ".[dev,ui]"
 .venv/bin/python -m pytest -q tests data/tests
+.venv/bin/shiny run src/carerelay/ui/app.py          # patient UI: agent course + results (docs/FRONTEND.md)
 .venv/bin/python -m carerelay.history --pdf data/output/case_001/history.pdf --no-llm
 .venv/bin/python scripts/eval_history.py --offline
 ```
 
-The History Agent is implemented; see [docs/HISTORY_AGENT.md](docs/HISTORY_AGENT.md). Other agents follow the same package layout under `src/carerelay/`.
+The History Agent is implemented; see [docs/HISTORY_AGENT.md](docs/HISTORY_AGENT.md). Other agents follow the same package layout under `src/carerelay/`. The UI fills agents that are not built yet with labelled demo data, so the full course plays today; to plug an agent into the UI, follow [docs/FRONTEND.md](docs/FRONTEND.md).
 
 ### Running the pipeline
 
@@ -104,11 +105,16 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 ```text
 .
 ├── README.md
+├── PRODUCT.md                          # product facts for design work (users, purpose, constraints)
+├── DESIGN.md                           # the Course visual system: tokens, components, rules
 ├── pyproject.toml                      # package: carerelay (src layout)
 ├── requirements.txt
 ├── src/carerelay/
 │   ├── service.py                      # service.handle(request) -> report: the one entry point every lane calls
-│   └── history/                        # History Agent: schema, parsers (PDF, FHIR, MIMIC, intake), risk flags, tools, agent, CLI
+│   ├── history/                        # History Agent: schema, parsers (PDF, FHIR, MIMIC, intake), risk flags, tools, agent, CLI
+│   └── ui/                             # Shiny patient UI: agent contracts, pipeline events, demo fill, views (docs/FRONTEND.md)
+├── design/                             # tokens.json (shared theme) + build_tokens.py
+├── presentation/                       # Quarto reveal.js deck for the final presentation
 ├── aws/                                # deployment lanes (see docs/AWS_INFRASTRUCTURE.md)
 │   ├── template.yaml                   # SAM/CloudFormation: Lambda + Function URL + S3 + IAM + AgentCore role
 │   ├── lambda/, agentcore/, streamlit/ # lane A, B, C adapters and Dockerfiles
@@ -127,6 +133,7 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 │   └── tests/                          # integrity tests for the generators and mock network
 ├── docs/
 │   ├── ARCHITECTURE.md
+│   ├── FRONTEND.md
 │   ├── HISTORY_AGENT.md
 │   ├── DATASETS.md
 │   ├── APIS.md
@@ -155,6 +162,8 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 | [data/README.md](data/README.md) | Synthetic cases, mock network, tool functions, build and test commands |
 | [data/CASES.md](data/CASES.md) | The 10 case scenarios and their incidental findings |
 | [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Agents, Strands Graph pattern, incidental ledger, data flow |
+| [FRONTEND.md](docs/FRONTEND.md) | Shiny patient UI, agent course and handoff events, stage payload contracts, how to plug an agent in |
+| [DESIGN.md](DESIGN.md) | Course visual system shared by the UI and the deck |
 | [HISTORY_AGENT.md](docs/HISTORY_AGENT.md) | History Agent: inputs, `HistoryProfile`, risk flags, how to run and plug into the graph |
 | [DATASETS.md](docs/DATASETS.md) | Verified datasets per input type and knowledge sources |
 | [APIS.md](docs/APIS.md) | External APIs with auth, limits and example requests |

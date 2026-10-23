@@ -1,0 +1,159 @@
+---
+# Four slides: intro, agent course (animated), demo, conclusion. Theme: Course (design/tokens.json).
+# [like this]{.tbd} marks undecided content. Render: quarto render presentation/index.qmd
+pagetitle: "CareRelay · AWS Austin Agentic AI Hackathon"
+format:
+  revealjs:
+    theme: [default, theme.scss]
+    width: 1600
+    height: 900
+    margin: 0.06
+    center: false
+    transition: fade
+    background-transition: fade
+    slide-number: c/t
+    hash: true
+    controls: true
+    controls-tutorial: false
+    progress: true
+    footer: "SYNTHETIC DATA · PROTOTYPE · NOT MEDICAL ADVICE"
+---
+
+## {.intro}
+
+:::: {.columns}
+::: {.column width="46%"}
+[CareRelay]{.wordmark}
+
+[Patients get reports written for other doctors. **Upload yours, and understand what it means and what to do next.**]{.tagline}
+
+[AWS Austin Agentic AI Hackathon, Track 1 (Caregivers) · [Team names]{.tbd} · Amazon Bedrock, AgentCore and Strands Agents]{.event}
+:::
+
+::: {.column width="54%"}
+::: {.report-card}
+[From the portal · CT Chest · 10/14/2026]{.card-head}
+
+[2\. 9 mm solid noncalcified nodule in the superior segment of the right lower lobe. For a solid nodule greater than 8 mm, Fleischner Society 2017 guidelines suggest considering CT at 3 months, PET/CT, or tissue sampling.]{.jargon}
+
+[Linda, 58: *"Is this cancer? Who do I even call?"*]{.patient-q}
+:::
+
+[Linda uploads it to CareRelay]{.upload .fragment fragment-index=1}
+
+::: {.plain-card .fragment .fade-up fragment-index=2}
+[CareRelay · in plain language]{.card-head}
+
+**A small spot on your lung that needs a second look.** Most spots this size are not cancer, but because you used to smoke, doctors recommend another CT in about 3 months.
+
+[Next step: Capital Pulmonary Associates (in network, 6.9 mi) · Thu Nov 5, 8:00 AM · \$50 copay]{.next-step}
+:::
+:::
+::::
+
+::: notes
+Open on the patient, not the tech. Linda opens her portal and reads this. It was written for
+the doctor who ordered it, and that doctor (urgent care) won't follow up. Click: she uploads it.
+Click: what she actually needed to hear, and a concrete next step.
+The plain-language text and the appointment are illustrative mock output (synthetic case_001);
+swap in real app output once we have it. TODO: team names.
+:::
+
+## How the agents work together {.overview}
+
+{{< include _architecture.qmd >}}
+
+::: notes
+Click through five steps. Emphasise: (1) parallel specialists, (2) History turns
+"abnormal" into "expected" where a known condition explains it, (3) the incidental ledger,
+(4) Insurance and Next Steps negotiate, (5) human confirms. Deterministic tools do the math
+(ranges, network, cost); the model explains.
+:::
+
+## Demo {.demo}
+
+:::: {.columns}
+::: {.column width="62%"}
+<!--
+Screen recording: once the app works, record case_001 end to end (about 90 s, 1920x1080),
+save it as presentation/media/demo.mp4, and replace the whole demo-frame div below with:
+
+{{< video media/demo.mp4 width="100%" height="100%" >}}
+
+Reveal plays it when the slide opens; add data-autoplay via the slide's attributes if wanted.
+-->
+::: {.demo-frame}
+[Screen recording of the CareRelay app]{.big}
+
+[case_001 end to end · [media/demo.mp4 TBD]{.tbd}]{}
+:::
+:::
+
+::: {.column width="38%"}
+::: {.beats}
+::: {.beat .fragment}
+[1]{.ctrl-n}
+**Upload**
+
+Labs, CT report and health summary. Lab, Radiology and History start together; every handoff shows on the course.
+:::
+
+::: {.beat .fragment}
+[2]{.ctrl-n}
+**Merge and wait**
+
+The coronary calcium, mentioned only in FINDINGS, still gets an owner. A DM cough syrup is ruled out by her allergy.
+:::
+
+::: {.beat .fragment}
+[3]{.ctrl-n}
+**Follow up**
+
+The nearest pulmonologist is out of network, so Insurance sends Next Steps back. Three visits, \$125, proposed until she confirms.
+:::
+:::
+:::
+::::
+
+::: notes
+Recorded run of the app on case_001; narrate the three beats on the right as it plays.
+Keep it under 2 minutes. If there is time, offer a live run afterwards.
+Record from the Shiny UI (src/carerelay/ui/app.py) with demo fill on; drop demo fill as agents land.
+:::
+
+## {.conclusion}
+
+[Every finding gets an owner, an explanation and an in-network next step.]{.closing}
+
+::: {.pillars}
+::: {.pillar .fragment}
+#### What we built
+
+- [N]{.tbd} agents on Bedrock + Strands
+- 10 synthetic cases with answer keys
+- Deterministic network and cost tools
+:::
+
+::: {.pillar .guard .fragment}
+#### Guardrails
+
+- Synthetic data only
+- Model explains, rules decide doses and flags
+- Humans confirm every appointment
+:::
+
+::: {.pillar .next .fragment}
+#### What's next
+
+- [Eval results: incidental recall]{.tbd}
+- Live payer directories (Plan-Net)
+- Caregiver sharing and reminders
+:::
+:::
+
+[github.com/RiyanMak/AWSAgenticHackathon]{.repo}
+
+::: notes
+Close on the one-liner. TODO: fill the eval number once we run the answer-key check
+(incidental recall and the "should NOT refer" restraint cases 006, 008, 010).
+:::

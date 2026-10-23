@@ -19,7 +19,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "reportlab>=4.0", "bedrock-agentcore>=1.0", "streamlit>=1.40"]
 agentcore = ["bedrock-agentcore>=1.0"]
-ui = ["streamlit>=1.40"]
+ui = ["streamlit>=1.40", "shiny>=1.5"]
 
 [project.scripts]
 carerelay-history = "carerelay.history.__main__:main"

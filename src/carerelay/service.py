@@ -28,7 +28,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from . import __version__
 from .agents.lab import run_lab_agent
@@ -260,23 +260,38 @@ def _next_steps_markdown(p: NextStepsPlan) -> str:
 
 
 def _run_downstream(stages: dict[str, dict[str, Any]], profile: HistoryProfile | None, lab: LabFindings | None,
-                    rad: ImagingFindings | None, inputs: dict[str, Any], options: dict[str, Any], use_llm: bool) -> None:
+                    rad: ImagingFindings | None, inputs: dict[str, Any], options: dict[str, Any], use_llm: bool,
+                    on_event: EventCallback | None = None) -> None:
     """Summarize -> Wellness and Next Steps. Each stage fails soft (guardrail 2)."""
+    try:
+        _downstream(stages, profile, lab, rad, inputs, options, use_llm, on_event)
+    finally:
+        for name in ("summarize", "wellness", "next_steps"):
+            if name in stages and "elapsed_seconds" not in stages[name]:
+                _end(on_event, stages, name, time.time())
+
+
+def _downstream(stages, profile, lab, rad, inputs, options, use_llm, on_event) -> None:
     if lab is None and rad is None:
         for name in ("summarize", "wellness", "next_steps"):
             stages[name] = {"status": "skipped", "reason": "no lab or radiology results to summarize"}
         return
     model = {"model_id": options.get("model_id"), "region": options.get("region")}
+    t0 = time.time()
+    _emit(on_event, "stage_start", "summarize")
     try:
         record = run_summarize(profile, lab, rad, use_llm=use_llm,
                                human_confirmed=bool(options.get("human_confirmed")), **model)
         stages["summarize"] = {"status": "ok", "case_record": record.model_dump(mode="json"),
                                "markdown": _summarize_markdown(record)}
+        _end(on_event, stages, "summarize", t0)
     except Exception as exc:  # noqa: BLE001
         for name in ("summarize", "wellness", "next_steps"):
             stages[name] = {"status": "needs_clinical_reevaluation", "error": f"summarize: {type(exc).__name__}: {exc}"}
         return
 
+    t0 = time.time()
+    _emit(on_event, "stage_start", "wellness")
     try:
         from .wellness.agent import make_wellness_agent, run_wellness
 
@@ -288,6 +303,9 @@ def _run_downstream(stages: dict[str, dict[str, Any]], profile: HistoryProfile |
         stages["wellness"] = {"status": "ok", "result": out, "markdown": "## Wellness while you wait\n" + out["text"]}
     except Exception as exc:  # noqa: BLE001
         stages["wellness"] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
+    _end(on_event, stages, "wellness", t0)
+    t0 = time.time()
+    _emit(on_event, "stage_start", "next_steps")
 
     if record.needs_confirmation:
         labels = [f.label for f in record.findings if f.id in record.needs_confirmation]
@@ -306,6 +324,7 @@ def _run_downstream(stages: dict[str, dict[str, Any]], profile: HistoryProfile |
         plan = run_next_steps(to_next_steps_request(record, inputs["coverage"], ctx), use_llm=use_llm, **model)
         stages["next_steps"] = {"status": plan.status, "plan": plan.model_dump(mode="json"),
                                 "markdown": _next_steps_markdown(plan)}
+        _end(on_event, stages, "next_steps", t0)
     except Exception as exc:  # noqa: BLE001
         stages["next_steps"] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
 
@@ -333,8 +352,34 @@ def build_report(case_id: str | None, stages: dict[str, dict[str, Any]], started
 # -------------------------------------------------------------------------------------- handle
 
 
-def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
-    """Run the CareRelay pipeline for one request. Raises ServiceError on bad input."""
+EventCallback = Callable[[dict[str, Any]], None]
+
+
+def _emit(on_event: EventCallback | None, kind: str, stage: str, **fields: Any) -> None:
+    """Report pipeline progress to a caller (the Shiny UI draws agent handoffs from these).
+
+    Events: ``{"type": "stage_start" | "stage_end", "stage": <name>, "t": <unix seconds>, ...}``;
+    ``stage_end`` adds ``status`` and ``elapsed_seconds``. A failing callback never breaks the run.
+    """
+    if on_event is None:
+        return
+    try:
+        on_event({"type": kind, "stage": stage, "t": time.time(), **fields})
+    except Exception:  # noqa: BLE001
+        pass
+
+
+def _end(on_event: EventCallback | None, stages: dict[str, dict[str, Any]], name: str, t0: float) -> None:
+    stages[name].setdefault("elapsed_seconds", round(time.time() - t0, 2))
+    _emit(on_event, "stage_end", name, status=stages[name]["status"], elapsed_seconds=stages[name]["elapsed_seconds"])
+
+
+def handle(request: dict[str, Any] | str | None, on_event: EventCallback | None = None) -> dict[str, Any]:
+    """Run the CareRelay pipeline for one request. Raises ServiceError on bad input.
+
+    ``on_event`` (optional) receives a stage_start / stage_end event per stage, so a UI can show
+    progress and handoffs while the run is in flight. Lanes that do not pass it are unaffected.
+    """
     started = time.time()
     if isinstance(request, str):
         request = _request_from_text(request)
@@ -358,12 +403,18 @@ def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
 
     # Stages: lab and radiology run in the background while history runs below
     pool = ThreadPoolExecutor(max_workers=2)
+    t_parallel = time.time()
+    for name, present in (("lab", labs_pdf), ("radiology", radiology_pdf)):
+        if present:
+            _emit(on_event, "stage_start", name)
     lab_future = pool.submit(_lab_stage, labs_pdf, use_llm) if labs_pdf else None
     rad_future = pool.submit(_radiology_stage, radiology_pdf, use_llm) if radiology_pdf else None
 
     # Stage: history (implemented)
     profile: HistoryProfile | None = None
+    t0 = time.time()
     if history_pdf or intake_text:
+        _emit(on_event, "stage_start", "history")
         try:
             profile = run_history_agent(
                 history_pdf=history_pdf,
@@ -381,6 +432,7 @@ def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
             stages["history"] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
     else:
         stages["history"] = {"status": "skipped", "reason": "no history_pdf or intake provided"}
+    _end(on_event, stages, "history", t0)
 
     results: dict[str, Any] = {}
     for name, future in (("lab", lab_future), ("radiology", rad_future)):
@@ -392,10 +444,11 @@ def handle(request: dict[str, Any] | str | None) -> dict[str, Any]:
                 stages[name] = {"status": "skipped", "reason": f"no {name} PDF provided"}
         except Exception as exc:  # noqa: BLE001
             stages[name] = {"status": "needs_clinical_reevaluation", "error": f"{type(exc).__name__}: {exc}"}
+        _end(on_event, stages, name, t_parallel)
     pool.shutdown()
 
     profile_obj = profile if stages["history"]["status"] == "ok" else None
-    _run_downstream(stages, profile_obj, results.get("lab"), results.get("radiology"), inputs, options, use_llm)
+    _run_downstream(stages, profile_obj, results.get("lab"), results.get("radiology"), inputs, options, use_llm, on_event)
 
     return build_report(case_id, stages, started)
 

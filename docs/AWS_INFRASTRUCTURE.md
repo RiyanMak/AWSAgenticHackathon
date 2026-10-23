@@ -27,6 +27,8 @@ flowchart LR
 | **B** managed agent hosting | `aws bedrock-agentcore invoke-agent-runtime` | AgentCore Runtime, arm64 container on `:8080` | Shows the agent hosted on AgentCore, the sponsor stack | ~25 min (needs lane A's role or the starter-kit role) |
 | **C** live demo UI | Streamlit on `:8501` | SageMaker Studio, EC2 or a laptop, in-process | Fastest to set up; file upload and scenario picker | ~5 min |
 
+The patient-facing UI for the demo is the Shiny app in `src/carerelay/ui/` (run in-process like lane C: `shiny run src/carerelay/ui/app.py`); it calls the same `service.handle()` and adds the live agent course. See [FRONTEND.md](FRONTEND.md).
+
 Recommendation from the diagram: C is fastest, A gives judges a link, B shows AgentCore. Build C first, then A, then B if time allows.
 
 ## Request and report contract
