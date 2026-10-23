@@ -44,6 +44,8 @@ aws bedrock-runtime converse --region "$AWS_REGION" --model-id us.anthropic.clau
   --messages '[{"role":"user","content":[{"text":"Reply OK"}]}]'
 ```
 
+Verified on 2026-10-23 on a personal account in us-east-1 and us-west-2: `us.anthropic.claude-sonnet-4-5-20250929-v1:0`, `us.anthropic.claude-haiku-4-5-20251001-v1:0` and `us.amazon.nova-2-lite-v1:0` invoke; `us.anthropic.claude-sonnet-5` and `us.anthropic.claude-opus-5-5` are listed but return `AccessDeniedException` until model access is granted. The History Agent defaults to Sonnet 4.5 and reads `BEDROCK_MODEL_ID` to override.
+
 Fallbacks: a kit-tested GPT profile, `amazon.nova-pro-v1:0` (supports images, no structured outputs), or Haiku 4.5 per the Bedrock catalog. Test PDF support per model; if a model has no document row, render PDF pages to images. A Bedrock API key does not override an IAM explicit deny.
 
 ## 4. IAM caveats
@@ -52,6 +54,7 @@ Fallbacks: a kit-tested GPT profile, `amazon.nova-pro-v1:0` (supports images, no
 - AgentCore Runtime deploy needs permission to create and invoke runtimes and to use an S3 code bucket.
 - Direct inference and AgentCore inference use different roles. If one works and the other fails, compare roles and the allowlist.
 - It is unknown whether the temporary account permits AgentCore Runtime deployment or SageMaker GPU quota. Test early; fall back to running the graph locally.
+- Comprehend Medical needs `comprehendmedical:InferICD10CM` and `comprehendmedical:InferRxNorm` (the managed policy `ComprehendMedicalFullAccess` covers both). Without them the intake parser keeps items as uncoded text and records a warning; it does not fail.
 
 ## 5. Services used
 

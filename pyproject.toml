@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "carerelay"
+version = "0.1.0"
+description = "CareRelay multi-agent healthcare navigator (AWS Agentic AI Hackathon, Track 1)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "strands-agents>=1.60",
+    "boto3>=1.40",
+    "pydantic>=2.7",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+agentcore = ["bedrock-agentcore>=1.0"]
+
+[project.scripts]
+carerelay-history = "carerelay.history.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

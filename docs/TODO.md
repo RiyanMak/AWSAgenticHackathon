@@ -9,7 +9,7 @@ Ordered checklist with time boxes, assuming one build day. Adjust to the event s
 | 3 | Fix the demo patient: render MIMIC-IV demo labs to PDF, pull the same patient's `diagnoses_icd` and `prescriptions` rows (or one Synthea FHIR bundle) as the history, pick one NIH CXR with a known label, generate one synthetic insurance card ([DATASETS.md](DATASETS.md)) | 50 min | [ ] |
 | 4 | Lab Agent: typed extraction, deterministic range comparator, incidental tag | 45 min | [ ] |
 | 5 | Radiology Agent: TorchXRayVision scores plus Bedrock narrative, incidental tag | 45 min | [ ] |
-| 6 | History Agent: FHIR or CSV parser into `HistoryProfile`, `risk_flags` table, Comprehend Medical path for the intake form | 30 min | [ ] |
+| 6 | History Agent: FHIR or CSV parser into `HistoryProfile`, `risk_flags` table, Comprehend Medical path for the intake form ([HISTORY_AGENT.md](HISTORY_AGENT.md)) | done | [x] |
 | 7 | Strands Graph: parallel Lab, Radiology and History, all-complete fan-in to Summarize ([ARCHITECTURE.md](ARCHITECTURE.md)) | 30 min | [ ] |
 | 8 | Summarize: merged `CaseRecord`, expected-vs-incidental rule table, incidental ledger, critic pass, red-flag interrupt | 50 min | [ ] |
 | 9 | Next Steps: specialty map, known-specialist shortcut, NPI search, Insurance tool with synthetic roster (optionally Plan-Net), `proposed` Appointment on HAPI ([APIS.md](APIS.md)) | 60 min | [ ] |

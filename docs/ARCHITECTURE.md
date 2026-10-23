@@ -42,12 +42,16 @@ class HistoryProfile(BaseModel):
     medications: list[CodedItem]       # RxNorm code, display, dose text, status
     allergies: list[CodedItem]         # substance, reaction, criticality
     procedures: list[CodedItem]        # CPT or SNOMED code, display, date
+    care_team: list[str]               # provider display names seen in the history
     known_specialists: list[str]       # specialties the patient already sees, from encounters or intake
     risk_flags: list[str]              # derived deterministically: ckd, pregnancy, anticoagulant, liver, diabetes, hypertension
-    source: Literal["fhir", "csv", "intake_text"]
+    source: Literal["fhir", "csv", "intake_text", "degraded"]
+    warnings: list[str]                # parse problems; non-empty means review the input
+    summary: str                       # LLM-written, 2-3 plain sentences
+    clinician_notes: list[str]         # LLM-written, up to 5 items
 ```
 
-Parsing rules:
+Implemented in `src/carerelay/history/` (see [HISTORY_AGENT.md](HISTORY_AGENT.md)). Parsing rules:
 
 - **FHIR R4 bundle** (Synthea): read `Condition`, `MedicationRequest` (status `active`), `AllergyIntolerance`, `Procedure`, and `Encounter.participant` or `Practitioner` specialties. No LLM needed.
 - **MIMIC-IV demo CSV**: join `diagnoses_icd` with `d_icd_diagnoses` for conditions and read `prescriptions` for medications. The demo has no allergy table, so allergies come from the intake form.

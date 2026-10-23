@@ -50,6 +50,15 @@ flowchart TD
 1. Join the event and verify your account: [docs/AWS_SETUP.md](docs/AWS_SETUP.md).
 2. Pull the demo data: [docs/DATASETS.md](docs/DATASETS.md).
 3. Read the design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), then follow the build order in [docs/TODO.md](docs/TODO.md).
+4. Run what exists so far:
+
+```bash
+uv venv .venv && uv pip install --python .venv/bin/python -e ".[dev]"
+.venv/bin/python -m pytest -q
+.venv/bin/python -m carerelay.history --fhir data/samples/history/synthea_coherent_sample_bundle.json --no-llm
+```
+
+The History Agent is implemented; see [docs/HISTORY_AGENT.md](docs/HISTORY_AGENT.md). Other agents follow the same package layout under `src/carerelay/`.
 
 ## Demo script (3 beats)
 
@@ -66,8 +75,15 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 ```text
 .
 ├── README.md
+├── pyproject.toml                      # package: carerelay (src layout)
+├── requirements.txt
+├── src/carerelay/
+│   └── history/                        # History Agent: schema, parsers, risk flags, Strands tools, agent, CLI
+├── tests/                              # pytest, runs offline against data/samples
+├── data/samples/history/               # trimmed Synthea Coherent bundle + one MIMIC-IV demo subject
 ├── docs/
 │   ├── ARCHITECTURE.md
+│   ├── HISTORY_AGENT.md
 │   ├── DATASETS.md
 │   ├── APIS.md
 │   ├── AWS_SETUP.md
@@ -93,6 +109,7 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 | Doc | What it covers |
 |---|---|
 | [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Agents, Strands Graph pattern, incidental ledger, data flow |
+| [HISTORY_AGENT.md](docs/HISTORY_AGENT.md) | History Agent: inputs, `HistoryProfile`, risk flags, how to run and plug into the graph |
 | [DATASETS.md](docs/DATASETS.md) | Verified datasets per input type and knowledge sources |
 | [APIS.md](docs/APIS.md) | External APIs with auth, limits and example requests |
 | [AWS_SETUP.md](docs/AWS_SETUP.md) | Workshop Studio, starter kit, services, pricing, cleanup |
