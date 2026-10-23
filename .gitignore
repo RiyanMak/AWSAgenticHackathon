@@ -1,6 +1,9 @@
 .venv/
 __pycache__/
 .pytest_cache/
+.quarto/
+presentation/*.html
+presentation/*_files/
 *.pyc
 .env
 .bedrock_agentcore.yaml
