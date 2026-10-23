@@ -24,9 +24,9 @@ def make_bedrock_model(model_id: str | None = None, region: str | None = None, *
     """Build a Strands BedrockModel. Imported lazily so parsers work without strands installed."""
     from strands.models import BedrockModel
 
+    # temperature is intentionally not sent: Claude Sonnet 5 on Bedrock rejects it ("deprecated for this model").
     return BedrockModel(
         model_id=resolve_model_id(model_id),
         region_name=resolve_region(region),
-        temperature=temperature,
         max_tokens=max_tokens,
     )
