@@ -24,6 +24,7 @@ _SECTION = re.compile(rf"^\s*({'|'.join(SECTION_NAMES)})\s*:\s*", re.MULTILINE)
 _SIGNATURE = re.compile(r"^\s*(Electronically signed|Signed:|Dictated by)", re.MULTILINE)
 _SIZE = re.compile(r"(\d+(?:\.\d+)?)\s*(?:x\s*\d+(?:\.\d+)?\s*)*(mm|cm)\b", re.IGNORECASE)
 _SEVERITY_ORDER = ["info", "follow_up", "urgent", "red_flag"]
+_NEGATED_LABEL = re.compile(r"^\s*(no|without|negative for|normal)\b", re.IGNORECASE)
 _CERTAINTY_CONFIDENCE = {"definite": 0.9, "probable": 0.75, "possible": 0.6}
 SIZED_LABELS = {"Nodule", "Mass", "Lesion", "Cyst", "Stone", "Aortic dilation", "Hematoma"}
 
@@ -70,6 +71,10 @@ def bedrock_findings(result: dict, body: str, sections: dict[str, str], notes: l
     findings = []
     for raw in result.get("findings", []):
         quote = raw.get("evidence_quote", "")
+        if _NEGATED_LABEL.match(raw.get("label", "")):
+            # a normal result ("No intracranial hemorrhage") is not a finding; keeping it would trip severity rules
+            notes.append(f"Dropped negated statement returned as a finding: '{raw.get('label')}'.")
+            continue
         verified = bool(quote) and _norm(quote) in source
         confidence = _CERTAINTY_CONFIDENCE.get(raw.get("certainty"), 0.6)
         if not verified:
@@ -82,7 +87,7 @@ def bedrock_findings(result: dict, body: str, sections: dict[str, str], notes: l
             value=raw.get("measurement_text") or (f"{size:g} mm" if size else None),
             evidence=f"\"{quote}\"" + ("" if verified else " [NOT VERIFIED IN SOURCE]"),
             confidence=confidence,
-            severity=radiology_severity(raw["label"], context, size, bool(raw.get("recommendation"))),
+            severity=radiology_severity(_strip_negated(raw["label"]), context, size, bool(raw.get("recommendation"))),
             specialty_hint=raw.get("specialty_hint"),
             site=raw.get("site"), size_mm=size,
             in_impression=raw.get("in_impression"), answers_indication=raw.get("answers_indication"),

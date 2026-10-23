@@ -127,7 +127,7 @@ def make_next_steps_agent(request: NextStepsRequest, coverage: CoverageProfile, 
     return Agent(
         name="next_steps",
         description="Plans in-network follow-up appointments for routed findings, consulting the Insurance Agent",
-        model=make_strands_model(model_id, region),
+        model=make_strands_model(model_id, region, max_tokens=8000),   # 4000 truncated the decision on 2/10 cases
         system_prompt=SYSTEM_PROMPT,
         tools=make_next_steps_tools(request, coverage, state, model_id, region),
         callback_handler=None,

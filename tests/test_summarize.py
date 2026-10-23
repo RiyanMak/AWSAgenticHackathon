@@ -94,6 +94,8 @@ def rad(label, severity="follow_up", **kw):
     (rad("Solid renal mass", severity="urgent"), 41, "urgent"),
     (rad("Ureteral calculus at the UVJ", answers_indication=True), 52, "soon"),
     (rad("Bronchial wall thickening", severity="info", answers_indication=True), 58, "none"),
+    (rad("Cholelithiasis", severity="info", answers_indication=True), 41, "soon"),         # live-run regression
+    (rad("L3-L4 degenerative changes without stenosis", severity="info", answers_indication=True), 69, "none"),
     (rad("Stable solid pulmonary nodule, Lung-RADS 2", answers_indication=True), 66, "watch"),
     (rad("Extra-axial lesion, likely meningioma", size_mm=14), 76, "watch"),
     (rad("Simple renal cyst", size_mm=21), 69, "none"),
