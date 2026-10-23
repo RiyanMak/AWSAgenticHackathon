@@ -17,7 +17,7 @@ from typing import Any, Callable
 
 from .. import service
 from . import demo
-from .contracts import AGENT, PARALLEL_FIRST
+from .contracts import AGENT, PARALLEL_FIRST, payload
 
 Emit = Callable[[dict[str, Any]], None]
 UNBUILT = "not_implemented"
@@ -30,15 +30,16 @@ def _ev(emit: Emit, kind: str, **fields: Any) -> None:
 # --------------------------------------------------------------------- handoff descriptions
 
 
-def describe(stage: str, payload: dict[str, Any], to: str) -> str:
+def describe(stage: str, stage_dict: dict[str, Any], to: str) -> str:
     """One line saying what an agent handed to the next one."""
+    out = payload(stage, stage_dict)
     if stage == "history":
-        p = payload.get("profile", {})
+        p = out
         flags = ", ".join(p.get("risk_flags", [])) or "none"
         return (f"HistoryProfile: {len(p.get('conditions', []))} conditions, {len(p.get('medications', []))} meds, "
                 f"{len(p.get('allergies', []))} allergies; risk flags: {flags}")
     if stage in ("lab", "radiology"):
-        fs = payload.get("findings", [])
+        fs = out.get("findings", [])
         flagged = sum(f.get("severity") != "info" for f in fs)
         extra = ""
         if stage == "radiology":
@@ -46,24 +47,24 @@ def describe(stage: str, payload: dict[str, Any], to: str) -> str:
             extra = f", {only} only in FINDINGS" if only else ""
         return f"{AGENT[stage].produces}: {len(fs)} findings, {flagged} flagged{extra}"
     if stage == "summarize":
-        items = payload.get("items", [])
+        items = out.get("items", [])
         inc = sum(i.get("incidental") for i in items)
         act = sum(i.get("triage") in ("urgent", "soon") for i in items)
         return f"Incidental ledger: {inc} incidental, {act} need a follow-up"
     if stage == "wellness":
-        tips = payload.get("tips", [])
-        return f"{len(tips) - sum(t['excluded'] for t in tips)} options, {sum(t['excluded'] for t in tips)} ruled out"
+        otc = out.get("otc") or {}
+        return f"WellnessPlan: {len(otc.get('options', []))} OTC options, {len(otc.get('excluded', []))} ruled out"
     if stage == "next_steps" and to == "patient":
-        appts = payload.get("appointments", [])
-        return f"{len(appts)} proposed appointments, ${payload.get('total_patient_pays', 0):,.0f} estimated"
+        appts = out.get("appointments", [])
+        return f"{len(appts)} proposed appointments, ${out.get('total_patient_pays', 0):,.0f} estimated"
     return AGENT[stage].produces
 
 
-def _handoffs(emit: Emit, stage: str, payload: dict[str, Any]) -> None:
+def _handoffs(emit: Emit, stage: str, stage_dict: dict[str, Any]) -> None:
     for to in AGENT[stage].hands_to:
         if stage == "next_steps" and to == "insurance":
             continue  # the propose/check loop is narrated separately
-        _ev(emit, "handoff", **{"from": stage, "to": to, "what": describe(stage, payload, to)})
+        _ev(emit, "handoff", **{"from": stage, "to": to, "what": describe(stage, stage_dict, to)})
 
 
 # -------------------------------------------------------------------------------------- run
@@ -80,8 +81,6 @@ def run(request: dict[str, Any], emit: Emit, demo_fill: bool = True, pace: float
             return
         _ev(emit, event["type"], agent=event["stage"], **{k: v for k, v in event.items() if k not in ("type", "stage", "t")})
 
-    for agent in PARALLEL_FIRST:  # Lab, Radiology, History start together
-        _ev(emit, "stage_start", agent=agent)
     report = service.handle(request, on_event=relay)
     stages = report["stages"]
     if not fill:
@@ -96,7 +95,7 @@ def run(request: dict[str, Any], emit: Emit, demo_fill: bool = True, pace: float
         stages[name] = {"status": "demo", "demo": True, **payload}
         _ev(emit, "stage_end", agent=name, status="demo", elapsed_seconds=round(time.time() - started, 2))
 
-    # Stage 1: whichever of Lab / Radiology are not built finish now (History already ran for real)
+    # Stage 1: Lab, Radiology and History ran inside service.handle; demo only fills a stage still unbuilt
     t0 = time.time()
     time.sleep(pace)
     for name in ("lab", "radiology"):
@@ -120,7 +119,7 @@ def run(request: dict[str, Any], emit: Emit, demo_fill: bool = True, pace: float
     if stages["wellness"]["status"] == UNBUILT:
         t0 = time.time()
         _ev(emit, "stage_start", agent="wellness")
-        finish("wellness", demo.wellness(profile).model_dump(), t0)
+        finish("wellness", demo.wellness(profile), t0)
     if stages["next_steps"]["status"] == UNBUILT:
         t0 = time.time()
         _ev(emit, "stage_start", agent="next_steps")

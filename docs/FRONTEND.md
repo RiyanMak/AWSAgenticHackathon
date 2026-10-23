@@ -7,6 +7,8 @@ uv pip install --python .venv/bin/python -e ".[dev,ui]"
 .venv/bin/shiny run src/carerelay/ui/app.py           # or the Run App button in Positron
 ```
 
+> **Known issue on `main`:** the top-level `carerelay/` folder from the Wellness PR (with `pytest.ini` `pythonpath = .` and `tests/__init__.py`) shadows `src/carerelay`, so `import carerelay.service` fails when run from the repo root. Until Wellness moves under `src/carerelay/`, run the app from `src/`: `cd src && ../.venv/bin/shiny run carerelay/ui/app.py`.
+
 The `Fill agents not built yet with demo data` switch (on by default) lets the whole course play today. Agents that are built run for real; the rest are filled from the case answer key and the mock network tools, and the UI labels them "Done (demo data)". Turn the switch off to see the honest pipeline: unbuilt agents show "Not built yet".
 
 ## How it fits together
@@ -44,16 +46,16 @@ The UI reads `report["stages"][<stage>]`. To make your agent appear on the cours
    _emit(on_event, "stage_end", "summarize", status="ok", elapsed_seconds=stages["summarize"]["elapsed_seconds"])
    ```
    On failure use `status: "needs_clinical_reevaluation"` with an `error` (the course draws it red); never raise.
-2. Make the payload match the contract below. `tests/test_ui.py` validates every stage against it for all 10 cases.
+2. Make the payload match the contract below (`contracts.payload(stage, stage_dict)` shows where the UI looks). `tests/test_ui.py` validates every stage against it for all 10 cases.
 3. That is all. With `status: "ok"` the pipeline skips the demo for that stage, and later demo stages consume your real output (for example Wellness already filters OTC options using the real History Agent's allergies).
 
 | Stage | Agent(s) | Payload the UI reads | Contract |
 |---|---|---|---|
-| `history` | History | `profile`: `HistoryProfile.model_dump()` | `carerelay.history.schema.HistoryProfile` (built) |
-| `lab` | Lab | `findings: list[Finding]`, `summary` | `LabFindings` (Suhani branch); UI reads `FindingView` fields |
-| `radiology` | Radiology | `findings: list[Finding]` incl. `in_impression`, `answers_indication` | `ImagingFindings` (Suhani branch) |
-| `summarize` | Summarize | `headline`, `items: list[LedgerItem]` | `contracts.SummarizeOutput` |
-| `wellness` | Wellness | `tips: list[WellnessTip]` with `excluded` and `reason` | `contracts.WellnessOutput` |
+| `history` | History (built) | `stages["history"]["profile"]` | `carerelay.history.schema.HistoryProfile` |
+| `lab` | Lab (built) | `stages["lab"]["result"]["findings"]` | `carerelay.schemas.LabFindings`; UI reads `FindingView` fields |
+| `radiology` | Radiology (built) | `stages["radiology"]["result"]["findings"]` incl. `in_impression` | `carerelay.schemas.ImagingFindings` |
+| `summarize` | Summarize | `headline`, `items: list[LedgerItem]` | `contracts.SummarizeOutput`, the patient-facing view of `CaseRecord` (proposal: Summarize owners please review) |
+| `wellness` | Wellness (built, not yet in `service.handle`) | `stages["wellness"]["plan"]`, i.e. `run_wellness()` output | `WellnessPlan` in `carerelay/wellness/rules.py`; UI reads the `WellnessView` subset |
 | `next_steps` | Next Steps + Insurance | `appointments`, `insurance_checks`, `total_patient_pays` | `contracts.NextStepsOutput` |
 
 Insurance has no stage of its own: Next Steps records each propose-and-check round trip in `insurance_checks` (`round`, `provider`, `in_network`, `verdict: accepted | re-propose`, `note`), and the UI animates those as the Next Steps and Insurance handoff loop. Appointments stay `status: "proposed"` until the patient confirms in the UI.

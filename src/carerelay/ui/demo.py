@@ -21,8 +21,7 @@ from .contracts import (
     NextStepsOutput,
     ProposedAppointment,
     SummarizeOutput,
-    WellnessOutput,
-    WellnessTip,
+    WellnessView,
 )
 
 TODAY = "2026-10-23"  # data/README.md: use as "today" so slots are repeatable
@@ -69,7 +68,7 @@ def findings(case: dict, source: str) -> dict[str, Any]:
         }
         for i, a in enumerate(rows)
     ]
-    return {"findings": out, "summary": f"{len(out)} {source} findings (demo)"}
+    return {"result": {"findings": out, "summary": f"{len(out)} {source} findings (demo)"}}
 
 
 # --------------------------------------------------------------------------------- Summarize
@@ -111,22 +110,28 @@ def summarize(case: dict) -> SummarizeOutput:
 # ---------------------------------------------------------------------------------- Wellness
 
 
-def wellness(profile: dict[str, Any] | None) -> WellnessOutput:
-    """Uses the real HistoryProfile when the History Agent ran: allergies and risk flags filter OTC."""
+def wellness(profile: dict[str, Any] | None) -> dict[str, Any]:
+    """A WellnessPlan-shaped stand-in (the real agent is carerelay/wellness, not yet wired into
+    service.handle). Uses the real HistoryProfile when present: allergies and risk flags exclude OTC."""
     profile = profile or {}
     allergies = " ".join(a.get("display", "") + " " + (a.get("detail") or "") for a in profile.get("allergies", [])).lower()
     flags = set(profile.get("risk_flags", []))
-    tips = [
-        WellnessTip(kind="nutrition", text="Plan meals around beans, oats, frozen vegetables and canned fish: cheap, filling, low in salt."),
-        WellnessTip(kind="activity", text="Aim for 150 minutes a week of brisk walking, in 10-minute pieces if that is easier."),
-        WellnessTip(kind="comfort", text="Warm fluids and honey can ease a cough while you wait."),
-    ]
-    for text, allergens, blocking_flags in OTC:
+    options, excluded = [], []
+    for name, allergens, blocking_flags in OTC:
         hit = next((s for s in allergens if s in allergies), None)
         flag = next((f for f in blocking_flags if f in flags), None)
-        reason = f"your record lists an allergy to {hit}" if hit else (f"risk flag: {flag}" if flag else None)
-        tips.append(WellnessTip(kind="otc", text=text, excluded=bool(reason), reason=reason))
-    return WellnessOutput(tips=tips)
+        if hit or flag:
+            excluded.append({"name": name, "reasons": [f"your record lists an allergy to {hit}" if hit else f"risk flag: {flag}"]})
+        else:
+            options.append({"ingredient": name, "purpose": None})
+    plan = WellnessView(
+        status="plan",
+        otc={"status": "options", "options": options, "excluded": excluded},
+        nutrition={"guidance": [{"text": "Plan meals around beans, oats, frozen vegetables and canned fish: cheap, filling, low in salt.",
+                                 "reason": "DASH eating plan (demo)"}]},
+        activity={"weekly_target": "150 minutes a week of brisk walking, in 10-minute pieces if that is easier", "cautions": []},
+    )
+    return {"plan": plan.model_dump(), "text": "", "narrator": "demo"}
 
 
 # ------------------------------------------------------------------- Next Steps + Insurance

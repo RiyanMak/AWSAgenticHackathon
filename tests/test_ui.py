@@ -39,9 +39,10 @@ def test_demo_fill_matches_contracts(case_id):
     stages = report["stages"]
     for name, model in contracts.CONTRACTS.items():
         assert stages[name]["status"] in ("ok", "demo")
-        model.model_validate(stages[name])
+        model.model_validate(contracts.payload(name, stages[name]))
     for name in ("lab", "radiology"):
-        for f in stages[name]["findings"]:
+        assert stages[name]["status"] in ("ok", "demo")
+        for f in contracts.payload(name, stages[name]).get("findings", []):
             contracts.FindingView.model_validate(f)
     states = views.agent_states(events)
     assert all(s["state"] in ("ok", "demo") for s in states.values()), states
@@ -64,15 +65,16 @@ def test_negative_control_proposes_nothing():
 
 def test_wellness_uses_history_allergy():
     report, _ = _run("case_001")
-    tips = report["stages"]["wellness"]["tips"]
-    assert any(t["excluded"] and "dextromethorphan" in (t["reason"] or "") for t in tips)
+    plan = contracts.payload("wellness", report["stages"]["wellness"])
+    assert any("dextromethorphan" in " ".join(x["reasons"]) for x in plan["otc"]["excluded"])
 
 
 def test_without_demo_unbuilt_agents_show_as_not_built():
     events: list[dict] = []
     pipeline.run({"scenario": "case_001", "options": {"llm": False}}, events.append, demo_fill=False, pace=0)
     states = views.agent_states(events)
-    assert states["history"]["state"] == "ok" and states["summarize"]["state"] == "not_implemented"
+    assert states["history"]["state"] == "ok" and states["lab"]["state"] == "ok"
+    assert states["summarize"]["state"] == "not_implemented"
 
 
 def test_views_render():

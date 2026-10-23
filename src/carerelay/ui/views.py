@@ -9,7 +9,7 @@ from datetime import datetime
 from html import escape
 from typing import Any
 
-from .contracts import AGENTS, AGENT
+from .contracts import AGENTS, payload
 
 # Positions on the course map (viewBox 0 0 760 300)
 POS = {
@@ -144,11 +144,20 @@ def results(report: dict[str, Any], confirmed: bool, button: str = "") -> str:
                   f'<td>{day}<span>{time_}</span></td><td class="num">{a["miles"]} mi</td><td class="num">${a["patient_pays"]:,.0f}</td>'
                   f'<td class="p">{CHECK if confirmed else ""}</td></tr>')
     total = f'${ns.get("total_patient_pays", 0):,.0f}'
-    tips = "".join(
-        f'<li class="{"out" if t["excluded"] else ""}"><b>{escape(t["kind"].upper() if t["kind"] == "otc" else t["kind"].capitalize())}</b> '
-        f'<span class="txt">{escape(t["text"])}</span>{"<em>Ruled out: " + escape(t["reason"]) + "</em>" if t["excluded"] else ""}</li>'
-        for t in st.get("wellness", {}).get("tips", [])
-    )
+    plan = payload("wellness", st.get("wellness", {}))
+    tips = ""
+    if plan.get("status") == "seek_care":
+        tips = f'<li class="out"><b>Seek care</b> {escape(plan.get("seek_care_message") or "")}</li>'
+    for g in (plan.get("nutrition") or {}).get("guidance", []):
+        tips += f'<li><b>Nutrition</b> {escape(g["text"])}</li>'
+    if plan.get("activity"):
+        tips += f'<li><b>Activity</b> {escape(plan["activity"]["weekly_target"])}</li>'
+    otc = plan.get("otc") or {}
+    for o in otc.get("options", []):
+        tips += f'<li><b>OTC</b> {escape(o["ingredient"])}{" (" + escape(o["purpose"]) + ")" if o.get("purpose") else ""}</li>'
+    for x in otc.get("excluded", []):
+        tips += (f'<li class="out"><b>OTC</b> <span class="txt">{escape(x["name"])}</span>'
+                 f'<em>Ruled out: {escape("; ".join(x["reasons"]))}</em></li>')
     status = "Confirmed. Nothing else is booked without you." if confirmed else "Proposed. Nothing is booked until you confirm."
     return f"""
     <section class="headline"><h2>{escape(s["headline"])}</h2>{demo_note}</section>

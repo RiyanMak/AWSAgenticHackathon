@@ -5,10 +5,16 @@ Every agent reports through ``service.handle()`` as ``report["stages"][<stage>]`
 The UI renders any stage whose payload validates against the model below, so building an agent
 means: produce this shape, put it in the stage dict, done. See docs/FRONTEND.md.
 
-Lab and Radiology already have output models (``LabFindings`` / ``ImagingFindings`` with a
-``findings: list[Finding]``); the UI reads only the Finding fields listed in ``FindingView``.
-History uses ``carerelay.history.schema.HistoryProfile`` under ``stages["history"]["profile"]``.
-Summarize, Wellness and Next Steps are not built yet; their contracts are defined here.
+Built agents and where their output sits in the stage dict (``payload()`` below reads it):
+  history    stages["history"]["profile"]    carerelay.history.schema.HistoryProfile
+  lab        stages["lab"]["result"]         carerelay.schemas.LabFindings (findings: list[Finding])
+  radiology  stages["radiology"]["result"]   carerelay.schemas.ImagingFindings
+  wellness   stages["wellness"]["plan"]      WellnessPlan from carerelay/wellness/rules.py (top-level
+             package, not yet wired into service.handle); the UI reads the ``WellnessView`` subset
+Summarize and Next Steps are not built yet; their contracts (``SummarizeOutput``, ``NextStepsOutput``)
+are defined here. ``SummarizeOutput`` is the patient-facing view of the architecture's ``CaseRecord``
+(one ``LedgerItem`` per ledger entry, plus plain-language title, triage and owner): Summarize owners,
+please review.
 """
 
 from __future__ import annotations
@@ -48,7 +54,7 @@ AGENTS: tuple[AgentSpec, ...] = (
     AgentSpec("summarize", "Summarize", "Merge findings, mark expected vs incidental, keep the incidental ledger",
               "Lab + Radiology + History", "SummarizeOutput", ("wellness", "next_steps"), "summarize"),
     AgentSpec("wellness", "Wellness Agent", "Suggest budget nutrition, activity and OTC options, filtered by allergies and meds",
-              "SummarizeOutput + HistoryProfile", "WellnessOutput", ("patient",), "wellness"),
+              "SummarizeOutput + HistoryProfile", "WellnessPlan", ("patient",), "wellness"),
     AgentSpec("next_steps", "Next Steps", "Map each follow-up to a specialty and propose in-network appointments",
               "SummarizeOutput + coverage", "NextStepsOutput", ("insurance", "patient"), "next_steps"),
     AgentSpec("insurance", "Insurance Agent", "Check network, referral, prior auth and cost against the deductible",
@@ -99,17 +105,51 @@ class SummarizeOutput(BaseModel):
 
 
 # ------------------------------------------------------------------------------- Wellness
+# Subset of carerelay/wellness/rules.py WellnessPlan that the UI renders (extra fields allowed).
 
 
-class WellnessTip(BaseModel):
+class _Open(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class ExcludedView(_Open):
+    name: str
+    reasons: list[str] = Field(default_factory=list)
+
+
+class OTCOptionView(_Open):
+    ingredient: str
+    brand_example: str | None = None
+    purpose: str | None = None
+
+
+class OTCView(_Open):
+    status: Literal["options", "pharmacist_only", "not_applicable"]
+    options: list[OTCOptionView] = Field(default_factory=list)
+    excluded: list[ExcludedView] = Field(default_factory=list)
+
+
+class GuidanceView(_Open):
     text: str
-    kind: Literal["nutrition", "activity", "otc", "comfort"]
-    excluded: bool = Field(default=False, description="True = an option we deliberately ruled out")
-    reason: str | None = Field(default=None, description="Why excluded, e.g. 'allergy: dextromethorphan'")
+    reason: str | None = None
 
 
-class WellnessOutput(BaseModel):
-    tips: list[WellnessTip] = Field(default_factory=list)
+class NutritionView(_Open):
+    guidance: list[GuidanceView] = Field(default_factory=list)
+    excluded_foods: list[ExcludedView] = Field(default_factory=list)
+
+
+class ActivityView(_Open):
+    weekly_target: str
+    cautions: list[str] = Field(default_factory=list)
+
+
+class WellnessView(_Open):
+    status: Literal["plan", "seek_care", "needs_clinical_reevaluation"]
+    seek_care_message: str | None = None
+    otc: OTCView | None = None
+    nutrition: NutritionView | None = None
+    activity: ActivityView | None = None
 
 
 # ------------------------------------------------------------------- Next Steps + Insurance
@@ -153,6 +193,13 @@ class NextStepsOutput(BaseModel):
 
 CONTRACTS: dict[str, type[BaseModel]] = {
     "summarize": SummarizeOutput,
-    "wellness": WellnessOutput,
+    "wellness": WellnessView,
     "next_steps": NextStepsOutput,
 }
+PAYLOAD_KEY = {"history": "profile", "lab": "result", "radiology": "result", "wellness": "plan"}
+
+
+def payload(stage: str, stage_dict: dict) -> dict:
+    """The agent's output inside a stage dict (``{}`` when the stage has none)."""
+    key = PAYLOAD_KEY.get(stage)
+    return (stage_dict.get(key) or {}) if key else stage_dict
