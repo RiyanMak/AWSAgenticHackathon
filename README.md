@@ -53,6 +53,19 @@ The repo ships 10 synthetic cases in [data/](data/README.md): a radiology report
 2. Use the bundled synthetic cases in [data/](data/README.md); see [docs/DATASETS.md](docs/DATASETS.md) for X-ray images and other external sources.
 3. Read the design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), then follow the build order in [docs/TODO.md](docs/TODO.md).
 
+### Lab and Radiology agents
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python -m pytest tests data/tests           # offline, no AWS
+.venv/bin/python -m carerelay.run_case case_001       # local parsing only
+# Bedrock: paste the WSParticipantRole exports from Workshop Studio first (the VM's own role is more restricted)
+.venv/bin/python -m carerelay.run_case case_001 --aws
+.venv/bin/python -m carerelay.eval --aws              # score all 10 cases against the answer keys
+```
+
+Model: `us.anthropic.claude-sonnet-5` in us-east-1 (Sonnet 5.5 is denied in the workshop account; override with `BEDROCK_MODEL_ID`). AWS calls live in [carerelay/aws.py](carerelay/aws.py); rule tables in [carerelay/rules.py](carerelay/rules.py).
+
 ## Demo script (3 beats)
 
 1. **Upload.** One synthetic patient: lab PDF, chest X-ray, medical history and insurance card. Show Lab, Radiology and History streaming in parallel. History surfaces a known condition and an allergy; Lab and Radiology each flag one anomaly.

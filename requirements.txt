@@ -1,0 +1,5 @@
+pydantic>=2
+pypdf>=5
+boto3
+pytest
+reportlab   # data/build.py and data/tests only
