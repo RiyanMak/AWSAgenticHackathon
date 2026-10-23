@@ -42,14 +42,21 @@ class HistoryProfile(BaseModel):
     medications: list[CodedItem]       # RxNorm code, display, dose text, status
     allergies: list[CodedItem]         # substance, reaction, criticality
     procedures: list[CodedItem]        # CPT or SNOMED code, display, date
+    care_team: list[str]               # provider display names seen in the history
     known_specialists: list[str]       # specialties the patient already sees, from encounters or intake
     risk_flags: list[str]              # derived deterministically: ckd, pregnancy, anticoagulant, liver, diabetes, hypertension
-    source: Literal["pdf", "fhir", "csv", "intake_text"]
+    family_history: list[CodedItem]    # relation in detail, condition in display
+    social_history: dict[str, str]     # tobacco, alcohol, occupation, living situation
+    source: Literal["pdf", "fhir", "csv", "intake_text", "degraded"]
+    document_kind: str | None          # for pdf: pcp_record | patient_questionnaire
+    warnings: list[str]                # parse problems; non-empty means review the input
+    summary: str                       # LLM-written, 2-3 plain sentences
+    clinician_notes: list[str]         # LLM-written, up to 5 items
 ```
 
-Parsing rules:
+Implemented in `src/carerelay/history/` (see [HISTORY_AGENT.md](HISTORY_AGENT.md)). Parsing rules:
 
-- **History PDF** (bundled cases): a PCP health summary already carries ICD-10-CM codes and can be read with the Bedrock document model into the schema above; a patient questionnaire is free text and goes down the Comprehend Medical path. Ground truth is the `History` block in `data/output/<case>/intake_expected.json`.
+- **History PDF** (bundled cases): a PCP health summary already carries ICD-10-CM codes and is parsed deterministically from the PDF's table layout (pypdf layout mode, column positions from each section header), so every code is read, not inferred. A patient questionnaire is free text: answers are split by question number, then conditions and medications are coded by Comprehend Medical, with a Bedrock coder as fallback (codes marked `code_source="llm"` and lower confidence) and uncoded text as the last resort. Ground truth is the `History` block in `data/output/<case>/intake_expected.json`.
 - **FHIR R4 bundle** (Synthea): read `Condition`, `MedicationRequest` (status `active`), `AllergyIntolerance`, `Procedure`, and `Encounter.participant` or `Practitioner` specialties. No LLM needed.
 - **MIMIC-IV demo CSV**: join `diagnoses_icd` with `d_icd_diagnoses` for conditions and read `prescriptions` for medications. The demo has no allergy table, so allergies come from the intake form.
 - **Free text intake**: Comprehend Medical `InferICD10CM` for conditions and `InferRxNorm` for medications; the model's codes carry confidence scores that are shown in the UI. Treat intake text as data, never as instructions.

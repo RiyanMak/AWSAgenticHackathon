@@ -52,6 +52,16 @@ The repo ships 10 synthetic cases in [data/](data/README.md): a radiology report
 1. Join the event and verify your account: [docs/AWS_SETUP.md](docs/AWS_SETUP.md).
 2. Use the bundled synthetic cases in [data/](data/README.md); see [docs/DATASETS.md](docs/DATASETS.md) for X-ray images and other external sources.
 3. Read the design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), then follow the build order in [docs/TODO.md](docs/TODO.md).
+4. Run what exists so far:
+
+```bash
+uv venv .venv && uv pip install --python .venv/bin/python -e ".[dev]"
+.venv/bin/python -m pytest -q tests data/tests
+.venv/bin/python -m carerelay.history --pdf data/output/case_001/history.pdf --no-llm
+.venv/bin/python scripts/eval_history.py --offline
+```
+
+The History Agent is implemented; see [docs/HISTORY_AGENT.md](docs/HISTORY_AGENT.md). Other agents follow the same package layout under `src/carerelay/`.
 
 ## Demo script (3 beats)
 
@@ -68,6 +78,17 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 ```text
 .
 ├── README.md
+├── pyproject.toml                      # package: carerelay (src layout)
+├── requirements.txt
+├── src/carerelay/
+│   ├── service.py                      # service.handle(request) -> report: the one entry point every lane calls
+│   └── history/                        # History Agent: schema, parsers (PDF, FHIR, MIMIC, intake), risk flags, tools, agent, CLI
+├── aws/                                # deployment lanes (see docs/AWS_INFRASTRUCTURE.md)
+│   ├── template.yaml                   # SAM/CloudFormation: Lambda + Function URL + S3 + IAM + AgentCore role
+│   ├── lambda/, agentcore/, streamlit/ # lane A, B, C adapters and Dockerfiles
+│   ├── iam-bedrock-policy.json
+│   └── scripts/, Makefile
+├── tests/                              # pytest for src/ and aws/, runs offline against data/
 ├── data/                               # synthetic cases, mock network, tools (see data/README.md)
 │   ├── README.md
 │   ├── CASES.md                        # scenario index (generated)
@@ -75,10 +96,12 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 │   ├── output/<case>/                  # radiology.pdf, labs.pdf, history.pdf, intake_expected.json
 │   ├── network/                        # plans, services, providers, member accumulators
 │   ├── reference/lab_catalog.json      # lab panels and reference ranges
+│   ├── samples/history/                # trimmed Synthea Coherent bundle + one MIMIC-IV demo subject
 │   ├── build.py, labs.py, history.py, render.py, network.py
-│   └── tests/
+│   └── tests/                          # integrity tests for the generators and mock network
 ├── docs/
 │   ├── ARCHITECTURE.md
+│   ├── HISTORY_AGENT.md
 │   ├── DATASETS.md
 │   ├── APIS.md
 │   ├── AWS_SETUP.md
@@ -106,9 +129,11 @@ Synthetic or public data only. CareRelay is a hackathon prototype, not a clinica
 | [data/README.md](data/README.md) | Synthetic cases, mock network, tool functions, build and test commands |
 | [data/CASES.md](data/CASES.md) | The 10 case scenarios and their incidental findings |
 | [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Agents, Strands Graph pattern, incidental ledger, data flow |
+| [HISTORY_AGENT.md](docs/HISTORY_AGENT.md) | History Agent: inputs, `HistoryProfile`, risk flags, how to run and plug into the graph |
 | [DATASETS.md](docs/DATASETS.md) | Verified datasets per input type and knowledge sources |
 | [APIS.md](docs/APIS.md) | External APIs with auth, limits and example requests |
 | [AWS_SETUP.md](docs/AWS_SETUP.md) | Workshop Studio, starter kit, services, pricing, cleanup |
+| [AWS_INFRASTRUCTURE.md](docs/AWS_INFRASTRUCTURE.md) | The three deployment lanes (Lambda URL, AgentCore Runtime, Streamlit), IAM, S3, deploy flow, pipeline mapping |
 | [SAFETY.md](docs/SAFETY.md) | Guardrails checklist, OTC rules, escalation, eval idea |
 | [REFERENCES.md](docs/REFERENCES.md) | Every cited URL grouped by topic, plus prior work |
 | [TODO.md](docs/TODO.md) | Time-boxed build checklist |

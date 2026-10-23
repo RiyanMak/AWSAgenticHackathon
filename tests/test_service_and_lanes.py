@@ -1,0 +1,105 @@
+"""service.handle and the three lane adapters, offline (no AWS calls)."""
+
+from __future__ import annotations
+
+import base64
+import importlib.util
+import json
+import sys
+from pathlib import Path
+
+import pytest
+
+from carerelay import service
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def _load(path: Path, name: str):
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_list_and_load_scenarios():
+    scenarios = service.list_scenarios()
+    assert len(scenarios) == 10 and scenarios[0]["case_id"] == "case_001"
+    s = service.load_scenario("case_001")
+    assert Path(s["history_pdf"]).exists() and "answer_key" not in s
+    with pytest.raises(service.ServiceError):
+        service.load_scenario("case_999")
+
+
+def test_handle_scenario_offline():
+    report = service.handle({"scenario": "case_005", "options": {"llm": False}})
+    assert report["case_id"] == "case_005"
+    assert report["stages"]["history"]["status"] == "ok"
+    profile = report["stages"]["history"]["profile"]
+    assert "anticoagulant" in profile["risk_flags"]
+    assert report["stages"]["lab"]["status"] == "not_implemented" and report["stages"]["lab"]["input_present"]
+    md = report["report"]["markdown"]
+    assert "# CareRelay report" in md and "Apixaban" in md and service.DISCLAIMER in md
+
+
+def test_handle_base64_upload_offline():
+    pdf_b64 = base64.b64encode((ROOT / "data/output/case_004/history.pdf").read_bytes()).decode()
+    report = service.handle({"inputs": {"history_pdf": pdf_b64, "intake": "Allergies: latex (rash)"}, "options": {"llm": False}})
+    assert report["case_id"] is None
+    prof = report["stages"]["history"]["profile"]
+    assert prof["document_kind"] == "patient_questionnaire"
+    assert any(a["display"] == "latex" for a in prof["allergies"])
+
+
+def test_handle_free_text_prompt():
+    report = service.handle("please run case_002, parse only")
+    assert report["case_id"] == "case_002"
+    with pytest.raises(service.ServiceError):
+        service.handle("hello")
+    with pytest.raises(service.ServiceError):
+        service.handle({})
+
+
+def test_lambda_handler_offline(monkeypatch):
+    monkeypatch.delenv("REPORT_BUCKET", raising=False)
+    handler = _load(ROOT / "aws/lambda/handler.py", "carerelay_lambda_handler")
+    assert handler._s3 is None
+
+    listing = handler.handle({"requestContext": {"http": {"method": "GET"}}, "queryStringParameters": None})
+    assert listing["statusCode"] == 200 and len(json.loads(listing["body"])["scenarios"]) == 10
+
+    resp = handler.handle({"requestContext": {"http": {"method": "GET"}}, "queryStringParameters": {"scenario": "case_001", "llm": "0"}})
+    body = json.loads(resp["body"])
+    assert resp["statusCode"] == 200 and body["stages"]["history"]["status"] == "ok" and body["saved"] == {}
+
+    post = handler.handle({
+        "requestContext": {"http": {"method": "POST"}},
+        "isBase64Encoded": True,
+        "body": base64.b64encode(json.dumps({"scenario": "case_009", "options": {"llm": False}}).encode()).decode(),
+    })
+    assert json.loads(post["body"])["case_id"] == "case_009"
+
+    bad = handler.handle({"requestContext": {"http": {"method": "GET"}}, "queryStringParameters": {"scenario": "nope"}})
+    assert bad["statusCode"] == 400
+
+
+def test_agentcore_entrypoint_offline():
+    pytest.importorskip("bedrock_agentcore")
+    app_mod = _load(ROOT / "aws/agentcore/app.py", "carerelay_agentcore_app")
+    out = app_mod.invoke({"prompt": "run case_003 with no llm"})
+    assert out["case_id"] == "case_003"
+    out = app_mod.invoke({"scenario": "case_001", "options": {"llm": False}})
+    assert out["stages"]["history"]["status"] == "ok"
+    err = app_mod.invoke({"prompt": "what can you do"})
+    assert "error" in err and "case_001" in err["scenarios"]
+
+
+def test_template_and_policy_are_consistent():
+    policy = json.loads((ROOT / "aws/iam-bedrock-policy.json").read_text())
+    actions = {a for s in policy["Statement"] for a in s["Action"]}
+    template = (ROOT / "aws/template.yaml").read_text()
+    for a in ("bedrock:InvokeModel", "bedrock-mantle:CreateInference", "comprehendmedical:InferICD10CM"):
+        assert a in actions and a in template
+    assert "ExpirationInDays" in template and "FunctionUrlConfig" in template
+    assert "bedrock-agentcore.amazonaws.com" in template
