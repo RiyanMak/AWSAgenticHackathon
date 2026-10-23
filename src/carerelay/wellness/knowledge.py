@@ -127,7 +127,7 @@ LIVER_LABS = ("alt", "ast", "bilirubin", "alkaline phosphatase", "alanine", "asp
 NSAID_BLOCKING_LABS = KIDNEY_LABS + ("potassium",)
 
 # HistoryProfile.risk_flags that switch OTC output to "talk to a pharmacist or clinician" only.
-OTC_BLOCKING_FLAGS = {"ckd", "liver", "pregnancy", "anticoagulant"}
+OTC_BLOCKING_FLAGS = {"ckd", "liver", "pregnancy", "anticoagulant", "bleeding_disorder"}
 
 MIN_OTC_AGE = 18  # prototype rule: pediatric dosing differs per label, so route minors to a pharmacist
 
@@ -190,6 +190,7 @@ CARDIOPULMONARY_TERMS = (
     "angina",
     "arrhythmia",
     "atrial fibrillation",
+    "copd",  # risk flags are matched with "_" replaced by " " (heart_failure, atrial_fibrillation)
 )
 
 BASE_EXERCISES = [
